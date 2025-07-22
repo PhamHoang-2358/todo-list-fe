@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="../css/todo.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Todo List</h2>
+      <form id="formTodo">
+        <input type="text" id="inputTodoTitle" placeholder="Tiêu đề" required />
+        <input
+          type="text"
+          id="inputTodoContent"
+          placeholder="Nội dung"
+          required
+        />
+        <input type="date" id="inputTodoDate" required />
+        <input type="file" id="inputTodoImage" accept="image/*" />
+        <button type="submit" id="btnAddTodo">
+          <i class="fas fa-plus"></i> Thêm
+        </button>
+      </form>
+
+      <input type="text" id="inputSearchTodo" placeholder="Tìm kiếm..." />
+
+      <div class="filters">
+        <div style="flex: 1">
+          <label for="selectSortTodo">Sắp xếp:</label>
+          <select id="selectSortTodo">
+            <option value="date">Theo ngày</option>
+            <option value="title">Theo tiêu đề</option>
+          </select>
+        </div>
+        <div style="flex: 1">
+          <label for="filterStatus">Trạng thái:</label>
+          <select id="filterStatus">
+            <option value="all">Tất cả</option>
+            <option value="done">Đã hoàn thành</option>
+            <option value="notdone">Chưa hoàn thành</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="stats" class="todo-stats">
+        <p>Tổng công việc: <span id="totalCount">0</span></p>
+        <p>Đã hoàn thành: <span id="doneCount">0</span></p>
+        <p>Chưa hoàn thành: <span id="notDoneCount">0</span></p>
+      </div>
+
+      <div style="text-align: center; margin: 20px 0">
+        <button id="toggleTodoList" class="btn-toggle">
+          Ẩn danh sách công việc
+        </button>
+      </div>
+
+      <ul id="listTodos"></ul>
+
+      <div class="logout-wrapper" style="text-align: center; margin-top: 30px">
+        <button onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </button>
+      </div>
+    </div>
+
+    <script src="../js/todo.js"></script>
+  </body>
+</html>

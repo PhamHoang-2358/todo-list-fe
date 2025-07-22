@@ -1,0 +1,170 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f1f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.container {
+  background: #ffffff;
+  padding: 30px;
+  width: 750px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+form input,
+form button,
+#inputSearchTodo,
+#selectSortTodo,
+#filterStatus {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+form input:focus,
+#inputSearchTodo:focus {
+  border-color: #0d6efd;
+  background-color: #eef6ff;
+  outline: none;
+}
+
+form button {
+  background-color: #0d6efd;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+form button:hover {
+  background-color: #0b5ed7;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0 20px 0;
+}
+
+.filters label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.todo-stats {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 10px;
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.btn-toggle {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-toggle:hover {
+  background-color: #5a6268;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #fdfdfd;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.todo-image-toggle button {
+  margin-top: 8px;
+  padding: 4px 10px;
+  font-size: 14px;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.todo-image-toggle button:hover {
+  background-color: #138496;
+}
+
+.todo-image {
+  margin-top: 10px;
+  display: none;
+}
+
+.todo-image img {
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.actions button {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.logout-wrapper button {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
