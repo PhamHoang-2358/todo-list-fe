@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="task.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="dashboard">
+      <aside class="sidebar">
+        <h3>Projects</h3>
+        <ul id="projectList"></ul>
+        <form id="formAddProject" autocomplete="off">
+          <input
+            type="text"
+            id="inputProjectName"
+            placeholder="Thêm dự án..."
+          />
+          <button type="submit"><i class="fas fa-plus"></i></button>
+        </form>
+        <button id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </button>
+      </aside>
+      <main class="main-content">
+        <section class="task-header">
+          <h2 id="currentProjectName"></h2>
+          <form id="formTask">
+            <input
+              type="text"
+              id="inputTaskTitle"
+              placeholder="Tên công việc"
+            />
+            <input type="text" id="inputTaskContent" placeholder="Chi tiết" />
+            <select id="inputTaskStatus">
+              <option value="notstarted">Chưa bắt đầu</option>
+              <option value="inprogress">Đang thực hiện</option>
+              <option value="done">Hoàn thành</option>
+            </select>
+            <select id="inputTaskPriority">
+              <option value="low">Thấp</option>
+              <option value="medium" selected>Trung bình</option>
+              <option value="high">Cao</option>
+            </select>
+            <input type="date" id="inputTaskDeadline" />
+            <input
+              type="text"
+              id="inputTaskAssignee"
+              placeholder="Người phụ trách"
+            />
+            <input type="file" id="inputTaskImage" accept="image/*" />
+            <button type="submit"><i class="fas fa-plus"></i> Thêm Task</button>
+          </form>
+        </section>
+        <section class="filters">
+          <input
+            type="text"
+            id="inputSearchTask"
+            placeholder="Tìm kiếm công việc..."
+          />
+          <select id="filterStatus">
+            <option value="all">Tất cả trạng thái</option>
+            <option value="notstarted">Chưa bắt đầu</option>
+            <option value="inprogress">Đang thực hiện</option>
+            <option value="done">Hoàn thành</option>
+          </select>
+          <select id="filterPriority">
+            <option value="all">Tất cả ưu tiên</option>
+            <option value="high">Cao</option>
+            <option value="medium">Trung bình</option>
+            <option value="low">Thấp</option>
+          </select>
+          <input type="date" id="filterDeadline" />
+          <button id="clearFilterBtn">Xóa lọc</button>
+        </section>
+        <section class="stats-charts">
+          <div class="stats" id="taskStats"></div>
+          <canvas id="taskChart" width="250" height="120"></canvas>
+        </section>
+        <section>
+          <div class="calendar-header">Lịch công việc</div>
+          <div id="calendar"></div>
+        </section>
+        <section>
+          <ul id="taskList"></ul>
+        </section>
+      </main>
+    </div>
+    <script src="task.js"></script>
+  </body>
+</html>

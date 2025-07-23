@@ -1,0 +1,134 @@
+.sidebar {
+  background: #23242a;
+  min-width: 220px;
+  max-width: 250px;
+  padding: 40px 20px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 2px 0 16px #0002;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-right: 44px;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 34px;
+  color: #60a5fa;
+  font-weight: 700;
+}
+
+.sidebar .sidebar-btn-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* chỉ cách nhau 10px, rất gọn */
+  margin-bottom: 18px;
+}
+
+.sidebar .btn,
+.sidebar .btn-outline {
+  width: 100%;
+  padding: 9px 0; /* gọn hơn */
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0;
+  /* bỏ margin nếu dùng gap */
+}
+
+.sidebar .btn-outline {
+  background: none;
+  color: #60a5fa;
+  border: 1.2px solid #60a5fa;
+}
+
+.sidebar .btn:hover {
+  background: #1e40af;
+}
+.sidebar .btn-outline:hover {
+  background: #1e293b;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    flex-direction: row;
+    min-width: 0;
+    width: 100%;
+    border-radius: 0 0 30px 30px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    margin-right: 0;
+    padding: 18px 10px;
+  }
+  .sidebar .sidebar-btn-group {
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 0;
+    width: auto;
+  }
+  .sidebar .btn,
+  .sidebar .btn-outline {
+    width: auto;
+    padding: 8px 18px;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard-home {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 0 0 16px 16px;
+    gap: 10px;
+  }
+
+  .sidebar h2 {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .auth-group {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .main-home-content {
+    padding: 16px;
+  }
+
+  .widgets {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .widget {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .greet-title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .desc {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .footer {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 20px;
+  }
+}

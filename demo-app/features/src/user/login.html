@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Đăng nhập | Task App</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="login.css" />
+  </head>
+
+  <body>
+    <div class="login-container">
+      <h2>Welcome Back</h2>
+      <p class="subtext">Nhập ID hoặc Email và mật khẩu để truy cập.</p>
+      <form id="formLogin" novalidate>
+        <input
+          type="text"
+          id="inputLoginId"
+          placeholder="Email hoặc ID"
+          autocomplete="username"
+        />
+        <div class="error" id="errorLoginId"></div>
+        <input
+          type="password"
+          id="inputLoginPassword"
+          placeholder="Password"
+          autocomplete="current-password"
+        />
+        <div class="error" id="errorLoginPassword"></div>
+        <div class="options">
+          <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+        </div>
+        <button type="submit" class="btn-login">Đăng nhập</button>
+      </form>
+      <p class="register-link">
+        Chưa có tài khoản? <a href="register.html">Đăng ký</a>
+      </p>
+    </div>
+    <script src="login.js"></script>
+  </body>
+</html>

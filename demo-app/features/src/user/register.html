@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="register.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="register-container">
+      <h2><i class="fas fa-user-plus"></i> Đăng ký</h2>
+      <form id="formRegister" novalidate>
+        <input
+          type="text"
+          id="inputId"
+          placeholder="ID"
+          autocomplete="username"
+        />
+        <div class="error" id="errorId"></div>
+        <input
+          type="password"
+          id="inputPassword"
+          placeholder="Mật khẩu"
+          autocomplete="new-password"
+        />
+        <div class="error" id="errorPassword"></div>
+        <input
+          type="password"
+          id="inputConfirmPassword"
+          placeholder="Nhập lại mật khẩu"
+          autocomplete="new-password"
+        />
+        <div class="error" id="errorConfirmPassword"></div>
+        <input
+          type="text"
+          id="inputName"
+          placeholder="Tên"
+          autocomplete="name"
+        />
+        <div class="error" id="errorName"></div>
+        <input
+          type="email"
+          id="inputEmail"
+          placeholder="Email"
+          autocomplete="email"
+        />
+        <div class="error" id="errorEmail"></div>
+        <input
+          type="tel"
+          id="inputPhone"
+          placeholder="Số điện thoại"
+          pattern="[0-9]{10,11}"
+          autocomplete="tel"
+        />
+        <div class="error" id="errorPhone"></div>
+        <button type="submit" class="btn-register">
+          <i class="fas fa-user-check"></i> Đăng ký
+        </button>
+      </form>
+      <p class="link">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+    </div>
+    <script src="register.js"></script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task App | Trang chủ</title>
+    <link rel="stylesheet" href="styles/variables.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        background: #e0f7fa;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #222;
+      }
+      .dashboard-home {
+        min-height: 100vh;
+        display: flex;
+      }
+      .sidebar {
+        width: 200px;
+        background: #0288d1;
+        padding: 24px 10px 18px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+        box-shadow: 2px 0 10px #0001;
+        z-index: 2;
+      }
+      .sidebar h2 {
+        color: #ffffff;
+        font-size: 1.07rem;
+        margin-bottom: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding-bottom: 6px;
+      }
+      .sidebar .auth-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .sidebar .btn,
+      .sidebar .btn-outline {
+        width: 100%;
+        padding: 7px 0;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border: none;
+        text-align: center;
+        transition: background 0.18s, color 0.18s;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .sidebar .btn {
+        background: #ffffff;
+        color: #0288d1;
+      }
+      .sidebar .btn-outline {
+        background: none;
+        color: #ffffff;
+        border: 1.1px solid #ffffff;
+      }
+      .sidebar .btn:hover {
+        background: #01579b;
+        color: #fff;
+      }
+      .sidebar .btn-outline:hover {
+        background: #0277bd;
+        color: #fff;
+      }
+      .main-home-content {
+        flex: 1;
+        padding: 32px 16px 18px 20px;
+        min-width: 0;
+      }
+      .greet-title {
+        font-size: 1.55rem;
+        font-weight: 800;
+        margin-bottom: 6px;
+        color: #01579b;
+      }
+      .main-home-content .desc {
+        margin-bottom: 22px;
+        font-size: 1rem;
+        color: #333;
+        font-weight: 500;
+      }
+      .widgets {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 30px;
+      }
+      .widget {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 18px 18px 14px 18px;
+        min-height: 120px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .widget h3 {
+        font-size: 1.07rem;
+        margin-bottom: 10px;
+        color: #0288d1;
+        font-weight: 600;
+      }
+      .widget audio,
+      .widget canvas {
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 7px;
+        background: #f1faff;
+      }
+      #musicUpload {
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        padding: 4px;
+      }
+      @media (max-width: 900px) {
+        .widgets {
+          grid-template-columns: 1fr;
+          grid-template-rows: none;
+        }
+      }
+      #financeChart {
+        margin-top: 4px;
+        background: #e0f7fa;
+        border-radius: 6px;
+      }
+      .footer {
+        text-align: center;
+        color: #444;
+        font-size: 13px;
+        margin-top: 15px;
+      }
+      @media (max-width: 700px) {
+        .dashboard-home {
+          flex-direction: column;
+        }
+        .sidebar {
+          flex-direction: row;
+          width: 100%;
+          padding: 8px 4vw;
+          border-radius: 0 0 18px 18px;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 8px;
+        }
+        .sidebar h2 {
+          margin-bottom: 0;
+          font-size: 0.98rem;
+        }
+        .sidebar .auth-group {
+          flex-direction: row;
+          gap: 7px;
+        }
+        .main-home-content {
+          padding: 12px 2vw;
+        }
+        .widgets {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-home">
+      <nav class="sidebar">
+        <h2>
+          <i class="fa-solid fa-list-check"></i>
+          Task App
+        </h2>
+        <div class="auth-group">
+          <a href="features/src/user/login.html" class="btn">Đăng nhập</a>
+          <a href="features/src/user/register.html" class="btn btn-outline"
+            >Đăng ký</a
+          >
+        </div>
+      </nav>
+      <main class="main-home-content">
+        <div class="greet-title">👋 Chào mừng đến với Task App!</div>
+        <div class="desc">
+          Quản lý dự án, công việc, theo dõi tiến độ và tài chính với dashboard
+          hiện đại.
+        </div>
+        <div class="widgets">
+          <div class="widget" id="weather">
+            <h3>Thời tiết hôm nay</h3>
+            <div id="weather-info">Đang tải...</div>
+          </div>
+          <div class="widget" id="quote">
+            <h3>Quote hôm nay</h3>
+            <div id="quote-text">Đang tải...</div>
+          </div>
+          <div class="widget" id="music">
+            <h3>Nhạc hôm nay</h3>
+            <input type="file" id="musicUpload" accept="audio/*" />
+            <audio controls id="audioPlayer">
+              <source src="assets/music/sample.mp3" type="audio/mp3" />
+              Trình duyệt không hỗ trợ audio.
+            </audio>
+          </div>
+          <div class="widget" id="finance-chart">
+            <h3>Biểu đồ tài chính</h3>
+            <canvas id="financeChart" width="240" height="120"></canvas>
+          </div>
+        </div>
+        <div class="footer">&copy; 2025 Task App</div>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Thời tiết
+      fetch("https://wttr.in/Hanoi?format=3")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("weather-info").textContent = data;
+        });
+
+      // Quote
+      fetch("https://api.quotable.io/random")
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById(
+            "quote-text"
+          ).textContent = `"${data.content}" - ${data.author}`;
+        });
+
+      // Tải nhạc từ thiết bị
+      document
+        .getElementById("musicUpload")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            const audioPlayer = document.getElementById("audioPlayer");
+            const source = audioPlayer.querySelector("source");
+            const objectURL = URL.createObjectURL(file);
+            source.src = objectURL;
+            audioPlayer.load();
+            audioPlayer.play();
+          }
+        });
+
+      // Biểu đồ tài chính
+      window.onload = function () {
+        const ctx = document.getElementById("financeChart").getContext("2d");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["T1", "T2", "T3", "T4", "T5"],
+            datasets: [
+              {
+                label: "VNIndex",
+                data: [1100, 1120, 1130, 1140, 1155],
+                backgroundColor: "#0288d1aa",
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: true,
+                labels: { color: "#333" },
+              },
+            },
+            scales: {
+              x: { ticks: { color: "#444" } },
+              y: { ticks: { color: "#444" } },
+            },
+          },
+        });
+      };
+    </script>
+  </body>
+</html>
