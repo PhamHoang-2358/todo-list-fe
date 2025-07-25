@@ -60,14 +60,6 @@ document
   });
 
 // ===================== TASK CRUD ===========================
-function renderAll() {
-  renderProjects();
-  renderCurrentProject();
-  renderTasks();
-  renderStats();
-  renderChart();
-  renderCalendar();
-}
 function renderCurrentProject() {
   let data = getUserData();
   let id =
@@ -135,8 +127,9 @@ window.editTask = function (taskId) {
   document.getElementById("inputTaskPriority").value = task.priority;
   document.getElementById("inputTaskDeadline").value = task.deadline;
   document.getElementById("inputTaskAssignee").value = task.assignee;
-  window.deleteTask(taskId); // Xóa cũ, khi submit sẽ tạo mới
+  window.deleteTask(taskId);
 };
+
 window.deleteTask = function (taskId) {
   if (!confirm("Xóa công việc này?")) return;
   let data = getUserData();
@@ -144,6 +137,7 @@ window.deleteTask = function (taskId) {
   setUserData(data);
   renderAll();
 };
+
 window.toggleTaskStatus = function (taskId) {
   let data = getUserData();
   let task = data.tasks.find((t) => t.id === taskId);
@@ -163,7 +157,6 @@ function renderTasks() {
   const projectId = localStorage.getItem("currentProjectId");
   let tasks = data.tasks.filter((t) => t.projectId === projectId);
 
-  // Filter nâng cao
   const status = document.getElementById("filterStatus").value;
   const priority = document.getElementById("filterPriority").value;
   const deadline = document.getElementById("filterDeadline").value;
@@ -226,11 +219,13 @@ function renderTasks() {
     `;
   });
 }
+
 window.toggleImage = function (id) {
   const imgDiv = document.getElementById("img-" + id);
   if (imgDiv)
     imgDiv.style.display = imgDiv.style.display === "none" ? "block" : "none";
 };
+
 function statusName(val) {
   return val === "notstarted"
     ? "Chưa bắt đầu"
@@ -238,12 +233,15 @@ function statusName(val) {
     ? "Đang thực hiện"
     : "Hoàn thành";
 }
+
 function priorityName(val) {
   return val === "high" ? "Cao" : val === "medium" ? "Trung bình" : "Thấp";
 }
+
 ["filterStatus", "filterPriority", "filterDeadline", "inputSearchTask"].forEach(
   (id) => document.getElementById(id).addEventListener("input", renderTasks)
 );
+
 document.getElementById("clearFilterBtn").onclick = function () {
   [
     "filterStatus",
@@ -262,17 +260,17 @@ function renderStats() {
   let data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
   const tasks = data.tasks.filter((t) => t.projectId === projectId);
-  const counts = {
-    notstarted: tasks.filter((t) => t.status === "notstarted").length,
-    inprogress: tasks.filter((t) => t.status === "inprogress").length,
-    done: tasks.filter((t) => t.status === "done").length,
-  };
-  document.getElementById("taskStats").innerHTML = `
-    <span>Chưa bắt đầu: <b>${counts.notstarted}</b></span>
-    <span>Đang thực hiện: <b>${counts.inprogress}</b></span>
-    <span>Hoàn thành: <b>${counts.done}</b></span>
-    <span>Tổng: <b>${tasks.length}</b></span>
-  `;
+
+  const countNotStarted = tasks.filter((t) => t.status === "notstarted").length;
+  const countInProgress = tasks.filter((t) => t.status === "inprogress").length;
+  const countDone = tasks.filter((t) => t.status === "done").length;
+  const total = tasks.length;
+
+  // Gán số liệu vào các <span> mới trong HTML
+  document.getElementById("countNotStarted").textContent = countNotStarted;
+  document.getElementById("countInProgress").textContent = countInProgress;
+  document.getElementById("countDone").textContent = countDone;
+  document.getElementById("countTotal").textContent = total;
 }
 let chart;
 function renderChart() {
@@ -284,7 +282,11 @@ function renderChart() {
     tasks.filter((t) => t.status === "inprogress").length,
     tasks.filter((t) => t.status === "done").length,
   ];
-  const ctx = document.getElementById("taskChart").getContext("2d");
+
+  const canvas = document.getElementById("taskChart");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
   if (chart) chart.destroy();
   chart = new Chart(ctx, {
     type: "pie",
@@ -294,39 +296,96 @@ function renderChart() {
         { data: counts, backgroundColor: ["#fdba74", "#60a5fa", "#22d3ee"] },
       ],
     },
-    options: { responsive: false, plugins: { legend: { display: true } } },
+    options: { responsive: false, plugins: { legend: { display: false } } },
   });
 }
 
-// ===================== CALENDAR VIEW =======================
-function renderCalendar() {
-  let data = getUserData();
+// ===================== LỊCH GỘP: TỔNG QUAN + CLICK XEM TASK NGÀY =====================
+let selectedDate = null;
+
+function renderUnifiedCalendar() {
+  const data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
   const tasks = data.tasks.filter((t) => t.projectId === projectId);
-  // Đơn giản: hiển thị các task từng ngày trong tháng hiện tại
+
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
+  const todayStr = now.toISOString().slice(0, 10);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  let html = `<table class="calendar-table"><tr>`;
-  for (let i = 1; i <= daysInMonth; ++i) {
-    if ((i - 1) % 7 === 0 && i > 1) html += "</tr><tr>";
-    const dayStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(
+
+  document.getElementById("calendarMonthLabel").textContent = `Tháng ${
+    month + 1
+  } ${year}`;
+  let html = "";
+
+  for (let i = 1; i <= daysInMonth; i++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(
       i
     ).padStart(2, "0")}`;
-    const tasksToday = tasks.filter((t) => t.deadline === dayStr);
-    html += `<td><b>${i}</b>`;
-    if (tasksToday.length) {
-      html += `<ul class="calendar-task">`;
-      tasksToday.forEach(
-        (t) => (html += `<li title="${t.title}">${t.title}</li>`)
-      );
-      html += `</ul>`;
-    }
-    html += `</td>`;
+    const tasksToday = tasks.filter((t) => t.deadline === dateStr);
+    let taskPreviewHTML = tasksToday
+      .map(
+        (t) =>
+          `<div class="calendar-task-preview" title="${t.title}">${t.title}</div>`
+      )
+      .join("");
+
+    html += `
+      <div class="calendar-day ${
+        dateStr === todayStr ? "today" : ""
+      }" data-date="${dateStr}">
+        <div class="day-number">${i}</div>
+        ${taskPreviewHTML}
+      </div>`;
   }
-  html += `</tr></table>`;
-  document.getElementById("calendar").innerHTML = html;
+
+  const container = document.getElementById("unifiedCalendar");
+  container.innerHTML = html;
+
+  document.querySelectorAll(".calendar-day").forEach((el) => {
+    el.addEventListener("click", function () {
+      selectedDate = this.dataset.date;
+      document
+        .querySelectorAll(".calendar-day")
+        .forEach((e) => e.classList.remove("selected"));
+      this.classList.add("selected");
+      document.querySelector("#selectedDateLabel span").textContent =
+        selectedDate;
+      renderTasksOfDay(selectedDate);
+    });
+  });
+}
+
+document.getElementById("btnToday").addEventListener("click", () => {
+  const today = new Date().toISOString().slice(0, 10);
+  selectedDate = today;
+  renderUnifiedCalendar();
+  document
+    .querySelector(`.calendar-day[data-date='${today}']`)
+    ?.classList.add("selected");
+  document.querySelector("#selectedDateLabel span").textContent = today;
+  renderTasksOfDay(today);
+});
+
+function renderTasksOfDay(dateStr) {
+  const data = getUserData();
+  const projectId = localStorage.getItem("currentProjectId");
+  const tasks = data.tasks.filter(
+    (t) => t.projectId === projectId && t.deadline === dateStr
+  );
+  const container = document.getElementById("taskOfDayList");
+  container.innerHTML = tasks.length
+    ? tasks
+        .map(
+          (t) => `
+      <li class="task-card ${t.status}">
+        <span>${t.title}</span>
+        <span>${t.assignee || "--"}</span>
+      </li>`
+        )
+        .join("")
+    : `<li>Không có công việc.</li>`;
 }
 
 // ===================== ĐĂNG XUẤT ===========================
@@ -334,6 +393,15 @@ document.getElementById("logoutBtn").onclick = function () {
   localStorage.removeItem("currentUserId");
   location.href = "../../../index.html";
 };
+// ===================== KHỞI TẠO TRANG TASK MANAGER =====================
+function renderAll() {
+  renderProjects(); // Hiển thị danh sách dự án
+  renderCurrentProject(); // Cập nhật tên dự án hiện tại
+  renderTasks(); // Hiển thị danh sách task
+  renderStats(); // Thống kê task theo trạng thái
+  renderChart(); // Vẽ biểu đồ thống kê
+  renderUnifiedCalendar(); // Gọi lịch đã gộp (lịch hiện đại + tổng quan + task theo ngày)
+}
 
-// ========== INIT ==========
+// Gọi hàm khi trang load
 renderAll();

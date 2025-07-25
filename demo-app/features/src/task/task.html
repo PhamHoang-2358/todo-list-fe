@@ -8,7 +8,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
@@ -29,66 +28,101 @@
         </button>
       </aside>
       <main class="main-content">
-        <section class="task-header">
-          <h2 id="currentProjectName"></h2>
-          <form id="formTask">
+        <section class="form-chart-wrapper">
+          <!-- Thêm Task -->
+
+          <div class="card form-task-box">
+            <h2 id="currentProjectName">Tên dự án</h2>
+            <h3 class="form-title">
+              <i class="fas fa-plus-circle"></i> Thêm Task
+            </h3>
+            <form id="formTask">
+              <input
+                type="text"
+                id="inputTaskTitle"
+                placeholder="Tên công việc"
+              />
+              <input type="text" id="inputTaskContent" placeholder="Chi tiết" />
+              <select id="inputTaskStatus">
+                <option value="notstarted">Chưa bắt đầu</option>
+                <option value="inprogress">Đang thực hiện</option>
+                <option value="done">Hoàn thành</option>
+              </select>
+              <select id="inputTaskPriority">
+                <option value="low">Thấp</option>
+                <option value="medium" selected>Trung bình</option>
+                <option value="high">Cao</option>
+              </select>
+              <input type="date" id="inputTaskDeadline" />
+              <input
+                type="text"
+                id="inputTaskAssignee"
+                placeholder="Người phụ trách"
+              />
+              <input type="file" id="inputTaskImage" accept="image/*" />
+              <button type="submit">
+                <i class="fas fa-plus"></i> Thêm Task
+              </button>
+            </form>
+          </div>
+
+          <!-- Biểu đồ -->
+          <div class="card chart-box">
+            <div class="chart-stats-text">
+              <p style="color: #fb8c00">
+                Chưa bắt đầu: <span id="countNotStarted">0</span>
+              </p>
+              <p style="color: #42a5f5">
+                Đang thực hiện: <span id="countInProgress">0</span>
+              </p>
+              <p style="color: #26c6da">
+                Hoàn thành: <span id="countDone">0</span>
+              </p>
+              <p style="color: #000">Tổng: <span id="countTotal">0</span></p>
+            </div>
+            <canvas id="taskChart" width="200" height="200"></canvas>
+          </div>
+        </section>
+
+        <!-- Lịch gộp chức năng: tổng quan + chọn ngày -->
+        <section class="calendar-section">
+          <div class="calendar-header-row">
+            <h3 id="calendarMonthLabel">Lịch công việc</h3>
+            <button id="btnToday">Hôm nay</button>
+          </div>
+          <div id="unifiedCalendar" class="custom-calendar-grid"></div>
+          <h4 id="selectedDateLabel">Công việc ngày <span>--/--/----</span></h4>
+          <ul id="taskOfDayList" class="task-of-day-list"></ul>
+        </section>
+
+        <!-- Bọc filter + task list trong 1 khối ngang -->
+        <section class="filter-task-wrapper">
+          <div class="filter-box">
+            <h3>Bộ lọc công việc</h3>
             <input
               type="text"
-              id="inputTaskTitle"
-              placeholder="Tên công việc"
+              id="inputSearchTask"
+              placeholder="Tìm kiếm công việc..."
             />
-            <input type="text" id="inputTaskContent" placeholder="Chi tiết" />
-            <select id="inputTaskStatus">
+            <select id="filterStatus">
+              <option value="all">Tất cả trạng thái</option>
               <option value="notstarted">Chưa bắt đầu</option>
               <option value="inprogress">Đang thực hiện</option>
               <option value="done">Hoàn thành</option>
             </select>
-            <select id="inputTaskPriority">
-              <option value="low">Thấp</option>
-              <option value="medium" selected>Trung bình</option>
+            <select id="filterPriority">
+              <option value="all">Tất cả ưu tiên</option>
               <option value="high">Cao</option>
+              <option value="medium">Trung bình</option>
+              <option value="low">Thấp</option>
             </select>
-            <input type="date" id="inputTaskDeadline" />
-            <input
-              type="text"
-              id="inputTaskAssignee"
-              placeholder="Người phụ trách"
-            />
-            <input type="file" id="inputTaskImage" accept="image/*" />
-            <button type="submit"><i class="fas fa-plus"></i> Thêm Task</button>
-          </form>
-        </section>
-        <section class="filters">
-          <input
-            type="text"
-            id="inputSearchTask"
-            placeholder="Tìm kiếm công việc..."
-          />
-          <select id="filterStatus">
-            <option value="all">Tất cả trạng thái</option>
-            <option value="notstarted">Chưa bắt đầu</option>
-            <option value="inprogress">Đang thực hiện</option>
-            <option value="done">Hoàn thành</option>
-          </select>
-          <select id="filterPriority">
-            <option value="all">Tất cả ưu tiên</option>
-            <option value="high">Cao</option>
-            <option value="medium">Trung bình</option>
-            <option value="low">Thấp</option>
-          </select>
-          <input type="date" id="filterDeadline" />
-          <button id="clearFilterBtn">Xóa lọc</button>
-        </section>
-        <section class="stats-charts">
-          <div class="stats" id="taskStats"></div>
-          <canvas id="taskChart" width="250" height="120"></canvas>
-        </section>
-        <section>
-          <div class="calendar-header">Lịch công việc</div>
-          <div id="calendar"></div>
-        </section>
-        <section>
-          <ul id="taskList"></ul>
+            <input type="date" id="filterDeadline" />
+            <button id="clearFilterBtn">Xóa lọc</button>
+          </div>
+
+          <div class="task-list-box">
+            <ul id="taskList"></ul>
+          </div>
         </section>
       </main>
     </div>
