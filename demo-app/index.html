@@ -4,28 +4,38 @@
     <meta charset="UTF-8" />
     <title>Task App | Trang chủ</title>
 
-    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <!-- CSS chính -->
     <link rel="stylesheet" href="styles/dashboard-home.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
     <div class="dashboard-home">
-      <!-- Sidebar -->
-      <nav class="sidebar">
-        <h2><i class="fa-solid fa-list-check"></i> Task App</h2>
-        <div class="sidebar-btn-group">
-          <a href="features/src/user/login.html" class="btn">Đăng nhập</a>
-          <a href="features/src/user/register.html" class="btn btn-outline"
-            >Đăng ký</a
-          >
-        </div>
-      </nav>
+      <!-- Form đăng nhập thay sidebar -->
+      <div class="sidebar-login">
+        <h2>Đăng nhập</h2>
+        <form id="formLogin" novalidate>
+          <input type="text" id="inputLoginId" placeholder="Email hoặc ID" />
+          <div class="error" id="errorLoginId"></div>
+          <input
+            type="password"
+            id="inputLoginPassword"
+            placeholder="Password"
+          />
+          <div class="error" id="errorLoginPassword"></div>
+          <div class="options">
+            <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+          </div>
+          <button type="submit" class="btn-login">Đăng nhập</button>
+          <p class="register-link">
+            Chưa có tài khoản?
+            <a href="features/src/user/register.html">Đăng ký</a>
+          </p>
+        </form>
+      </div>
 
       <!-- Nội dung chính -->
       <main class="main-home-content">
@@ -66,59 +76,7 @@
       </main>
     </div>
 
-    <!-- Script -->
-    <script>
-      // Thời tiết
-      fetch("https://wttr.in/Hanoi?format=3")
-        .then((res) => res.text())
-        .then((data) => {
-          document.getElementById("weather-info").textContent = data;
-        });
-
-      // Quote tĩnh (do lỗi HTTPS khi fetch)
-      document.getElementById("quote-text").textContent =
-        '"Cuộc sống là 10% những gì xảy ra với bạn và 90% cách bạn phản ứng với nó." – Charles R. Swindoll';
-
-      // Nhạc
-      document
-        .getElementById("musicUpload")
-        .addEventListener("change", function (event) {
-          const file = event.target.files[0];
-          if (file) {
-            const audioPlayer = document.getElementById("audioPlayer");
-            const source = audioPlayer.querySelector("source");
-            source.src = URL.createObjectURL(file);
-            audioPlayer.load();
-            audioPlayer.play();
-          }
-        });
-
-      // Biểu đồ
-      window.onload = function () {
-        const ctx = document.getElementById("financeChart").getContext("2d");
-        new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: ["T1", "T2", "T3", "T4", "T5"],
-            datasets: [
-              {
-                label: "VNIndex",
-                data: [1100, 1120, 1130, 1140, 1155],
-                backgroundColor: "#0288d1aa",
-              },
-            ],
-          },
-          options: {
-            plugins: {
-              legend: { labels: { color: "#333" } },
-            },
-            scales: {
-              x: { ticks: { color: "#444" } },
-              y: { ticks: { color: "#444" } },
-            },
-          },
-        });
-      };
-    </script>
+    <!-- Tách logic ra file riêng -->
+    <script src="scripts/dashboard-home.js"></script>
   </body>
 </html>

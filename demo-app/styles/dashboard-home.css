@@ -22,7 +22,7 @@
 .sidebar h2 {
   font-size: 1.5rem;
   margin-bottom: 34px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -186,6 +186,130 @@
 
   .main-home-content {
     padding: 12px 2vw;
+  }
+
+  .widgets {
+    grid-template-columns: 1fr;
+  }
+}
+/* Thay thế sidebar bằng form đăng nhập */
+.sidebar-login {
+  background: #ffffff;
+  padding: 32px 24px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(30, 34, 90, 0.08);
+  width: 100%;
+  max-width: 320px; /* giảm chiều rộng */
+  min-width: 260px;
+  margin: 40px 32px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: fit-content;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar-login:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar-login h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  color: #0288d1;
+}
+
+.sidebar-login form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-login input[type="text"],
+.sidebar-login input[type="password"] {
+  padding: 12px 15px;
+  margin-bottom: 16px;
+  border: 1.2px solid #c0e4f2;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #f1fbff;
+  transition: border-color 0.23s, box-shadow 0.23s;
+}
+
+.sidebar-login input:focus {
+  border-color: #38bdf8;
+  outline: none;
+  box-shadow: 0 2px 10px #38bdf833;
+}
+
+.sidebar-login .error {
+  color: #e11d48;
+  font-size: 13px;
+  margin-bottom: 5px;
+  min-height: 16px;
+  text-align: left;
+}
+
+.sidebar-login .options {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.sidebar-login .btn-login {
+  padding: 13px 0;
+  font-size: 1.07rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background: #0288d1;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 2px 10px #0288d133;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.sidebar-login .btn-login:hover {
+  background: #01579b;
+  box-shadow: 0 4px 16px #01579b30;
+}
+
+.sidebar-login .register-link {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.sidebar-login .register-link a {
+  color: #0288d1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-login .register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-home {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .sidebar-login {
+    max-width: 320px; /* trước là 360px */
+    padding: 32px 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0 0 28px 0;
+    border-radius: 14px;
+  }
+
+  .main-home-content {
+    padding: 0 10px;
   }
 
   .widgets {

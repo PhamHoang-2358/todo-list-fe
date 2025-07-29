@@ -20,6 +20,7 @@
           autocomplete="username"
         />
         <div class="error" id="errorId"></div>
+
         <input
           type="password"
           id="inputPassword"
@@ -27,6 +28,7 @@
           autocomplete="new-password"
         />
         <div class="error" id="errorPassword"></div>
+
         <input
           type="password"
           id="inputConfirmPassword"
@@ -34,6 +36,7 @@
           autocomplete="new-password"
         />
         <div class="error" id="errorConfirmPassword"></div>
+
         <input
           type="text"
           id="inputName"
@@ -41,6 +44,7 @@
           autocomplete="name"
         />
         <div class="error" id="errorName"></div>
+
         <input
           type="email"
           id="inputEmail"
@@ -48,6 +52,7 @@
           autocomplete="email"
         />
         <div class="error" id="errorEmail"></div>
+
         <input
           type="tel"
           id="inputPhone"
@@ -56,12 +61,26 @@
           autocomplete="tel"
         />
         <div class="error" id="errorPhone"></div>
+
         <button type="submit" class="btn-register">
           <i class="fas fa-user-check"></i> Đăng ký
         </button>
       </form>
-      <p class="link">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+
+      <p class="link">
+        Đã có tài khoản?
+        <a href="/index.html" id="backToLogin">Đăng nhập</a>
+      </p>
     </div>
+
     <script src="register.js"></script>
+    <script>
+      document
+        .getElementById("backToLogin")
+        ?.addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.href = "/index.html";
+        });
+    </script>
   </body>
 </html>
