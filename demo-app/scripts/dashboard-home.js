@@ -1,3 +1,9 @@
+// Hiện form đăng nhập khi nhấn nút
+document.getElementById("showLoginBtn")?.addEventListener("click", () => {
+  document.querySelector(".sidebar-login").style.display = "block";
+  document.getElementById("showLoginBtn").style.display = "none";
+});
+
 // === Thời tiết Hà Nội
 fetch("https://wttr.in/Hanoi?format=3")
   .then((res) => res.text())
@@ -73,7 +79,6 @@ document.getElementById("formLogin")?.addEventListener("submit", function (e) {
   }
   if (hasError) return;
 
-  // Kiểm tra localStorage
   let user = JSON.parse(localStorage.getItem(idOrEmail));
   if (!user) {
     for (let key in localStorage) {
@@ -89,10 +94,25 @@ document.getElementById("formLogin")?.addEventListener("submit", function (e) {
 
   if (user && user.pass === pass) {
     localStorage.setItem("currentUserId", user.id);
-    // === CHỈNH LẠI ĐƯỜNG DẪN CHÍNH XÁC
     window.location.href = "features/src/task/task.html";
   } else {
     document.getElementById("errorLoginId").textContent =
       "Sai ID/email hoặc mật khẩu!";
   }
+});
+// === Hiển thị/Ẩn form đăng nhập
+const showLoginBtn = document.getElementById("showLoginBtn");
+const hideLoginBtn = document.getElementById("hideLoginBtn");
+const loginFormBox = document.querySelector(".sidebar-login");
+
+showLoginBtn.addEventListener("click", () => {
+  loginFormBox.style.display = "block";
+  showLoginBtn.style.display = "none";
+  hideLoginBtn.style.display = "inline-block";
+});
+
+hideLoginBtn.addEventListener("click", () => {
+  loginFormBox.style.display = "none";
+  showLoginBtn.style.display = "inline-block";
+  hideLoginBtn.style.display = "none";
 });

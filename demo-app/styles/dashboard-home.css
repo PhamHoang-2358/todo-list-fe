@@ -1,74 +1,7 @@
-/* styles/dashboard-home.css */
-
 .dashboard-home {
   min-height: 100vh;
   display: flex;
-}
-
-.sidebar {
-  background: #0288d1;
-  min-width: 220px;
-  max-width: 250px;
-  padding: 40px 20px 24px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 2px 0 16px #0002;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
-  margin-right: 44px;
-}
-
-.sidebar h2 {
-  font-size: 1.5rem;
-  margin-bottom: 34px;
-  color: #ffffff;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sidebar .sidebar-btn-group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.sidebar .btn,
-.sidebar .btn-outline {
-  width: 100%;
-  padding: 9px 0;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.sidebar .btn {
-  background: #fff;
-  color: #0288d1;
-  border: none;
-}
-
-.sidebar .btn-outline {
-  background: none;
-  color: #fff;
-  border: 1.2px solid #fff;
-}
-
-.sidebar .btn:hover {
-  background: #cbe5ff;
-}
-.sidebar .btn-outline:hover {
-  background: #01579b;
+  flex-direction: row;
 }
 
 .main-home-content {
@@ -78,52 +11,43 @@
 }
 
 .greet-title {
-  font-size: 1.55rem;
-  font-weight: 800;
-  margin-bottom: 6px;
+  font-size: 28px;
+  font-weight: bold;
   color: #01579b;
+  margin-bottom: 8px;
 }
-
-.main-home-content .desc {
-  margin-bottom: 22px;
-  font-size: 1rem;
+.desc {
+  font-size: 17px;
   color: #333;
-  font-weight: 500;
+  margin-bottom: 20px;
 }
 
 .widgets {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
   gap: 24px;
   margin-bottom: 30px;
 }
-
 .widget {
-  background: #ffffff;
+  background: #fff;
   border-radius: 24px;
   padding: 20px 22px;
   min-height: 240px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  color: #333;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: 0.2s ease;
 }
-
 .widget:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
-
 .widget h3 {
   font-size: 1.07rem;
   margin-bottom: 10px;
   color: #0288d1;
-  font-weight: 600;
 }
-
 .widget audio,
 .widget canvas {
   width: 100%;
@@ -131,13 +55,11 @@
   border-radius: 7px;
   background: #f1faff;
 }
-
 #musicUpload {
   margin-bottom: 8px;
   font-size: 0.9rem;
   padding: 4px;
 }
-
 #financeChart {
   margin-top: 4px;
   background: #e0f7fa;
@@ -151,112 +73,69 @@
   margin-top: 15px;
 }
 
-@media (max-width: 900px) {
-  .widgets {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
+/* ==== NÚT HIỆN FORM LOGIN ==== */
+.show-login-btn {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: #0288d1;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.show-login-btn:hover {
+  background: #0277bd;
 }
 
-@media (max-width: 700px) {
-  .dashboard-home {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    flex-direction: row;
-    width: 100%;
-    padding: 8px 4vw;
-    border-radius: 0 0 18px 18px;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    overflow-x: auto;
-  }
-
-  .sidebar h2 {
-    margin-bottom: 0;
-    font-size: 0.98rem;
-  }
-
-  .sidebar .sidebar-btn-group {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .main-home-content {
-    padding: 12px 2vw;
-  }
-
-  .widgets {
-    grid-template-columns: 1fr;
-  }
-}
-/* Thay thế sidebar bằng form đăng nhập */
+/* ==== FORM ĐĂNG NHẬP ==== */
 .sidebar-login {
-  background: #ffffff;
+  background: #fff;
   padding: 32px 24px;
   border-radius: 20px;
   box-shadow: 0 6px 20px rgba(30, 34, 90, 0.08);
   width: 100%;
-  max-width: 320px; /* giảm chiều rộng */
-  min-width: 260px;
-  margin: 40px 32px 40px 40px;
-  display: flex;
+  max-width: 320px;
+  margin: 40px;
+  display: none;
   flex-direction: column;
-  align-items: stretch;
-  height: fit-content;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.sidebar-login:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
 .sidebar-login h2 {
   font-size: 1.9rem;
   font-weight: 700;
   margin-bottom: 22px;
   color: #0288d1;
 }
-
 .sidebar-login form {
   display: flex;
   flex-direction: column;
 }
-
-.sidebar-login input[type="text"],
-.sidebar-login input[type="password"] {
+.sidebar-login input {
   padding: 12px 15px;
   margin-bottom: 16px;
   border: 1.2px solid #c0e4f2;
   border-radius: 8px;
   font-size: 16px;
   background: #f1fbff;
-  transition: border-color 0.23s, box-shadow 0.23s;
 }
-
 .sidebar-login input:focus {
   border-color: #38bdf8;
   outline: none;
   box-shadow: 0 2px 10px #38bdf833;
 }
-
 .sidebar-login .error {
   color: #e11d48;
   font-size: 13px;
   margin-bottom: 5px;
-  min-height: 16px;
-  text-align: left;
 }
-
 .sidebar-login .options {
   font-size: 14px;
   color: #555;
   margin-bottom: 16px;
 }
-
 .sidebar-login .btn-login {
   padding: 13px 0;
   font-size: 1.07rem;
@@ -264,55 +143,43 @@
   border: none;
   border-radius: 8px;
   background: #0288d1;
-  color: #ffffff;
+  color: #fff;
   cursor: pointer;
-  box-shadow: 0 2px 10px #0288d133;
-  transition: background 0.2s, box-shadow 0.2s;
 }
-
 .sidebar-login .btn-login:hover {
   background: #01579b;
-  box-shadow: 0 4px 16px #01579b30;
 }
-
 .sidebar-login .register-link {
   margin-top: 12px;
   font-size: 14px;
   color: #333;
   text-align: center;
 }
-
 .sidebar-login .register-link a {
   color: #0288d1;
   text-decoration: none;
   font-weight: 500;
 }
-
 .sidebar-login .register-link a:hover {
   text-decoration: underline;
 }
 
 /* Responsive */
+@media (max-width: 900px) {
+  .widgets {
+    grid-template-columns: 1fr;
+  }
+}
 @media (max-width: 768px) {
   .dashboard-home {
     flex-direction: column;
     align-items: center;
     padding: 20px;
   }
-
   .sidebar-login {
-    max-width: 320px; /* trước là 360px */
-    padding: 32px 24px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin: 0 0 28px 0;
-    border-radius: 14px;
+    margin: 0 0 28px;
   }
-
   .main-home-content {
     padding: 0 10px;
-  }
-
-  .widgets {
-    grid-template-columns: 1fr;
   }
 }

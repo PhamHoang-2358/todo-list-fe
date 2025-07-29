@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Task App | Trang chủ</title>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -13,9 +12,15 @@
   </head>
 
   <body>
+    <button id="showLoginBtn" class="show-login-btn">
+      <i class="fas fa-sign-in-alt"></i> Đăng nhập
+    </button>
+    <button id="hideLoginBtn" class="hide-login-btn" style="display: none">
+      <i class="fas fa-arrow-left"></i> Quay về
+    </button>
     <div class="dashboard-home">
-      <!-- Form đăng nhập thay sidebar -->
-      <div class="sidebar-login">
+      <!-- Form đăng nhập -->
+      <div class="sidebar-login" style="display: none">
         <h2>Đăng nhập</h2>
         <form id="formLogin" novalidate>
           <input type="text" id="inputLoginId" placeholder="Email hoặc ID" />
@@ -68,7 +73,7 @@
 
           <div class="widget" id="finance-chart">
             <h3>Biểu đồ tài chính</h3>
-            <canvas id="financeChart" width="280" height="120"></canvas>
+            <canvas id="financeChart" width="250" height="120"></canvas>
           </div>
         </div>
 
@@ -76,7 +81,6 @@
       </main>
     </div>
 
-    <!-- Tách logic ra file riêng -->
     <script src="scripts/dashboard-home.js"></script>
   </body>
 </html>
