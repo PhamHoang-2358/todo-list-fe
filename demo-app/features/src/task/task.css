@@ -1,239 +1,292 @@
+/* === RESET BODY === */
 body {
   font-family: "Segoe UI", sans-serif;
-  background-color: #f4f7fb;
+  background-color: #f0f9ff;
+  padding: 40px;
+  margin: 0;
   display: flex;
   justify-content: center;
-  padding: 40px;
 }
 
-.container,
-.dashboard {
+/* === VÙNG NGOÀI BỌC TẤT CẢ === */
+.dashboard-wrapper {
   background: #ffffff;
-  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+  padding: 40px;
+  max-width: 1320px;
   width: 100%;
-  max-width: 1200px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  display: flex;
-  gap: 28px;
-  min-height: 700px;
 }
 
+/* === DASHBOARD CHÍNH: SIDEBAR + MAIN === */
+.task-dashboard {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+}
+
+/* === SIDEBAR TRÁI === */
 .sidebar {
   width: 260px;
-  background: #e1f5fe;
-  border-radius: 14px;
-  padding: 20px 18px;
+  background: #ccfbf1;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  box-shadow: 0 2px 8px #eee3;
-  height: fit-content;
+  gap: 28px;
 }
+
 .sidebar h3 {
-  margin-bottom: 15px;
-  font-size: 19px;
+  font-size: 20px;
+  font-weight: 700;
   color: #0277bd;
+  margin-bottom: 12px;
 }
+
+/* PROJECT LIST */
 #projectList {
   list-style: none;
   padding: 0;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
 }
 #projectList li {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 7px 0;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 6px 4px;
+  font-size: 15px;
+  border-bottom: 1px solid #b2ebf2;
 }
 .pj-name {
-  cursor: pointer;
-  font-weight: 500;
   color: #0288d1;
-  font-size: 15px;
-  transition: color 0.18s;
+  font-weight: 500;
+  cursor: pointer;
 }
 .pj-name:hover {
   color: #01579b;
 }
+
+/* THÊM PROJECT */
+#formAddProject {
+  display: flex;
+  gap: 6px;
+}
 #formAddProject input {
-  padding: 7px 10px;
-  border-radius: 7px;
-  border: 1px solid #81d4fa;
-  margin-right: 7px;
-  width: 65%;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #b2ebf2;
+  border-radius: 8px;
+  background: #ffffff;
 }
 #formAddProject button {
   background: #0288d1;
-  color: #fff;
   border: none;
-  padding: 7px 10px;
-  border-radius: 7px;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 #formAddProject button:hover {
   background: #01579b;
 }
+
 #logoutBtn {
-  margin-top: 12px;
   background: #ef5350;
-  color: #fff;
+  color: white;
+  padding: 10px 0;
   border: none;
   border-radius: 8px;
-  padding: 9px 0;
-  font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
 }
 
+/* FORM THÊM TASK */
+.task-form h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00695c;
+  margin-bottom: 10px;
+}
+#formTask {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#formTask input,
+#formTask select {
+  padding: 10px 12px;
+  border: 1px solid #b2dfdb;
+  border-radius: 8px;
+  background: #f0fdfa;
+}
+#formTask button {
+  background: #00897b;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#formTask button:hover {
+  background: #00695c;
+}
+
+/* === MAIN NỘI DUNG PHẢI === */
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 32px;
 }
 
-.task-header h2 {
-  font-size: 24px;
-  color: #0288d1;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-
-#formTask {
+/* === HÀNG TRÊN: LỊCH + BIỂU ĐỒ === */
+.top-row {
   display: flex;
-  gap: 10px;
+  gap: 24px;
   flex-wrap: wrap;
+}
+
+/* CARD DÙNG CHUNG */
+.card-box {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  flex: 1;
+}
+
+/* LỊCH */
+.calendar-box h3,
+#calendarMonthLabel {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00695c;
+}
+.calendar-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+#btnToday {
+  background: #00897b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.custom-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.calendar-day {
+  padding: 14px 10px;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 500;
+  background: #f0fdfa;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.calendar-day:hover {
+  background: #e0f2f1;
+}
+.calendar-day.today {
+  background: #ffb74d;
+  color: white;
+}
+.calendar-day.selected {
+  border: 2px solid #26a69a;
+}
+#selectedDateLabel {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 16px 0 6px;
+  color: #00897b;
+}
+
+/* BIỂU ĐỒ */
+.chart-stats-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+.chart-box canvas {
+  margin-top: 16px;
+  max-width: 220px;
+}
+
+/* === HÀNG DƯỚI: FILTER + TASK === */
+.bottom-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* FILTER */
+.filter-box {
+  flex: 0 0 280px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+.filter-box h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f766e;
+  text-align: center;
   margin-bottom: 16px;
 }
-#formTask input[type="text"],
-#formTask input[type="date"],
-#formTask input[type="file"],
-#formTask select {
-  padding: 10px;
-  border-radius: 7px;
-  border: 1px solid #81d4fa;
-  font-size: 15px;
-  flex: 1;
-  min-width: 120px;
-  max-width: 180px;
+.filter-box input,
+.filter-box select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cfd8dc;
+  background: #f0fdfa;
+  margin-bottom: 10px;
 }
-#formTask button {
-  padding: 12px;
-  background-color: #0288d1;
-  color: white;
-  font-weight: 600;
+#clearFilterBtn {
+  background: #b2dfdb;
+  color: #0f172a;
+  padding: 10px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  width: fit-content; /* 👈 Giúp nút ngắn theo nội dung */
-  align-self: flex-start; /* 👈 Căn nút về bên trái form */
-}
-#formTask button:hover {
-  background-color: #0277bd;
-}
-
-.filters {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.filters input,
-.filters select {
-  padding: 9px 12px;
-  border-radius: 7px;
-  border: 1px solid #81d4fa;
-  font-size: 15px;
-}
-#clearFilterBtn {
-  background: #cfd8dc;
-  color: #222;
-  border: none;
-  border-radius: 7px;
-  padding: 9px 16px;
-  cursor: pointer;
-  transition: background 0.2s;
+  width: 100%;
 }
 #clearFilterBtn:hover {
-  background: #b0bec5;
-}
-.stats-charts {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px; /* tách ngang */
+  background: #80cbc4;
 }
 
-#taskStats {
-  background: #e0f7fa;
-  padding: 14px 24px;
-  border-radius: 10px;
-  color: #004d40;
-  font-size: 15px;
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
+/* DANH SÁCH TASK */
+.task-list-box {
+  flex: 1;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  max-height: 400px;
+  overflow-y: auto;
 }
-#taskStats span {
-  margin: 0 6px 0 0;
-}
-
-.calendar-header {
-  font-size: 18px;
-  color: #0288d1;
-  margin: 16px 0 8px 0;
-  font-weight: 600;
-}
-.calendar-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 7px 0 14px 0;
-}
-.calendar-table td {
-  border: 1px solid #e3e6ee;
-  min-width: 32px;
-  height: 55px;
-  padding: 3px 2px;
-  vertical-align: top;
-  font-size: 13px;
-  text-align: left;
-}
-.calendar-task {
-  list-style: none;
-  margin: 4px 0 0 0;
-  padding: 0;
-}
-.calendar-task li {
-  background: #e1f5fe;
-  color: #0277bd;
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 1px 6px;
-  margin: 2px 0;
-}
-
 #taskList {
   list-style: none;
   padding: 0;
-  margin-top: 8px;
+  margin: 0;
 }
 #taskList li {
-  background-color: #fefefe;
-  padding: 14px 13px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  border: 1px solid #cfd8dc;
+  background: #fefefe;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 .task-main {
   display: flex;
@@ -241,24 +294,22 @@ body {
   gap: 14px;
 }
 .task-main .title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
-  color: #0d3c61;
 }
 .task-main .status {
-  padding: 3px 9px;
-  border-radius: 5px;
+  padding: 4px 10px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
-  margin-left: 8px;
 }
 .status-notstarted {
-  background: #fff3e0;
+  background: #fff8e1;
   color: #ef6c00;
 }
 .status-inprogress {
   background: #e3f2fd;
-  color: #1976d2;
+  color: #1e88e5;
 }
 .status-done {
   background: #e0f2f1;
@@ -269,552 +320,258 @@ body {
   color: #555;
   display: flex;
   gap: 18px;
-  margin-left: 14px;
 }
 .task-actions {
   display: flex;
-  gap: 7px;
-  margin-left: 14px;
-}
-.task-actions button {
-  background-color: #ffe082;
-  color: #212529;
-  padding: 5px 12px;
-  border: none;
-  border-radius: 5px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.task-actions button:hover {
-  background-color: #ffc107;
-}
-.task-img-view {
-  margin-top: 9px;
-  margin-bottom: 4px;
-}
-.task-img-view img {
-  border-radius: 8px;
-  max-width: 160px;
-  height: auto;
-  border: 1px solid #eaeaea;
-  background: #f0f9ff;
-}
-
-.error,
-.form-error,
-.input-error {
-  color: #e53935;
-  font-size: 13px;
-  margin-top: 2px;
-  margin-bottom: -8px;
-  text-align: left;
-  min-height: 18px;
-  display: block;
-  padding-left: 2px;
-  letter-spacing: 0.1px;
-}
-@media (max-width: 600px) {
-  body {
-    flex-direction: column;
-    padding: 12px 6px;
-  }
-
-  .container,
-  .dashboard {
-    flex-direction: column;
-    padding: 16px 14px;
-    gap: 18px;
-    box-shadow: none;
-    border-radius: 12px;
-    min-height: auto;
-  }
-
-  .sidebar {
-    width: 100%;
-    padding: 16px 14px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    background: #d0f0fd; /* nhẹ hơn cho Android ánh sáng cao */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  }
-
-  .sidebar h3 {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-
-  #formAddProject {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-  }
-
-  #formAddProject input,
-  #formAddProject button {
-    width: 100%;
-  }
-
-  #logoutBtn {
-    width: 100%;
-    font-size: 1rem;
-  }
-
-  .main-content {
-    gap: 16px;
-  }
-
-  .task-header h2 {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-
-  #formTask {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  #formTask input,
-  #formTask select,
-  #formTask button {
-    width: 100%;
-    font-size: 1rem;
-  }
-
-  .filters {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .stats-charts {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  #taskStats {
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-
-  .calendar-header {
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .calendar-table td {
-    font-size: 12px;
-    height: 46px;
-  }
-
-  .task-main {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .task-info {
-    flex-direction: column;
-    gap: 6px;
-    font-size: 13.5px;
-    margin-left: 0;
-  }
-
-  .task-actions {
-    flex-wrap: wrap;
-    margin-left: 0;
-    margin-top: 6px;
-  }
-
-  .task-actions button {
-    font-size: 13px;
-    padding: 6px 10px;
-    flex: 1 1 45%;
-  }
-
-  .task-img-view img {
-    max-width: 100%;
-    height: auto;
-  }
-}
-/* ===================== CSS: GIAO DIỆN CHUNG ===================== */
-body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #e0f7fa;
-  display: flex;
-  justify-content: center;
-  padding: 40px;
-}
-
-.container,
-.dashboard {
-  background: #ffffff;
-  padding: 30px;
-  width: 100%;
-  max-width: 1200px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  display: flex;
-  gap: 28px;
-  min-height: 700px;
-}
-
-.sidebar {
-  width: 260px;
-  background: #e1f5fe;
-  border-radius: 14px;
-  padding: 20px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  box-shadow: 0 2px 8px #eee3;
-  height: fit-content;
-}
-.sidebar h3 {
-  margin-bottom: 15px;
-  font-size: 19px;
-  color: #0277bd;
-}
-#projectList {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 12px;
-}
-#projectList li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 7px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-.pj-name {
-  cursor: pointer;
-  font-weight: 500;
-  color: #0288d1;
-  font-size: 15px;
-  transition: color 0.18s;
-}
-.pj-name:hover {
-  color: #01579b;
-}
-#formAddProject input {
-  padding: 7px 10px;
-  border-radius: 7px;
-  border: 1px solid #81d4fa;
-  margin-right: 7px;
-  width: 65%;
-}
-#formAddProject button {
-  background: #0288d1;
-  color: #fff;
-  border: none;
-  padding: 7px 10px;
-  border-radius: 7px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-#formAddProject button:hover {
-  background: #01579b;
-}
-#logoutBtn {
-  margin-top: 12px;
-  background: #ef5350;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 9px 0;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 8px;
 }
+.task-actions button {
+  background: #ffe082;
+  color: #212121;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.task-actions button:hover {
+  background: #ffc107;
+}
 
-/* ===================== CSS: LỊCH MỚI + TASK THEO NGÀY ===================== */
-.calendar-section {
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-  margin-bottom: 24px;
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .task-dashboard {
+    flex-direction: column;
+  }
+  .top-row,
+  .bottom-row {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+  }
+}
+.card-box {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  flex: 1;
+}
+.top-row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
 }
 .calendar-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
-}
-#calendarMonthLabel {
-  font-size: 18px;
-  color: #222;
-  font-weight: 600;
-}
-#btnToday {
-  background: #0288d1;
-  color: white;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.custom-calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-}
-.calendar-day {
-  padding: 14px 10px;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 500;
-  color: #444;
-  background: #f1f8ff;
-  transition: background 0.2s;
-}
-.calendar-day:hover {
-  background: #e0f2ff;
-}
-.calendar-day.today {
-  background: #ffa726;
-  color: white;
-}
-.calendar-day.selected {
-  outline: 2px solid #0288d1;
-  background: #e0f7fa;
-}
-.task-of-day-section {
-  margin-top: 16px;
-}
-#selectedDateLabel {
-  font-size: 17px;
-  margin-bottom: 10px;
-  color: #0288d1;
-  font-weight: 600;
-}
-.task-of-day-list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.task-card {
-  padding: 12px 16px;
-  border-radius: 12px;
-  color: white;
-  font-weight: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.task-card.notstarted {
-  background: #fbc02d;
-}
-.task-card.inprogress {
-  background: #42a5f5;
-}
-.task-card.done {
-  background: #26a69a;
-}
-/*=============Bộ lọc===========*/
-.filter-box {
-  flex: 0 0 300px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  font-size: 14px;
-  border: 1px solid #e0e0e0;
+  gap: 12px;
 }
 
-.filter-box h3 {
-  color: #0288d1;
-  margin-bottom: 6px;
+.card-box h3 {
+  white-space: nowrap;
+  line-height: 1.4;
   font-size: 18px;
-  font-weight: 600;
-  text-align: center;
+}
+
+.top-row {
+  display: flex;
+  gap: 24px;
 }
 
 .filter-box input,
 .filter-box select {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #cfd8dc;
-  font-size: 14px;
-  outline: none;
-  transition: border 0.2s;
+  padding: 12px 14px;
+  font-size: 15px;
 }
-
-.filter-box input:focus,
-.filter-box select:focus {
-  border-color: #0288d1;
-}
-
-.filter-box button {
+.current-project-label {
+  background: #e0f7fa; /* nền xanh nhạt */
   padding: 10px 14px;
-  background-color: #b0bec5;
-  color: #fff;
+  margin: 10px 0 15px;
+  border-radius: 8px;
   font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  color: #00796b; /* chữ xanh đậm */
+  font-size: 15px;
+  border-left: 4px solid #00acc1; /* thanh nhấn màu bên trái */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.filter-box button:hover {
-  background-color: #90a4ae;
+.current-project-label span {
+  color: #ff5722; /* tên project màu cam nổi bật */
 }
-.filter-task-wrapper {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  margin-top: 24px;
-  flex-wrap: wrap;
-}
-
-.form-chart-wrapper {
-  display: flex;
-  gap: 24px;
-  margin-top: 24px;
-  flex-wrap: wrap;
-  align-items: stretch;
+/* Giới hạn chiều cao và tạo thanh cuộn cho list Projects */
+#projectList {
+  max-height: 140px; /* chỉnh theo ý */
+  overflow-y: auto;
+  padding-right: 6px; /* chừa chỗ cho thanh cuộn */
+  margin: 0 0 10px 0;
+  scrollbar-gutter: stable; /* tránh layout bị nhảy khi hiện scrollbar */
 }
 
-.card {
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-  padding: 24px;
-  border: 1px solid #e0e0e0;
-  transition: transform 0.2s;
+/* Thanh cuộn đẹp hơn */
+#projectList::-webkit-scrollbar {
+  width: 6px;
 }
-.card:hover {
-  transform: translateY(-3px);
+#projectList::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-.form-task-box {
-  flex: 0 0 300px;
-  max-width: 300px;
-  width: 100%;
+#projectList::-webkit-scrollbar-thumb {
+  background: #cfe8ff;
+  border-radius: 6px;
+}
+#projectList::-webkit-scrollbar-thumb:hover {
+  background: #95c5ff;
 }
 
-.chart-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+/* Firefox */
+#projectList {
+  scrollbar-width: thin;
+  scrollbar-color: #95c5ff transparent;
+}
+.chart-stats-text {
   text-align: center;
-  height: 400px;
+  margin-bottom: 10px; /* Khoảng cách với biểu đồ */
 }
-
-.form-title {
-  color: #0277bd;
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-#formTask {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-#formTask input,
-#formTask select {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #90caf9;
-  font-size: 14px;
-  outline: none;
-}
-
-#formTask input:focus,
-#formTask select:focus {
-  border-color: #0288d1;
-  box-shadow: 0 0 0 2px rgba(2, 136, 209, 0.2);
-}
-
 .chart-box {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* 👈 căn đều nội dung dọc */
-  align-items: center;
-  gap: 12px;
+  align-items: center; /* Căn ngang */
+  justify-content: center; /* Căn dọc nếu cần */
   text-align: center;
-  height: 400px; /* 👈 kéo dài xuống theo khối bên cạnh */
-}
-
-.chart-stats-text p {
-  margin: 4px 0;
-  font-size: 14px;
-  font-weight: 500;
 }
 
 .chart-box canvas {
-  width: 200px !important;
-  height: 200px !important;
-  aspect-ratio: 1 / 1;
+  display: block;
+  margin: 0 auto; /* Đảm bảo biểu đồ nằm giữa */
 }
-.task-list-box {
-  flex: 1;
-  min-width: 320px;
-  max-height: calc(3.5 * 95px); /* Giới hạn chiều cao */
-  overflow-y: auto; /* Tạo thanh cuộn dọc khi cần */
+/* ===== Task trong ngày ===== */
+.task-of-day-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-card {
+  background: #fff;
+  border: 1px solid #e6eef5;
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  padding: 12px;
-  background: #ffffff;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-@media (max-width: 768px) {
-  .dashboard,
-  .container {
-    flex-direction: column;
-    padding: 16px;
-    gap: 20px;
-  }
+.task-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
 
-  .sidebar {
-    width: 100%;
-    margin-right: 0;
-    border-radius: 16px;
-  }
+/* vạch màu trạng thái bên trái */
+.task-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  border-radius: 12px 0 0 12px;
+  background: #e2e8f0;
+}
+.task-card.notstarted::before {
+  background: #f59e0b;
+} /* cam */
+.task-card.inprogress::before {
+  background: #38bdf8;
+} /* xanh dương nhạt */
+.task-card.done::before {
+  background: #10b981;
+} /* xanh lá */
 
-  .main-content,
-  .task-form,
-  .calendar-box,
-  .filter-box,
-  .stats-charts,
-  .widget {
-    width: 100%;
-    max-width: 100%;
-  }
+/* bên trái: tiêu đề + phụ */
+.task-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.task-title .name {
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-title .meta {
+  font-size: 13px;
+  color: #64748b;
+}
 
-  .stats-charts {
-    flex-direction: column;
-    align-items: stretch;
-  }
+/* bên phải: badge trạng thái */
+.task-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.task-badge.notstarted {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.task-badge.inprogress {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+.task-badge.done {
+  background: #ecfdf5;
+  color: #047857;
+}
 
-  .calendar-table td {
-    padding: 6px;
-  }
+/* trạng thái rỗng */
+.task-empty {
+  padding: 14px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: #64748b;
+  text-align: center;
+  background: #f8fafc;
+} /* Màu chữ của tên công việc trong danh sách công việc trong ngày */
+.task-of-day-list li {
+  color: #1e3a8a; /* xanh navy */
+  font-weight: 600;
+}
 
-  .widget-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+/* Nếu muốn đổi màu riêng cho phần tên và phần phụ trách */
+.task-of-day-list li .task-name {
+  color: #0f172a; /* màu đậm hơn */
+}
+
+.task-of-day-list li .task-assignee {
+  color: #64748b; /* màu xám */
+}
+/* Đồng bộ chiều rộng các cột trong bộ lọc */
+.filter-box input,
+.filter-box select,
+.filter-box button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Nền chung cho các khối */
+.card-box,
+.filter-box,
+.task-list-box,
+.calendar-box {
+  background: #c5f8f8; /* xanh mint rất nhạt */
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }

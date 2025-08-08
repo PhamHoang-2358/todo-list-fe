@@ -20,7 +20,7 @@ function renderProjects() {
   const data = getUserData();
   const ul = document.getElementById("projectList");
   ul.innerHTML = "";
-  data.projects.forEach((prj, idx) => {
+  data.projects.forEach((prj) => {
     const li = document.createElement("li");
     li.innerHTML = `
       <span onclick="selectProject('${prj.id}')" class="pj-name">${prj.name}</span>
@@ -29,10 +29,12 @@ function renderProjects() {
     ul.appendChild(li);
   });
 }
+
 window.selectProject = function (id) {
   localStorage.setItem("currentProjectId", id);
   renderAll();
 };
+
 window.deleteProject = function (id) {
   if (!confirm("Xóa dự án này và tất cả task?")) return;
   let data = getUserData();
@@ -44,6 +46,7 @@ window.deleteProject = function (id) {
   else localStorage.removeItem("currentProjectId");
   renderAll();
 };
+
 document
   .getElementById("formAddProject")
   .addEventListener("submit", function (e) {
@@ -70,9 +73,8 @@ function renderCurrentProject() {
     localStorage.setItem("currentProjectId", id);
   }
   const pj = data.projects.find((p) => p.id === id);
-  document.getElementById("currentProjectName").textContent = pj
-    ? pj.name
-    : "Chưa có dự án nào";
+  const label = document.getElementById("currentProjectName");
+  if (label) label.textContent = pj ? pj.name : "Chưa có dự án nào";
 }
 
 document.getElementById("formTask").addEventListener("submit", function (e) {
@@ -86,8 +88,7 @@ document.getElementById("formTask").addEventListener("submit", function (e) {
   const priority = document.getElementById("inputTaskPriority").value;
   const deadline = document.getElementById("inputTaskDeadline").value;
   const assignee = document.getElementById("inputTaskAssignee").value.trim();
-  const imgInput = document.getElementById("inputTaskImage");
-  const imgFile = imgInput.files[0];
+  const imgFile = document.getElementById("inputTaskImage").files[0];
 
   function saveTask(imgData) {
     data.tasks.push({
@@ -106,10 +107,11 @@ document.getElementById("formTask").addEventListener("submit", function (e) {
     document.getElementById("formTask").reset();
     renderAll();
   }
+
   if (imgFile) {
     const reader = new FileReader();
-    reader.onload = function (ev) {
-      saveTask(ev.target.result);
+    reader.onload = function (e) {
+      saveTask(e.target.result);
     };
     reader.readAsDataURL(imgFile);
   } else {
@@ -118,7 +120,7 @@ document.getElementById("formTask").addEventListener("submit", function (e) {
 });
 
 window.editTask = function (taskId) {
-  let data = getUserData();
+  const data = getUserData();
   const task = data.tasks.find((t) => t.id === taskId);
   if (!task) return;
   document.getElementById("inputTaskTitle").value = task.title;
@@ -132,15 +134,15 @@ window.editTask = function (taskId) {
 
 window.deleteTask = function (taskId) {
   if (!confirm("Xóa công việc này?")) return;
-  let data = getUserData();
+  const data = getUserData();
   data.tasks = data.tasks.filter((t) => t.id !== taskId);
   setUserData(data);
   renderAll();
 };
 
 window.toggleTaskStatus = function (taskId) {
-  let data = getUserData();
-  let task = data.tasks.find((t) => t.id === taskId);
+  const data = getUserData();
+  const task = data.tasks.find((t) => t.id === taskId);
   if (task) {
     if (task.status === "notstarted") task.status = "inprogress";
     else if (task.status === "inprogress") task.status = "done";
@@ -153,7 +155,7 @@ window.toggleTaskStatus = function (taskId) {
 
 // ===================== FILTER & LIST =======================
 function renderTasks() {
-  let data = getUserData();
+  const data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
   let tasks = data.tasks.filter((t) => t.projectId === projectId);
 
@@ -166,11 +168,10 @@ function renderTasks() {
   if (priority !== "all") tasks = tasks.filter((t) => t.priority === priority);
   if (deadline) tasks = tasks.filter((t) => t.deadline === deadline);
   if (search)
-    tasks = tasks.filter(
-      (t) =>
-        t.title.toLowerCase().includes(search) ||
-        t.content.toLowerCase().includes(search) ||
-        t.assignee.toLowerCase().includes(search)
+    tasks = tasks.filter((t) =>
+      [t.title, t.content, t.assignee].some((field) =>
+        field.toLowerCase().includes(search)
+      )
     );
 
   const ul = document.getElementById("taskList");
@@ -179,13 +180,14 @@ function renderTasks() {
     ul.innerHTML = "<li>Không có công việc nào.</li>";
     return;
   }
+
   tasks.forEach((task) => {
     ul.innerHTML += `
       <li>
         <div class="task-main">
           <input type="checkbox" onclick="toggleTaskStatus('${task.id}')" ${
       task.status === "done" ? "checked" : ""
-    } title="Chuyển trạng thái">
+    }>
           <span class="title">${task.title}</span>
           <span class="status status-${task.status}">${statusName(
       task.status
@@ -215,16 +217,9 @@ function renderTasks() {
             : ""
         }
         <div class="desc">${task.content}</div>
-      </li>
-    `;
+      </li>`;
   });
 }
-
-window.toggleImage = function (id) {
-  const imgDiv = document.getElementById("img-" + id);
-  if (imgDiv)
-    imgDiv.style.display = imgDiv.style.display === "none" ? "block" : "none";
-};
 
 function statusName(val) {
   return val === "notstarted"
@@ -238,26 +233,26 @@ function priorityName(val) {
   return val === "high" ? "Cao" : val === "medium" ? "Trung bình" : "Thấp";
 }
 
+window.toggleImage = function (id) {
+  const el = document.getElementById("img-" + id);
+  if (el) el.style.display = el.style.display === "none" ? "block" : "none";
+};
+
 ["filterStatus", "filterPriority", "filterDeadline", "inputSearchTask"].forEach(
   (id) => document.getElementById(id).addEventListener("input", renderTasks)
 );
 
 document.getElementById("clearFilterBtn").onclick = function () {
-  [
-    "filterStatus",
-    "filterPriority",
-    "filterDeadline",
-    "inputSearchTask",
-  ].forEach((id) => {
-    document.getElementById(id).value = "";
-    if (id.startsWith("filter")) document.getElementById(id).value = "all";
-  });
+  document.getElementById("filterStatus").value = "all";
+  document.getElementById("filterPriority").value = "all";
+  document.getElementById("filterDeadline").value = "";
+  document.getElementById("inputSearchTask").value = "";
   renderTasks();
 };
 
 // ===================== STATS & CHART =======================
 function renderStats() {
-  let data = getUserData();
+  const data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
   const tasks = data.tasks.filter((t) => t.projectId === projectId);
 
@@ -266,15 +261,15 @@ function renderStats() {
   const countDone = tasks.filter((t) => t.status === "done").length;
   const total = tasks.length;
 
-  // Gán số liệu vào các <span> mới trong HTML
   document.getElementById("countNotStarted").textContent = countNotStarted;
   document.getElementById("countInProgress").textContent = countInProgress;
   document.getElementById("countDone").textContent = countDone;
   document.getElementById("countTotal").textContent = total;
 }
+
 let chart;
 function renderChart() {
-  let data = getUserData();
+  const data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
   const tasks = data.tasks.filter((t) => t.projectId === projectId);
   const counts = [
@@ -283,11 +278,9 @@ function renderChart() {
     tasks.filter((t) => t.status === "done").length,
   ];
 
-  const canvas = document.getElementById("taskChart");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-
+  const ctx = document.getElementById("taskChart").getContext("2d");
   if (chart) chart.destroy();
+
   chart = new Chart(ctx, {
     type: "pie",
     data: {
@@ -300,23 +293,22 @@ function renderChart() {
   });
 }
 
-// ===================== LỊCH GỘP: TỔNG QUAN + CLICK XEM TASK NGÀY =====================
+// ===================== CALENDAR + TASKS OF DAY ======================
 let selectedDate = null;
 
 function renderUnifiedCalendar() {
   const data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
   const tasks = data.tasks.filter((t) => t.projectId === projectId);
-
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
-  const todayStr = now.toISOString().slice(0, 10);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   document.getElementById("calendarMonthLabel").textContent = `Tháng ${
     month + 1
   } ${year}`;
+  const todayStr = now.toISOString().slice(0, 10);
   let html = "";
 
   for (let i = 1; i <= daysInMonth; i++) {
@@ -324,25 +316,22 @@ function renderUnifiedCalendar() {
       i
     ).padStart(2, "0")}`;
     const tasksToday = tasks.filter((t) => t.deadline === dateStr);
-    let taskPreviewHTML = tasksToday
+    let previewHTML = tasksToday
       .map(
         (t) =>
           `<div class="calendar-task-preview" title="${t.title}">${t.title}</div>`
       )
       .join("");
-
-    html += `
-      <div class="calendar-day ${
-        dateStr === todayStr ? "today" : ""
-      }" data-date="${dateStr}">
-        <div class="day-number">${i}</div>
-        ${taskPreviewHTML}
-      </div>`;
+    html += `<div class="calendar-day ${
+      dateStr === todayStr ? "today" : ""
+    }" data-date="${dateStr}">
+      <div class="day-number">${i}</div>
+      ${previewHTML}
+    </div>`;
   }
 
-  const container = document.getElementById("unifiedCalendar");
-  container.innerHTML = html;
-
+  const grid = document.getElementById("unifiedCalendar");
+  grid.innerHTML = html;
   document.querySelectorAll(".calendar-day").forEach((el) => {
     el.addEventListener("click", function () {
       selectedDate = this.dataset.date;
@@ -378,30 +367,26 @@ function renderTasksOfDay(dateStr) {
   container.innerHTML = tasks.length
     ? tasks
         .map(
-          (t) => `
-      <li class="task-card ${t.status}">
-        <span>${t.title}</span>
-        <span>${t.assignee || "--"}</span>
-      </li>`
+          (t) =>
+            `<li class="task-card ${t.status}"><span>${t.title}</span><span>${t.assignee}</span></li>`
         )
         .join("")
-    : `<li>Không có công việc.</li>`;
+    : "<li>Không có công việc.</li>";
 }
 
-// ===================== ĐĂNG XUẤT ===========================
-document.getElementById("logoutBtn").onclick = function () {
+// ===================== LOGOUT ==============================
+document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("currentUserId");
   location.href = "../../../index.html";
-};
-// ===================== KHỞI TẠO TRANG TASK MANAGER =====================
-function renderAll() {
-  renderProjects(); // Hiển thị danh sách dự án
-  renderCurrentProject(); // Cập nhật tên dự án hiện tại
-  renderTasks(); // Hiển thị danh sách task
-  renderStats(); // Thống kê task theo trạng thái
-  renderChart(); // Vẽ biểu đồ thống kê
-  renderUnifiedCalendar(); // Gọi lịch đã gộp (lịch hiện đại + tổng quan + task theo ngày)
-}
+});
 
-// Gọi hàm khi trang load
+// ===================== INIT ================================
+function renderAll() {
+  renderProjects();
+  renderCurrentProject();
+  renderTasks();
+  renderStats();
+  renderChart();
+  renderUnifiedCalendar();
+}
 renderAll();

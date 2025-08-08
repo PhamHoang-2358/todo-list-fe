@@ -1,27 +1,48 @@
+/* =============== RESET & BASE =============== */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* =============== LAYOUT CHÍNH =============== */
 .dashboard-home {
+  display: grid;
+  grid-template-columns: 1fr; /* mặc định: chỉ nội dung */
+  gap: 32px;
   min-height: 100vh;
-  display: flex;
-  flex-direction: row;
 }
 
+/* Khi mở đăng nhập: 2 cột cân đối */
+.dashboard-home.login-open {
+  grid-template-columns: 400px minmax(0, 1fr);
+  align-items: start;
+}
+
+/* Nội dung phải */
 .main-home-content {
-  flex: 1;
-  padding: 32px 16px 18px 20px;
   min-width: 0;
+  padding: 32px 20px 18px;
 }
 
+/* =============== HEADER TEXT =============== */
 .greet-title {
   font-size: 28px;
-  font-weight: bold;
-  color: #01579b;
-  margin-bottom: 8px;
+  font-weight: 700;
+  color: #2563eb;
+  margin: 0 0 8px;
 }
 .desc {
   font-size: 17px;
-  color: #333;
-  margin-bottom: 20px;
+  color: #475569;
+  margin: 0 0 20px;
 }
 
+/* =============== WIDGET GRID (2x2) =============== */
 .widgets {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -30,245 +51,231 @@
 }
 .widget {
   background: #fff;
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 20px 22px;
   min-height: 240px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #3b82f6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .widget:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.09);
 }
 .widget h3 {
   font-size: 1.07rem;
-  margin-bottom: 10px;
-  color: #0288d1;
+  margin: 0 0 10px;
+  color: #2563eb;
 }
 .widget audio,
 .widget canvas {
   width: 100%;
   margin-top: 10px;
   border-radius: 7px;
-  background: #f1faff;
+  background: #e0edff;
 }
+
+/* Upload nhạc */
 #musicUpload {
   margin-bottom: 8px;
   font-size: 0.9rem;
-  padding: 4px;
-}
-#financeChart {
-  margin-top: 4px;
-  background: #e0f7fa;
+  padding: 6px;
+  background: #f0f9ff;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
   border-radius: 6px;
 }
 
+/* Biểu đồ – KHÓA CHIỀU CAO */
+#finance-chart {
+  position: relative;
+}
+#finance-chart canvas {
+  width: 100% !important;
+  height: 260px !important;
+  max-height: 260px !important;
+  background: #dbeafe;
+  border-radius: 6px;
+}
+
+/* =============== FOOTER =============== */
 .footer {
   text-align: center;
-  color: #444;
+  color: #64748b;
   font-size: 13px;
   margin-top: 15px;
 }
 
-/* ==== NÚT HIỆN FORM LOGIN ==== */
-.show-login-btn {
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  background: #0288d1;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  font-size: 16px;
-  border-radius: 6px;
+/* =============== NÚT HIỆN/ẨN LOGIN =============== */
+.show-login-btn,
+.hide-login-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #3b82f6;
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 15px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(2, 6, 23, 0.12);
+  transition: background 0.2s;
 }
-.show-login-btn:hover {
-  background: #0277bd;
+.show-login-btn:hover,
+.hide-login-btn:hover {
+  background: #2563eb;
 }
 
-/* ==== FORM ĐĂNG NHẬP ==== */
+/* =============== LOGIN FORM (white/blue) =============== */
 .sidebar-login {
-  background: #fff;
-  padding: 32px 24px;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(30, 34, 90, 0.08);
+  display: none; /* ẩn mặc định */
   width: 100%;
-  max-width: 320px;
-  margin: 40px;
-  display: none;
-  flex-direction: column;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 28px;
+  margin: 24px auto;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 16px; /* bám nhẹ khi cuộn */
 }
 .sidebar-login h2 {
-  font-size: 1.9rem;
+  margin: 0 0 22px;
+  font-size: 28px;
   font-weight: 700;
-  margin-bottom: 22px;
-  color: #0288d1;
+  color: #2563eb;
+  text-align: center;
 }
-.sidebar-login form {
-  display: flex;
-  flex-direction: column;
+
+/* Nhóm input có icon trái */
+.sidebar-login .input-group {
+  position: relative;
+  margin: 14px 0;
 }
-.sidebar-login input {
-  padding: 12px 15px;
-  margin-bottom: 16px;
-  border: 1.2px solid #c0e4f2;
-  border-radius: 8px;
-  font-size: 16px;
-  background: #f1fbff;
+.sidebar-login .input-group i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 15px;
+}
+.sidebar-login input[type="text"],
+.sidebar-login input[type="password"] {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1.5px solid #e5e7eb;
+  color: #0f172a;
+  padding: 0 12px 0 40px;
+  font-size: 15px;
+  transition: 0.2s;
 }
 .sidebar-login input:focus {
-  border-color: #38bdf8;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
   outline: none;
-  box-shadow: 0 2px 10px #38bdf833;
+  background: #fff;
 }
+.sidebar-login input::placeholder {
+  color: #94a3b8;
+}
+
 .sidebar-login .error {
-  color: #e11d48;
+  display: none;
+  color: #ef4444;
   font-size: 13px;
-  margin-bottom: 5px;
+  margin: 6px 2px 0;
 }
 .sidebar-login .options {
   font-size: 14px;
-  color: #555;
-  margin-bottom: 16px;
+  color: #64748b;
+  margin: 10px 0 18px;
 }
+.sidebar-login .options input[type="checkbox"] {
+  accent-color: #2563eb;
+}
+
+/* Nút login */
 .sidebar-login .btn-login {
-  padding: 13px 0;
-  font-size: 1.07rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  background: #0288d1;
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
   color: #fff;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
 }
 .sidebar-login .btn-login:hover {
-  background: #01579b;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.32);
 }
+.sidebar-login .btn-login:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Link đăng ký */
 .sidebar-login .register-link {
-  margin-top: 12px;
-  font-size: 14px;
-  color: #333;
+  margin-top: 14px;
   text-align: center;
+  font-size: 14.5px;
+  color: #334155;
 }
 .sidebar-login .register-link a {
-  color: #0288d1;
+  color: #2563eb;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 .sidebar-login .register-link a:hover {
   text-decoration: underline;
 }
 
-/* Responsive */
+/* =============== RESPONSIVE =============== */
+@media (max-width: 1024px) {
+  .dashboard-home.login-open {
+    grid-template-columns: 1fr;
+  } /* xếp dọc khi mở login */
+  .sidebar-login {
+    order: -1;
+    margin: 12px auto 0;
+  }
+}
 @media (max-width: 900px) {
   .widgets {
     grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 768px) {
-  .dashboard-home {
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  .sidebar-login {
-    margin: 0 0 28px;
-  }
-  .main-home-content {
-    padding: 0 10px;
-  }
+  } /* widget về 1 cột */
 }
 @media (max-width: 600px) {
-  .dashboard-home {
-    flex-direction: column;
-    align-items: center;
-    padding: 16px;
-  }
-
-  .sidebar-login {
-    width: 100%;
-    max-width: 90%;
-    margin: 0 auto 24px;
-  }
-
   .main-home-content {
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  .widgets {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    width: 100%;
-  }
-
-  .widget {
-    width: 100%;
     padding: 16px;
-    min-height: auto;
   }
-
   .greet-title {
     font-size: 22px;
     text-align: center;
   }
-
   .desc {
     font-size: 15px;
     text-align: center;
   }
-
-  #financeChart {
-    height: auto;
-  }
-
-  audio,
-  canvas {
-    max-width: 100%;
-  }
 }
-@media (max-width: 768px) {
-  .dashboard,
-  .container {
-    flex-direction: column;
-    padding: 16px;
-    gap: 20px;
-  }
+.sidebar-login {
+  padding: 32px 28px; /* trên/dưới 32px, trái/phải 28px */
+}
 
-  .sidebar {
-    width: 100%;
-    margin-right: 0;
-    border-radius: 16px;
-  }
-
-  .main-content,
-  .task-form,
-  .calendar-box,
-  .filter-box,
-  .stats-charts,
-  .widget {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .stats-charts {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .calendar-table td {
-    padding: 6px;
-  }
-
-  .widget-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+.sidebar-login .input-group {
+  margin-bottom: 16px;
+  width: 100%;
+}
+/* Dịch form đăng nhập sang phải */
+.dashboard-home.login-open .sidebar-login {
+  margin-left: 24px; /* tăng/giảm tuỳ ý, ví dụ 24px */
 }

@@ -5,38 +5,69 @@
     <title>Task App | Trang chủ</title>
     <link rel="icon" href="data:," />
 
+    <!-- Font Awesome (icons) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <!-- CSS giao diện -->
     <link rel="stylesheet" href="styles/dashboard-home.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
+    <!-- Nút hiển thị/ẩn đăng nhập -->
     <button id="showLoginBtn" class="show-login-btn">
       <i class="fas fa-sign-in-alt"></i> Đăng nhập
     </button>
     <button id="hideLoginBtn" class="hide-login-btn" style="display: none">
-      <i class="fas fa-arrow-left"></i> Quay về
+      <i class="fas fa-arrow-circle-left"></i> Quay về
     </button>
+
     <div class="dashboard-home">
-      <!-- Form đăng nhập -->
+      <!-- Form đăng nhập - giao diện neumorphism tối -->
       <div class="sidebar-login" style="display: none">
         <h2>Đăng nhập</h2>
         <form id="formLogin" novalidate>
-          <input type="text" id="inputLoginId" placeholder="Email hoặc ID" />
-          <div class="error" id="errorLoginId"></div>
-          <input
-            type="password"
-            id="inputLoginPassword"
-            placeholder="Password"
-          />
-          <div class="error" id="errorLoginPassword"></div>
-          <div class="options">
-            <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+          <!-- Input ID/email -->
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              id="inputLoginId"
+              placeholder="Email hoặc ID"
+              autocomplete="username"
+            />
           </div>
+          <div class="error" id="errorLoginId">
+            Vui lòng nhập ID hoặc Email!
+          </div>
+
+          <!-- Input Password -->
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              id="inputLoginPassword"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+          </div>
+          <div class="error" id="errorLoginPassword">
+            Vui lòng nhập mật khẩu!
+          </div>
+
+          <!-- Checkbox Remember -->
+          <div class="options">
+            <label>
+              <input type="checkbox" id="rememberMe" /> Remember Me
+            </label>
+          </div>
+
+          <!-- Nút đăng nhập -->
           <button type="submit" class="btn-login">Đăng nhập</button>
+
+          <!-- Link đăng ký -->
           <p class="register-link">
             Chưa có tài khoản?
             <a href="features/src/user/register.html">Đăng ký</a>
@@ -44,7 +75,7 @@
         </form>
       </div>
 
-      <!-- Nội dung chính -->
+      <!-- Nội dung chính của trang -->
       <main class="main-home-content">
         <div class="greet-title">👋 Chào mừng đến với Task App!</div>
         <div class="desc">
@@ -52,7 +83,7 @@
           hiện đại.
         </div>
 
-        <!-- Widgets -->
+        <!-- Các widget -->
         <div class="widgets">
           <div class="widget" id="weather">
             <h3>Thời tiết hôm nay</h3>
@@ -83,6 +114,7 @@
       </main>
     </div>
 
+    <!-- Script xử lý JS -->
     <script src="scripts/dashboard-home.js"></script>
   </body>
 </html>
