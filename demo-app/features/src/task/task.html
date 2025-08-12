@@ -108,23 +108,28 @@
               <ul id="taskOfDayList" class="task-of-day-list"></ul>
             </section>
 
-            <!-- Biểu đồ -->
-            <section class="chart-box card-box">
-              <div class="chart-stats-text">
-                <p style="color: #fb8c00">
-                  Chưa bắt đầu: <span id="countNotStarted">0</span>
-                </p>
-                <p style="color: #42a5f5">
-                  Đang thực hiện: <span id="countInProgress">0</span>
-                </p>
-                <p style="color: #26c6da">
-                  Hoàn thành: <span id="countDone">0</span>
-                </p>
-                <p style="color: #000">Tổng: <span id="countTotal">0</span></p>
-              </div>
-              <canvas id="taskChart" width="200" height="200"></canvas>
-            </section>
-          </div>
+            <!-- STATUS INSIGHT RING -->
+<section class="card-box status-insight" id="statusInsight">
+  <div class="si-chips">
+    <span class="chip chip-new">Chưa bắt đầu: <b id="cNew">0</b></span>
+    <span class="chip chip-doing">Đang thực hiện: <b id="cDoing">0</b></span>
+    <span class="chip chip-done">Hoàn thành: <b id="cDone">0</b></span>
+  </div>
+
+  <div class="si-ring">
+    <div class="si-center">
+      <div class="si-total" id="cTotal">0</div>
+      <div class="si-label">Tổng</div>
+    </div>
+  </div>
+
+  <div class="si-bars">
+    <div class="bar bar-new"><span></span></div>
+    <div class="bar bar-doing"><span></span></div>
+    <div class="bar bar-done"><span></span></div>
+  </div>
+</section>
+
 
           <!-- Hàng 2: Bộ lọc + Danh sách -->
           <div class="bottom-row">

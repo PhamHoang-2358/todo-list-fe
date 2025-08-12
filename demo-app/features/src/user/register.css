@@ -23,7 +23,7 @@ body {
 
 .register-container h2 {
   text-align: center;
-  color: #14b8a6;
+  color: #2414b8;
   font-size: 1.8rem;
   margin-bottom: 10px;
 }
@@ -44,7 +44,7 @@ body {
 }
 
 .register-container input:focus {
-  border-color: #14b8a6;
+  border-color: #4514b8;
   outline: none;
   box-shadow: 0 0 0 3px #5eead444;
 }
@@ -52,7 +52,7 @@ body {
 .btn-register {
   margin-top: 8px;
   padding: 12px;
-  background-color: #14b8a6;
+  background-color: #4514b8;
   color: white;
   font-size: 1rem;
   font-weight: bold;
@@ -63,7 +63,7 @@ body {
 }
 
 .btn-register:hover {
-  background-color: #0d9488;
+  background-color: #310d94;
 }
 
 .link {
@@ -73,7 +73,7 @@ body {
 }
 
 .link a {
-  color: #0f766e;
+  color: #110f76;
   text-decoration: none;
   font-weight: 500;
 }

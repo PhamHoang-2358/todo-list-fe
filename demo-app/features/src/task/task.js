@@ -10,7 +10,6 @@ function getUserData() {
     }
   );
 }
-
 function setUserData(data) {
   localStorage.setItem("user_data_" + USER_ID, JSON.stringify(data));
 }
@@ -29,12 +28,10 @@ function renderProjects() {
     ul.appendChild(li);
   });
 }
-
 window.selectProject = function (id) {
   localStorage.setItem("currentProjectId", id);
   renderAll();
 };
-
 window.deleteProject = function (id) {
   if (!confirm("Xóa dự án này và tất cả task?")) return;
   let data = getUserData();
@@ -46,7 +43,6 @@ window.deleteProject = function (id) {
   else localStorage.removeItem("currentProjectId");
   renderAll();
 };
-
 document
   .getElementById("formAddProject")
   .addEventListener("submit", function (e) {
@@ -110,9 +106,7 @@ document.getElementById("formTask").addEventListener("submit", function (e) {
 
   if (imgFile) {
     const reader = new FileReader();
-    reader.onload = function (e) {
-      saveTask(e.target.result);
-    };
+    reader.onload = (e2) => saveTask(e2.target.result);
     reader.readAsDataURL(imgFile);
   } else {
     saveTask(null);
@@ -131,7 +125,6 @@ window.editTask = function (taskId) {
   document.getElementById("inputTaskAssignee").value = task.assignee;
   window.deleteTask(taskId);
 };
-
 window.deleteTask = function (taskId) {
   if (!confirm("Xóa công việc này?")) return;
   const data = getUserData();
@@ -139,7 +132,6 @@ window.deleteTask = function (taskId) {
   setUserData(data);
   renderAll();
 };
-
 window.toggleTaskStatus = function (taskId) {
   const data = getUserData();
   const task = data.tasks.find((t) => t.id === taskId);
@@ -170,7 +162,7 @@ function renderTasks() {
   if (search)
     tasks = tasks.filter((t) =>
       [t.title, t.content, t.assignee].some((field) =>
-        field.toLowerCase().includes(search)
+        (field || "").toLowerCase().includes(search)
       )
     );
 
@@ -220,7 +212,6 @@ function renderTasks() {
       </li>`;
   });
 }
-
 function statusName(val) {
   return val === "notstarted"
     ? "Chưa bắt đầu"
@@ -228,20 +219,16 @@ function statusName(val) {
     ? "Đang thực hiện"
     : "Hoàn thành";
 }
-
 function priorityName(val) {
   return val === "high" ? "Cao" : val === "medium" ? "Trung bình" : "Thấp";
 }
-
 window.toggleImage = function (id) {
   const el = document.getElementById("img-" + id);
   if (el) el.style.display = el.style.display === "none" ? "block" : "none";
 };
-
 ["filterStatus", "filterPriority", "filterDeadline", "inputSearchTask"].forEach(
   (id) => document.getElementById(id).addEventListener("input", renderTasks)
 );
-
 document.getElementById("clearFilterBtn").onclick = function () {
   document.getElementById("filterStatus").value = "all";
   document.getElementById("filterPriority").value = "all";
@@ -250,7 +237,33 @@ document.getElementById("clearFilterBtn").onclick = function () {
   renderTasks();
 };
 
-// ===================== STATS & CHART =======================
+// ===================== STATUS INSIGHT RING =================
+function updateStatusInsight({ notStarted, inProgress, done }) {
+  const total = notStarted + inProgress + done || 1;
+  const wrap = document.getElementById("statusInsight");
+  if (!wrap) return;
+
+  // góc cho conic-gradient
+  const a1 = (notStarted / total) * 360;
+  const a2 = (inProgress / total) * 360;
+  wrap.style.setProperty("--a1", a1 + "deg");
+  wrap.style.setProperty("--a2", a2 + "deg");
+
+  // số liệu
+  const $ = (id) => document.getElementById(id);
+  $("cNew").textContent = notStarted;
+  $("cDoing").textContent = inProgress;
+  $("cDone").textContent = done;
+  $("cTotal").textContent = total;
+
+  // thanh progress
+  const pct = (v) => (v / total) * 100 + "%";
+  wrap.querySelector(".bar-new span").style.width = pct(notStarted);
+  wrap.querySelector(".bar-doing span").style.width = pct(inProgress);
+  wrap.querySelector(".bar-done span").style.width = pct(done);
+}
+
+// ===================== STATS (gọi Insight Ring) ============
 function renderStats() {
   const data = getUserData();
   const projectId = localStorage.getItem("currentProjectId");
@@ -259,41 +272,15 @@ function renderStats() {
   const countNotStarted = tasks.filter((t) => t.status === "notstarted").length;
   const countInProgress = tasks.filter((t) => t.status === "inprogress").length;
   const countDone = tasks.filter((t) => t.status === "done").length;
-  const total = tasks.length;
 
-  document.getElementById("countNotStarted").textContent = countNotStarted;
-  document.getElementById("countInProgress").textContent = countInProgress;
-  document.getElementById("countDone").textContent = countDone;
-  document.getElementById("countTotal").textContent = total;
-}
-
-let chart;
-function renderChart() {
-  const data = getUserData();
-  const projectId = localStorage.getItem("currentProjectId");
-  const tasks = data.tasks.filter((t) => t.projectId === projectId);
-  const counts = [
-    tasks.filter((t) => t.status === "notstarted").length,
-    tasks.filter((t) => t.status === "inprogress").length,
-    tasks.filter((t) => t.status === "done").length,
-  ];
-
-  const ctx = document.getElementById("taskChart").getContext("2d");
-  if (chart) chart.destroy();
-
-  chart = new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: ["Chưa bắt đầu", "Đang thực hiện", "Hoàn thành"],
-      datasets: [
-        { data: counts, backgroundColor: ["#fdba74", "#60a5fa", "#22d3ee"] },
-      ],
-    },
-    options: { responsive: false, plugins: { legend: { display: false } } },
+  updateStatusInsight({
+    notStarted: countNotStarted,
+    inProgress: countInProgress,
+    done: countDone,
   });
 }
 
-// ===================== CALENDAR + TASKS OF DAY ======================
+// ===================== CALENDAR + TASKS OF DAY =============
 let selectedDate = null;
 
 function renderUnifiedCalendar() {
@@ -368,7 +355,9 @@ function renderTasksOfDay(dateStr) {
     ? tasks
         .map(
           (t) =>
-            `<li class="task-card ${t.status}"><span>${t.title}</span><span>${t.assignee}</span></li>`
+            `<li class="task-card ${t.status}"><span>${t.title}</span><span>${
+              t.assignee || ""
+            }</span></li>`
         )
         .join("")
     : "<li>Không có công việc.</li>";
@@ -385,8 +374,7 @@ function renderAll() {
   renderProjects();
   renderCurrentProject();
   renderTasks();
-  renderStats();
-  renderChart();
+  renderStats(); // cập nhật Insight Ring
   renderUnifiedCalendar();
 }
 renderAll();

@@ -279,3 +279,175 @@ body {
 .dashboard-home.login-open .sidebar-login {
   margin-left: 24px; /* tăng/giảm tuỳ ý, ví dụ 24px */
 }
+
+/* WEATHER */
+#weather #weather-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.wx-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.wx-top i {
+  font-size: 34px;
+  color: #2563eb;
+}
+.wx-temp {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+.wx-desc {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 2px;
+}
+.wx-feel {
+  margin-left: auto;
+  font-size: 13px;
+  color: #334155;
+  background: #e8f0ff;
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+.wx-mini {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.wx-mini span {
+  font-size: 13.5px;
+  color: #334155;
+}
+.wx-mini b {
+  color: #0f172a;
+}
+
+/* QUOTE */
+#quote .q-text,
+#quote-text .q-text {
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: #0f172a;
+}
+#quote .q-author,
+#quote-text .q-author {
+  margin-top: 6px;
+  color: #475569;
+  font-size: 14px;
+}
+.q-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+.q-btn {
+  border: 0;
+  background: #2563eb;
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.q-btn.ghost {
+  background: #eef2ff;
+  color: #1e40af;
+}
+
+/* MUSIC */
+.music-info {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.music-meta {
+  font-size: 13.5px;
+  color: #334155;
+}
+.music-progress {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.music-progress #mBar {
+  height: 100%;
+  width: 0;
+  background: #3b82f6;
+  transition: width 0.2s linear;
+}
+.music-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: #64748b;
+}
+.music-history b {
+  font-size: 13.5px;
+  color: #334155;
+}
+.music-history ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #475569;
+}
+/* Card Quote nền trắng */
+.quote-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 18px 20px;
+  min-height: 150px;
+  background: #ffffff; /* nền trắng */
+  color: #0f172a; /* chữ đen đậm */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.quote-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  color: #2563eb; /* xanh điểm nhấn */
+}
+
+#quote .q-text {
+  margin-top: 10px;
+  font-style: italic;
+  color: #475569 !important; /* xám đậm dễ đọc */
+  line-height: 1.5;
+}
+#quote {
+  display: flex;
+  flex-direction: column;
+}
+
+#quote-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* căn giữa theo chiều dọc */
+  align-items: center; /* căn giữa ngang */
+  text-align: center;
+  padding: 20px 10px;
+}
+
+#quote .q-text {
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 500;
+  color: #2563eb; /* màu xanh nổi bật */
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+#quote .q-author {
+  font-size: 14px;
+  color: #64748b; /* xám nhạt */
+}
