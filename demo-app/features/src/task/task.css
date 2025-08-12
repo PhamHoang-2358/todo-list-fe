@@ -847,7 +847,7 @@ body {
   background: var(--col-doing);
 } /* theo ảnh: vàng trên cùng */
 #statusInsight .bar-doing span {
-  background: #e5e7eb;
+  background: #6f93db;
 } /* thanh giữa nhạt */
 #statusInsight .bar-done span {
   background: var(--col-new);
