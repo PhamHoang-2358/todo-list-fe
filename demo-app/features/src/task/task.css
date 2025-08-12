@@ -734,3 +734,132 @@ body {
     min-height: 44px;
   }
 }
+/* ==== INSIGHT RING ==== */
+#statusInsight {
+  --col-new: #10b981; /* Chưa bắt đầu  (teal) */
+  --col-doing: #f59e0b; /* Đang thực hiện (amber) */
+  --col-done: #3b82f6; /* Hoàn thành     (blue) */
+  --a1: 0deg; /* sẽ được JS set */
+  --a2: 0deg;
+
+  background: #d9fbfb; /* nền mint nhạt */
+  border-radius: 24px;
+  padding: 20px 22px 24px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+}
+
+#statusInsight .pill-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+#statusInsight .pill {
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+  font-size: 14px;
+}
+.pill-new {
+  color: var(--col-new);
+}
+.pill-doing {
+  color: var(--col-doing);
+}
+.pill-done {
+  color: var(--col-done);
+}
+
+#statusInsight .ring-wrap {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #ffffff 62%, transparent 63%),
+    conic-gradient(
+      var(--col-new) 0 var(--a1),
+      var(--col-doing) 0 calc(var(--a1) + var(--a2)),
+      var(--col-done) 0 360deg
+    );
+  box-shadow: inset 0 -10px 18px rgba(0, 0, 0, 0.05),
+    inset 0 10px 22px rgba(255, 255, 255, 0.7);
+}
+#statusInsight .ring {
+  /* layer để đảm bảo safari/edge vẽ đúng – không cần nội dung */
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+#statusInsight .ring-center {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px #e8eef5 inset, 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+#statusInsight .ring-center .total {
+  font-size: 34px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+#statusInsight .ring-center .sub {
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+#statusInsight .bars {
+  margin: 14px auto 0;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#statusInsight .bar {
+  height: 8px;
+  border-radius: 999px;
+  background: #eceff4;
+  position: relative;
+  overflow: hidden;
+}
+#statusInsight .bar span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  display: block;
+  border-radius: 999px;
+}
+#statusInsight .bar-new span {
+  background: var(--col-doing);
+} /* theo ảnh: vàng trên cùng */
+#statusInsight .bar-doing span {
+  background: #e5e7eb;
+} /* thanh giữa nhạt */
+#statusInsight .bar-done span {
+  background: var(--col-new);
+} /* thanh dưới teal */
+
+@media (max-width: 600px) {
+  #statusInsight .ring-wrap {
+    width: 200px;
+    height: 200px;
+  }
+  #statusInsight .ring-center {
+    width: 108px;
+    height: 108px;
+  }
+}
