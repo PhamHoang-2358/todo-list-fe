@@ -1,31 +1,60 @@
-/* === RESET BODY === */
+/* ========== BASE THEME ========== */
+:root {
+  --bg: #f0f9ff;
+  --card: #c5f8f8;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --c-new: #f59e0b; /* Chưa bắt đầu */
+  --c-doing: #60a5fa; /* Đang thực hiện */
+  --c-done: #10b981; /* Hoàn thành */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ========== WRAPPER ========== */
 body {
   font-family: "Segoe UI", sans-serif;
-  background-color: #f0f9ff;
-  padding: 40px;
+  background: var(--bg);
   margin: 0;
+  padding: 40px;
   display: flex;
   justify-content: center;
 }
 
-/* === VÙNG NGOÀI BỌC TẤT CẢ === */
 .dashboard-wrapper {
-  background: #ffffff;
+  background: #fff;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
   padding: 40px;
-  max-width: 1320px;
   width: 100%;
+  max-width: 1320px;
 }
 
-/* === DASHBOARD CHÍNH: SIDEBAR + MAIN === */
+/* ========== LAYOUT ========== */
 .task-dashboard {
   display: flex;
   gap: 32px;
   width: 100%;
 }
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.top-row,
+.bottom-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
 
-/* === SIDEBAR TRÁI === */
+/* ========== SIDEBAR ========== */
 .sidebar {
   width: 260px;
   background: #ccfbf1;
@@ -35,25 +64,46 @@ body {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  overflow-x: hidden;
 }
-
 .sidebar h3 {
   font-size: 20px;
   font-weight: 700;
   color: #0277bd;
-  margin-bottom: 12px;
-}
-
-/* PROJECT LIST */
-#projectList {
-  list-style: none;
-  padding: 0;
   margin: 0 0 12px;
 }
+
+/* Current project */
+.current-project-label {
+  background: #e0f7fa;
+  padding: 10px 14px;
+  margin: 10px 0 15px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: #00796b;
+  font-size: 15px;
+  border-left: 4px solid #00acc1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.current-project-label span {
+  color: #ff5722;
+}
+
+/* ========== PROJECTS ========== */
+#projectList {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0 14px 0 0;
+  max-height: 140px;
+  overflow-y: auto;
+  scrollbar-gutter: stable both-edges;
+}
 #projectList li {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 4px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
   font-size: 15px;
   border-bottom: 1px solid #b2ebf2;
 }
@@ -61,12 +111,40 @@ body {
   color: #0288d1;
   font-weight: 500;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .pj-name:hover {
   color: #01579b;
 }
+#projectList li button {
+  width: 32px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+/* scrollbars */
+#projectList::-webkit-scrollbar {
+  width: 6px;
+}
+#projectList::-webkit-scrollbar-thumb {
+  background: #95c5ff;
+  border-radius: 6px;
+}
+#projectList {
+  scrollbar-width: thin;
+  scrollbar-color: #95c5ff transparent;
+}
+@supports selector(::-webkit-scrollbar) {
+  #projectList {
+    padding-right: 18px;
+  }
+}
 
-/* THÊM PROJECT */
+/* Add project form */
 #formAddProject {
   display: flex;
   gap: 6px;
@@ -76,12 +154,12 @@ body {
   padding: 8px;
   border: 1px solid #b2ebf2;
   border-radius: 8px;
-  background: #ffffff;
+  background: #fff;
 }
 #formAddProject button {
   background: #0288d1;
   border: none;
-  color: white;
+  color: #fff;
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
@@ -90,9 +168,10 @@ body {
   background: #01579b;
 }
 
+/* Logout */
 #logoutBtn {
   background: #ef5350;
-  color: white;
+  color: #fff;
   padding: 10px 0;
   border: none;
   border-radius: 8px;
@@ -101,12 +180,12 @@ body {
   width: 100%;
 }
 
-/* FORM THÊM TASK */
+/* ========== ADD TASK FORM ========== */
 .task-form h3 {
   font-size: 18px;
   font-weight: 600;
   color: #00695c;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 #formTask {
   display: flex;
@@ -122,7 +201,7 @@ body {
 }
 #formTask button {
   background: #00897b;
-  color: white;
+  color: #fff;
   padding: 10px;
   border: none;
   border-radius: 8px;
@@ -132,46 +211,40 @@ body {
   background: #00695c;
 }
 
-/* === MAIN NỘI DUNG PHẢI === */
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-/* === HÀNG TRÊN: LỊCH + BIỂU ĐỒ === */
-.top-row {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-/* CARD DÙNG CHUNG */
-.card-box {
-  background: #ffffff;
+/* ========== CARDS COMMON ========== */
+.card-box,
+.filter-box,
+.task-list-box,
+.calendar-box {
+  background: var(--card);
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow);
   flex: 1;
 }
+.card-box h3 {
+  white-space: nowrap;
+  line-height: 1.4;
+  font-size: 18px;
+  margin: 0;
+}
 
-/* LỊCH */
-.calendar-box h3,
+/* ========== CALENDAR ========== */
+.calendar-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 #calendarMonthLabel {
   font-size: 18px;
   font-weight: 600;
   color: #00695c;
 }
-.calendar-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
 #btnToday {
   background: #00897b;
-  color: white;
+  color: #fff;
   border: none;
   padding: 6px 12px;
   border-radius: 8px;
@@ -197,7 +270,7 @@ body {
 }
 .calendar-day.today {
   background: #ffb74d;
-  color: white;
+  color: #fff;
 }
 .calendar-day.selected {
   border: 2px solid #26a69a;
@@ -209,37 +282,16 @@ body {
   color: #00897b;
 }
 
-/* BIỂU ĐỒ */
-.chart-stats-text {
-  font-size: 14px;
-  font-weight: 500;
-}
-.chart-box canvas {
-  margin-top: 16px;
-  max-width: 220px;
-}
-
-/* === HÀNG DƯỚI: FILTER + TASK === */
-.bottom-row {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-/* FILTER */
+/* ========== FILTER ========== */
 .filter-box {
   flex: 0 0 280px;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 .filter-box h3 {
   font-size: 18px;
   font-weight: 600;
   color: #0f766e;
   text-align: center;
-  margin-bottom: 16px;
+  margin: 0 0 16px;
 }
 .filter-box input,
 .filter-box select {
@@ -263,20 +315,17 @@ body {
   background: #80cbc4;
 }
 
-/* DANH SÁCH TASK */
+/* ========== TASK LIST ========== */
 .task-list-box {
   flex: 1;
-  background: #ffffff;
   padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   max-height: 400px;
   overflow-y: auto;
 }
 #taskList {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 #taskList li {
   background: #fefefe;
@@ -338,115 +387,7 @@ body {
   background: #ffc107;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .task-dashboard {
-    flex-direction: column;
-  }
-  .top-row,
-  .bottom-row {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-  }
-}
-.card-box {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  flex: 1;
-}
-.top-row {
-  display: flex;
-  gap: 24px;
-  align-items: stretch;
-}
-.calendar-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.card-box h3 {
-  white-space: nowrap;
-  line-height: 1.4;
-  font-size: 18px;
-}
-
-.top-row {
-  display: flex;
-  gap: 24px;
-}
-
-.filter-box input,
-.filter-box select {
-  padding: 12px 14px;
-  font-size: 15px;
-}
-.current-project-label {
-  background: #e0f7fa; /* nền xanh nhạt */
-  padding: 10px 14px;
-  margin: 10px 0 15px;
-  border-radius: 8px;
-  font-weight: bold;
-  color: #00796b; /* chữ xanh đậm */
-  font-size: 15px;
-  border-left: 4px solid #00acc1; /* thanh nhấn màu bên trái */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.current-project-label span {
-  color: #ff5722; /* tên project màu cam nổi bật */
-}
-/* Giới hạn chiều cao và tạo thanh cuộn cho list Projects */
-#projectList {
-  max-height: 140px; /* chỉnh theo ý */
-  overflow-y: auto;
-  padding-right: 6px; /* chừa chỗ cho thanh cuộn */
-  margin: 0 0 10px 0;
-  scrollbar-gutter: stable; /* tránh layout bị nhảy khi hiện scrollbar */
-}
-
-/* Thanh cuộn đẹp hơn */
-#projectList::-webkit-scrollbar {
-  width: 6px;
-}
-#projectList::-webkit-scrollbar-track {
-  background: transparent;
-}
-#projectList::-webkit-scrollbar-thumb {
-  background: #cfe8ff;
-  border-radius: 6px;
-}
-#projectList::-webkit-scrollbar-thumb:hover {
-  background: #95c5ff;
-}
-
-/* Firefox */
-#projectList {
-  scrollbar-width: thin;
-  scrollbar-color: #95c5ff transparent;
-}
-.chart-stats-text {
-  text-align: center;
-  margin-bottom: 10px; /* Khoảng cách với biểu đồ */
-}
-.chart-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Căn ngang */
-  justify-content: center; /* Căn dọc nếu cần */
-  text-align: center;
-}
-
-.chart-box canvas {
-  display: block;
-  margin: 0 auto; /* Đảm bảo biểu đồ nằm giữa */
-}
-/* ===== Task trong ngày ===== */
+/* ========== TASKS OF DAY ========== */
 .task-of-day-list {
   list-style: none;
   padding: 0;
@@ -455,7 +396,6 @@ body {
   flex-direction: column;
   gap: 10px;
 }
-
 .task-card {
   background: #fff;
   border: 1px solid #e6eef5;
@@ -467,14 +407,12 @@ body {
   gap: 12px;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   position: relative;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 .task-card:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
-
-/* vạch màu trạng thái bên trái */
 .task-card::before {
   content: "";
   position: absolute;
@@ -486,16 +424,14 @@ body {
   background: #e2e8f0;
 }
 .task-card.notstarted::before {
-  background: #f59e0b;
-} /* cam */
+  background: var(--c-new);
+}
 .task-card.inprogress::before {
   background: #38bdf8;
-} /* xanh dương nhạt */
+}
 .task-card.done::before {
-  background: #10b981;
-} /* xanh lá */
-
-/* bên trái: tiêu đề + phụ */
+  background: var(--c-done);
+}
 .task-title {
   display: flex;
   flex-direction: column;
@@ -504,17 +440,15 @@ body {
 }
 .task-title .name {
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .task-title .meta {
   font-size: 13px;
-  color: #64748b;
+  color: var(--muted);
 }
-
-/* bên phải: badge trạng thái */
 .task-badge {
   font-size: 12px;
   font-weight: 600;
@@ -534,59 +468,24 @@ body {
   background: #ecfdf5;
   color: #047857;
 }
-
-/* trạng thái rỗng */
 .task-empty {
   padding: 14px;
   border: 1px dashed #cbd5e1;
   border-radius: 10px;
-  color: #64748b;
+  color: var(--muted);
   text-align: center;
   background: #f8fafc;
-} /* Màu chữ của tên công việc trong danh sách công việc trong ngày */
-.task-of-day-list li {
-  color: #1e3a8a; /* xanh navy */
-  font-weight: 600;
 }
 
-/* Nếu muốn đổi màu riêng cho phần tên và phần phụ trách */
-.task-of-day-list li .task-name {
-  color: #0f172a; /* màu đậm hơn */
-}
-
-.task-of-day-list li .task-assignee {
-  color: #64748b; /* màu xám */
-}
-/* Đồng bộ chiều rộng các cột trong bộ lọc */
-.filter-box input,
-.filter-box select,
-.filter-box button {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Nền chung cho các khối */
-.card-box,
-.filter-box,
-.task-list-box,
-.calendar-box {
-  background: #c5f8f8; /* xanh mint rất nhạt */
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-}
-/* === STATUS INSIGHT RING === */
+/* ========== STATUS INSIGHT RING ========== */
 .status-insight {
-  --c-new: #f59e0b;
-  --c-doing: #60a5fa;
-  --c-done: #10b981;
   --a1: 120deg;
-  --a2: 120deg; /* JS sẽ cập nhật */
-  background: #ecfeff;
+  --a2: 120deg;
+  background: var(--card);
   border-radius: 18px;
   padding: 16px 16px 18px;
+  box-shadow: var(--shadow);
 }
-
 .si-chips {
   display: flex;
   gap: 10px;
@@ -615,97 +514,6 @@ body {
   width: 240px;
   height: 240px;
   margin: 6px auto 10px;
-  background: conic-gradient(
-    var(--c-new) 0 var(--a1),
-    var(--c-doing) var(--a1) calc(var(--a1) + var(--a2)),
-    var(--c-done) calc(var(--a1) + var(--a2)) 360deg
-  );
-  border-radius: 50%;
-  position: relative;
-  box-shadow: 0 8px 24px #00000010 inset, 0 1px 0 #ffffffa6;
-}
-.si-ring::after {
-  content: "";
-  position: absolute;
-  inset: 12%;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: inset 0 2px 6px #00000010;
-}
-.si-center {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.si-total {
-  font-size: 38px;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: 0.5px;
-}
-.si-label {
-  font-size: 12px;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.si-bars {
-  display: grid;
-  gap: 8px;
-  margin: 6px auto 0;
-  max-width: 280px;
-}
-.bar {
-  height: 6px;
-  background: #e5e7eb;
-  border-radius: 999px;
-  overflow: hidden;
-}
-.bar span {
-  display: block;
-  height: 100%;
-  width: 0;
-}
-.bar-new span {
-  background: var(--c-new);
-}
-.bar-doing span {
-  background: var(--c-doing);
-}
-.bar-done span {
-  background: var(--c-done);
-}
-
-@media (max-width: 480px) {
-  .si-ring {
-    width: 200px;
-    height: 200px;
-  }
-  .si-total {
-    font-size: 32px;
-  }
-}
-/* === STATUS INSIGHT RING (fix center + nền đồng bộ) === */
-.status-insight {
-  --c-new: #f59e0b;
-  --c-doing: #60a5fa;
-  --c-done: #10b981;
-  --a1: 120deg;
-  --a2: 120deg; /* JS cập nhật */
-  background: #c5f8f8; /* cùng nền với card-box */
-  border-radius: 18px;
-  padding: 16px 16px 18px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-}
-
-.si-ring {
-  width: 240px;
-  height: 240px;
-  margin: 6px auto 10px;
   position: relative;
   border-radius: 50%;
   background: conic-gradient(
@@ -715,19 +523,15 @@ body {
   );
   box-shadow: 0 8px 24px #00000010 inset, 0 1px 0 #ffffffa6;
 }
-
-/* lỗ giữa — nằm dưới chữ */
 .si-ring::after {
   content: "";
   position: absolute;
-  inset: 12%;
+  inset: 22%;
   background: #fff;
   border-radius: 50%;
   box-shadow: inset 0 2px 6px #00000010;
   z-index: 0;
 }
-
-/* CHỮ Ở GIỮA – luôn nổi trên */
 .si-center {
   position: absolute;
   top: 50%;
@@ -740,12 +544,12 @@ body {
 .si-total {
   font-size: 38px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text);
   line-height: 1;
 }
 .si-label {
   font-size: 12px;
-  color: #64748b;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -777,7 +581,95 @@ body {
   background: var(--c-done);
 }
 
-@media (max-width: 480px) {
+/* ========== RESPONSIVE ========== */
+/* Tablet */
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    padding: 24px;
+  }
+  .task-dashboard {
+    gap: 20px;
+  }
+  .card-box,
+  .filter-box,
+  .task-list-box,
+  .calendar-box {
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .custom-calendar-grid {
+    gap: 8px;
+  }
+}
+
+/* Phone <= 768px */
+@media (max-width: 768px) {
+  /* xếp 1 cột, không ảnh hưởng PC */
+  .task-dashboard {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    order: 1;
+    padding: 18px;
+    border-radius: 16px;
+  }
+  .main-content {
+    order: 2;
+    gap: 20px;
+  }
+  .top-row,
+  .bottom-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Projects */
+  #projectList li {
+    padding: 10px 6px;
+    font-size: 16px;
+    gap: 10px;
+  }
+  #projectList li button {
+    width: 36px;
+    height: 32px;
+  }
+
+  /* Form */
+  #formTask {
+    gap: 12px;
+  }
+  #formTask input,
+  #formTask select {
+    padding: 12px;
+    font-size: 16px;
+  }
+  #formTask button {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  /* Calendar */
+  .custom-calendar-grid {
+    grid-template-columns: repeat(7, minmax(38px, 1fr));
+    gap: 6px;
+  }
+  .calendar-day {
+    padding: 12px 8px;
+  }
+
+  /* Tasks */
+  .task-list-box {
+    max-height: none;
+  }
+  #taskList li {
+    padding: 14px;
+  }
+  .task-actions button {
+    padding: 8px 10px;
+  }
+
+  /* Ring nhỏ lại */
   .si-ring {
     width: 200px;
     height: 200px;
@@ -785,51 +677,60 @@ body {
   .si-total {
     font-size: 32px;
   }
+
+  /* Filter full-width */
+  .filter-box {
+    flex: 1;
+  }
+  .filter-box input,
+  .filter-box select,
+  #clearFilterBtn {
+    font-size: 16px;
+    padding: 12px;
+  }
 }
 
-.si-ring {
-  width: 240px;
-  height: 240px;
-  margin: 6px auto 10px;
-  position: relative;
-  border-radius: 50%;
-  /* Gradient màu 3 trạng thái */
-  background: conic-gradient(
-    var(--c-new) 0 var(--a1),
-    var(--c-doing) var(--a1) calc(var(--a1) + var(--a2)),
-    var(--c-done) calc(var(--a1) + var(--a2)) 360deg
-  );
-  box-shadow: 0 8px 24px #00000010 inset, 0 1px 0 #ffffffa6;
-}
+/* Small phones <= 480px */
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+  }
+  .dashboard-wrapper {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .sidebar {
+    padding: 16px;
+  }
+  .sidebar h3,
+  .card-box h3,
+  #calendarMonthLabel {
+    font-size: 16px;
+  }
 
-/* Lỗ giữa nhỏ hơn để lộ rõ màu vòng */
-.si-ring::after {
-  content: "";
-  position: absolute;
-  inset: 22%; /* tăng giá trị này để vòng màu dày hơn */
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: inset 0 2px 6px #00000010;
-  z-index: 0;
-}
+  .calendar-box {
+    overflow-x: auto;
+  }
+  .calendar-day {
+    padding: 10px 6px;
+  }
 
-/* Số ở giữa */
-.si-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 1; /* nằm trên vòng */
-}
-.si-total {
-  font-size: 38px;
-  font-weight: 800;
-  color: #0f172a;
-}
-.si-label {
-  font-size: 12px;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  .si-ring {
+    width: 180px;
+    height: 180px;
+  }
+  .si-total {
+    font-size: 28px;
+  }
+  .si-bars {
+    max-width: 100%;
+  }
+
+  /* target size */
+  button,
+  input,
+  select {
+    touch-action: manipulation;
+    min-height: 44px;
+  }
 }
