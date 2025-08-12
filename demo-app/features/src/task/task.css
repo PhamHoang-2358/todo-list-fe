@@ -6,16 +6,16 @@
   --text: #0f172a;
   --muted: #64748b;
 
-  --c-new: #f59e0b; /* Chưa bắt đầu */
-  --c-doing: #60a5fa; /* Đang thực hiện */
-  --c-done: #10b981; /* Hoàn thành */
+  /* Status colors (nhất quán toàn site) */
+  --c-new: #10b981; /* Chưa bắt đầu */
+  --c-doing: #f59e0b; /* Đang thực hiện */
+  --c-done: #3b82f6; /* Hoàn thành */
 }
-
 * {
   box-sizing: border-box;
 }
 
-/* ========== WRAPPER ========== */
+/* Wrapper */
 body {
   font-family: "Segoe UI", sans-serif;
   background: var(--bg);
@@ -24,7 +24,6 @@ body {
   display: flex;
   justify-content: center;
 }
-
 .dashboard-wrapper {
   background: #fff;
   border-radius: 20px;
@@ -33,7 +32,6 @@ body {
   width: 100%;
   max-width: 1320px;
 }
-
 /* ========== LAYOUT ========== */
 .task-dashboard {
   display: flex;
@@ -54,6 +52,23 @@ body {
   align-items: stretch;
 }
 
+/* Cards dùng chung */
+.card-box,
+.filter-box,
+.task-list-box,
+.calendar-box {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  flex: 1;
+}
+.card-box h3 {
+  white-space: nowrap;
+  line-height: 1.4;
+  font-size: 18px;
+  margin: 0;
+}
 /* ========== SIDEBAR ========== */
 .sidebar {
   width: 260px;
@@ -89,7 +104,7 @@ body {
   color: #ff5722;
 }
 
-/* ========== PROJECTS ========== */
+/* Projects list */
 #projectList {
   list-style: none;
   margin: 0 0 12px;
@@ -126,7 +141,8 @@ body {
   justify-content: center;
   border-radius: 8px;
 }
-/* scrollbars */
+
+/* Scrollbar */
 #projectList::-webkit-scrollbar {
   width: 6px;
 }
@@ -179,7 +195,6 @@ body {
   cursor: pointer;
   width: 100%;
 }
-
 /* ========== ADD TASK FORM ========== */
 .task-form h3 {
   font-size: 18px;
@@ -210,25 +225,6 @@ body {
 #formTask button:hover {
   background: #00695c;
 }
-
-/* ========== CARDS COMMON ========== */
-.card-box,
-.filter-box,
-.task-list-box,
-.calendar-box {
-  background: var(--card);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: var(--shadow);
-  flex: 1;
-}
-.card-box h3 {
-  white-space: nowrap;
-  line-height: 1.4;
-  font-size: 18px;
-  margin: 0;
-}
-
 /* ========== CALENDAR ========== */
 .calendar-header-row {
   display: flex;
@@ -250,6 +246,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
 .custom-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -281,10 +278,9 @@ body {
   margin: 16px 0 6px;
   color: #00897b;
 }
-
 /* ========== FILTER ========== */
 .filter-box {
-  flex: 0 0 280px;
+  flex: 0 0 400px;
 }
 .filter-box h3 {
   font-size: 18px;
@@ -314,7 +310,6 @@ body {
 #clearFilterBtn:hover {
   background: #80cbc4;
 }
-
 /* ========== TASK LIST ========== */
 .task-list-box {
   flex: 1;
@@ -352,18 +347,21 @@ body {
   font-size: 13px;
   font-weight: 500;
 }
+
+/* Labels theo mapping NEW/DOING/DONE */
 .status-notstarted {
-  background: #fff8e1;
-  color: #ef6c00;
-}
+  background: #ecfdf5;
+  color: #047857;
+} /* new green */
 .status-inprogress {
-  background: #e3f2fd;
-  color: #1e88e5;
-}
+  background: #fff7ed;
+  color: #b45309;
+} /* doing amber */
 .status-done {
-  background: #e0f2f1;
-  color: #00796b;
-}
+  background: #e0f2fe;
+  color: #1d4ed8;
+} /* done blue */
+
 .task-info {
   font-size: 14px;
   color: #555;
@@ -387,7 +385,7 @@ body {
   background: #ffc107;
 }
 
-/* ========== TASKS OF DAY ========== */
+/* Task of day list (mini-cards) */
 .task-of-day-list {
   list-style: none;
   padding: 0;
@@ -427,11 +425,12 @@ body {
   background: var(--c-new);
 }
 .task-card.inprogress::before {
-  background: #38bdf8;
+  background: var(--c-doing);
 }
 .task-card.done::before {
   background: var(--c-done);
 }
+
 .task-title {
   display: flex;
   flex-direction: column;
@@ -449,6 +448,7 @@ body {
   font-size: 13px;
   color: var(--muted);
 }
+
 .task-badge {
   font-size: 12px;
   font-weight: 600;
@@ -457,17 +457,18 @@ body {
   white-space: nowrap;
 }
 .task-badge.notstarted {
-  background: #fff7ed;
-  color: #c2410c;
-}
-.task-badge.inprogress {
-  background: #e0f2fe;
-  color: #0284c7;
-}
-.task-badge.done {
   background: #ecfdf5;
   color: #047857;
 }
+.task-badge.inprogress {
+  background: #fff7ed;
+  color: #b45309;
+}
+.task-badge.done {
+  background: #e0f2fe;
+  color: #1d4ed8;
+}
+
 .task-empty {
   padding: 14px;
   border: 1px dashed #cbd5e1;
@@ -476,111 +477,117 @@ body {
   text-align: center;
   background: #f8fafc;
 }
-
 /* ========== STATUS INSIGHT RING ========== */
-.status-insight {
-  --a1: 120deg;
-  --a2: 120deg;
+#statusInsight {
+  --a1: 0deg;
+  --a2: 0deg; /* JS set theo số liệu */
   background: var(--card);
   border-radius: 18px;
   padding: 16px 16px 18px;
   box-shadow: var(--shadow);
 }
-.si-chips {
+
+/* Chips */
+#statusInsight .pill-row {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 10px;
 }
-.chip {
+#statusInsight .pill {
   font-size: 13px;
   background: #fff;
   border-radius: 999px;
   padding: 8px 12px;
   box-shadow: 0 2px 8px #00000014;
+  font-weight: 600;
 }
-.chip-new {
+#statusInsight .pill-new {
   color: var(--c-new);
 }
-.chip-doing {
+#statusInsight .pill-doing {
   color: var(--c-doing);
 }
-.chip-done {
+#statusInsight .pill-done {
   color: var(--c-done);
 }
 
-.si-ring {
+/* Ring */
+#statusInsight .ring-wrap {
   width: 240px;
   height: 240px;
   margin: 6px auto 10px;
   position: relative;
   border-radius: 50%;
-  background: conic-gradient(
-    var(--c-new) 0 var(--a1),
-    var(--c-doing) var(--a1) calc(var(--a1)+var(--a2)),
-    var(--c-done) calc(var(--a1)+var(--a2)) 360deg
-  );
-  box-shadow: 0 8px 24px #00000010 inset, 0 1px 0 #ffffffa6;
+  background: radial-gradient(closest-side, #ffffff 62%, transparent 63%),
+    conic-gradient(
+      var(--c-new) 0 var(--a1),
+      var(--c-doing) var(--a1) calc(var(--a1) + var(--a2)),
+      var(--c-done) calc(var(--a1) + var(--a2)) 360deg
+    );
+  box-shadow: inset 0 8px 24px #00000010, 0 1px 0 #ffffffa6;
 }
-.si-ring::after {
-  content: "";
-  position: absolute;
-  inset: 22%;
-  background: #fff;
+#statusInsight .ring {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  box-shadow: inset 0 2px 6px #00000010;
-  z-index: 0;
 }
-.si-center {
+#statusInsight .ring-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 1;
-  pointer-events: none;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px #e8eef5 inset, 0 8px 24px rgba(0, 0, 0, 0.06);
 }
-.si-total {
-  font-size: 38px;
+#statusInsight .ring-center .total {
+  font-size: 34px;
   font-weight: 800;
   color: var(--text);
   line-height: 1;
 }
-.si-label {
+#statusInsight .ring-center .sub {
   font-size: 12px;
+  letter-spacing: 1.6px;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  margin-top: 6px;
 }
 
-.si-bars {
+/* Bars dưới vòng – mapping đúng màu */
+#statusInsight .bars {
   display: grid;
   gap: 8px;
   margin: 6px auto 0;
   max-width: 280px;
 }
-.bar {
+#statusInsight .bar {
   height: 6px;
   background: #e5e7eb;
   border-radius: 999px;
   overflow: hidden;
 }
-.bar span {
+#statusInsight .bar span {
   display: block;
   height: 100%;
   width: 0;
 }
-.bar-new span {
+#statusInsight .bar-new span {
   background: var(--c-new);
-}
-.bar-doing span {
+} /* New */
+#statusInsight .bar-doing span {
   background: var(--c-doing);
-}
-.bar-done span {
+} /* Doing */
+#statusInsight .bar-done span {
   background: var(--c-done);
-}
-
+} /* Done */
 /* ========== RESPONSIVE ========== */
 /* Tablet */
 @media (max-width: 1024px) {
@@ -604,7 +611,6 @@ body {
 
 /* Phone <= 768px */
 @media (max-width: 768px) {
-  /* xếp 1 cột, không ảnh hưởng PC */
   .task-dashboard {
     flex-direction: column;
   }
@@ -624,7 +630,6 @@ body {
     gap: 16px;
   }
 
-  /* Projects */
   #projectList li {
     padding: 10px 6px;
     font-size: 16px;
@@ -635,7 +640,6 @@ body {
     height: 32px;
   }
 
-  /* Form */
   #formTask {
     gap: 12px;
   }
@@ -649,7 +653,6 @@ body {
     font-size: 16px;
   }
 
-  /* Calendar */
   .custom-calendar-grid {
     grid-template-columns: repeat(7, minmax(38px, 1fr));
     gap: 6px;
@@ -658,7 +661,6 @@ body {
     padding: 12px 8px;
   }
 
-  /* Tasks */
   .task-list-box {
     max-height: none;
   }
@@ -669,16 +671,15 @@ body {
     padding: 8px 10px;
   }
 
-  /* Ring nhỏ lại */
-  .si-ring {
+  #statusInsight .ring-wrap {
     width: 200px;
     height: 200px;
   }
-  .si-total {
-    font-size: 32px;
+  #statusInsight .ring-center {
+    width: 108px;
+    height: 108px;
   }
 
-  /* Filter full-width */
   .filter-box {
     flex: 1;
   }
@@ -715,151 +716,18 @@ body {
     padding: 10px 6px;
   }
 
-  .si-ring {
+  #statusInsight .ring-wrap {
     width: 180px;
     height: 180px;
   }
-  .si-total {
-    font-size: 28px;
-  }
-  .si-bars {
+  #statusInsight .bars {
     max-width: 100%;
   }
 
-  /* target size */
   button,
   input,
   select {
     touch-action: manipulation;
     min-height: 44px;
-  }
-}
-/* ==== INSIGHT RING ==== */
-#statusInsight {
-  --col-new: #10b981; /* Chưa bắt đầu  (teal) */
-  --col-doing: #f59e0b; /* Đang thực hiện (amber) */
-  --col-done: #3b82f6; /* Hoàn thành     (blue) */
-  --a1: 0deg; /* sẽ được JS set */
-  --a2: 0deg;
-
-  background: #d9fbfb; /* nền mint nhạt */
-  border-radius: 24px;
-  padding: 20px 22px 24px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
-}
-
-#statusInsight .pill-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-#statusInsight .pill {
-  background: #fff;
-  padding: 8px 12px;
-  border-radius: 999px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  font-weight: 600;
-  font-size: 14px;
-}
-.pill-new {
-  color: var(--col-new);
-}
-.pill-doing {
-  color: var(--col-doing);
-}
-.pill-done {
-  color: var(--col-done);
-}
-
-#statusInsight .ring-wrap {
-  position: relative;
-  width: 240px;
-  height: 240px;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, #ffffff 62%, transparent 63%),
-    conic-gradient(
-      var(--col-new) 0 var(--a1),
-      var(--col-doing) 0 calc(var(--a1) + var(--a2)),
-      var(--col-done) 0 360deg
-    );
-  box-shadow: inset 0 -10px 18px rgba(0, 0, 0, 0.05),
-    inset 0 10px 22px rgba(255, 255, 255, 0.7);
-}
-#statusInsight .ring {
-  /* layer để đảm bảo safari/edge vẽ đúng – không cần nội dung */
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-#statusInsight .ring-center {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 0 1px #e8eef5 inset, 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-#statusInsight .ring-center .total {
-  font-size: 34px;
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1;
-}
-#statusInsight .ring-center .sub {
-  font-size: 12px;
-  letter-spacing: 1.6px;
-  color: #64748b;
-  margin-top: 6px;
-}
-
-#statusInsight .bars {
-  margin: 14px auto 0;
-  max-width: 520px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-#statusInsight .bar {
-  height: 8px;
-  border-radius: 999px;
-  background: #eceff4;
-  position: relative;
-  overflow: hidden;
-}
-#statusInsight .bar span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  display: block;
-  border-radius: 999px;
-}
-#statusInsight .bar-new span {
-  background: var(--col-doing);
-} /* theo ảnh: vàng trên cùng */
-#statusInsight .bar-doing span {
-  background: #6f93db;
-} /* thanh giữa nhạt */
-#statusInsight .bar-done span {
-  background: var(--col-new);
-} /* thanh dưới teal */
-
-@media (max-width: 600px) {
-  #statusInsight .ring-wrap {
-    width: 200px;
-    height: 200px;
-  }
-  #statusInsight .ring-center {
-    width: 108px;
-    height: 108px;
   }
 }
