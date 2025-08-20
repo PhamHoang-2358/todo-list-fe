@@ -1,10 +1,55 @@
 <!DOCTYPE html>
 <html lang="vi">
   <head>
+    <link rel="icon" href="data:," />
+
     <meta charset="UTF-8" />
     <title>Task Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- CSS của bạn -->
+
+    <!-- ==== MUTE CONSOLE NOISE (đặt thật sớm) ==== -->
+    <script>
+      (function () {
+        function isNoise(s) {
+          if (!s) return false;
+          s = String(s);
+          return [
+            "listener indicated an asynchronous response", // extension promise
+            "chrome-extension", // log từ extension
+            "#sec-projects:1", // hash line rác
+            "ResizeObserver loop", // ro loop
+            "favicon.ico", // 404 favicon
+          ].some((m) => s.includes(m));
+        }
+        const _error = console.error,
+          _warn = console.warn;
+        console.error = function (...args) {
+          if (isNoise(args.join(" "))) return;
+          _error.apply(console, args);
+        };
+        console.warn = function (...args) {
+          if (isNoise(args.join(" "))) return;
+          _warn.apply(console, args);
+        };
+        window.addEventListener("unhandledrejection", (e) => {
+          const msg = String(e?.reason?.message || e?.reason || "");
+          if (isNoise(msg)) e.preventDefault();
+        });
+        window.addEventListener(
+          "error",
+          (e) => {
+            const msg = (e?.message || "") + " " + (e?.filename || "");
+            if (isNoise(msg)) {
+              e.preventDefault();
+              return true;
+            }
+          },
+          true
+        );
+      })();
+    </script>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="task.css" />
     <!-- Icons -->
     <link
@@ -17,14 +62,57 @@
 
   <body>
     <div class="dashboard-wrapper">
+      <!-- ============ TOP MENU ============ -->
+      <nav class="top-menu">
+        <div class="brand">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Task Manager</span>
+        </div>
+
+        <button class="menu-toggle" aria-label="Mở menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="menu-list">
+          <li>
+            <button id="homeBtn" class="menu-link home-btn">
+              <i class="fa-solid fa-house"></i> Trang chủ
+            </button>
+          </li>
+          <li>
+            <a href="#sec-calendar" class="menu-link active"
+              ><i class="fa-regular fa-calendar"></i> Lịch</a
+            >
+          </li>
+          <li>
+            <a href="#sec-insight" class="menu-link"
+              ><i class="fa-solid fa-chart-pie"></i> Trạng thái</a
+            >
+          </li>
+          <li>
+            <a href="#sec-filter" class="menu-link"
+              ><i class="fa-solid fa-filter"></i> Bộ lọc</a
+            >
+          </li>
+          <li>
+            <a href="#sec-tasks" class="menu-link"
+              ><i class="fa-regular fa-square-check"></i> Công việc</a
+            >
+          </li>
+          <li>
+            <a href="#sec-projects" class="menu-link"
+              ><i class="fa-solid fa-diagram-project"></i> Dự án</a
+            >
+          </li>
+        </ul>
+      </nav>
+
       <div class="task-dashboard">
         <!-- ============ SIDEBAR ============ -->
         <aside class="sidebar">
-          <!-- Projects -->
-          <section class="projects-section">
+          <section class="projects-section" id="sec-projects">
             <h3>Projects</h3>
             <ul id="projectList"></ul>
-
             <form id="formAddProject" autocomplete="off">
               <input
                 type="text"
@@ -39,12 +127,10 @@
 
           <hr class="sidebar-divider" />
 
-          <!-- Đang mở -->
           <div id="currentProjectDisplay" class="current-project-label">
             <span id="currentProjectName">--</span>
           </div>
 
-          <!-- Thêm Task -->
           <section class="task-form">
             <h3 class="form-title">
               <i class="fas fa-plus-circle"></i> Thêm Task
@@ -56,19 +142,16 @@
                 placeholder="Tên công việc"
               />
               <input type="text" id="inputTaskContent" placeholder="Chi tiết" />
-
-              <select id="inputTaskStatus" title="Trạng thái">
+              <select id="inputTaskStatus">
                 <option value="notstarted">Chưa bắt đầu</option>
                 <option value="inprogress">Đang thực hiện</option>
                 <option value="done">Hoàn thành</option>
               </select>
-
-              <select id="inputTaskPriority" title="Ưu tiên">
+              <select id="inputTaskPriority">
                 <option value="low">Thấp</option>
                 <option value="medium" selected>Trung bình</option>
                 <option value="high">Cao</option>
               </select>
-
               <input type="date" id="inputTaskDeadline" />
               <input
                 type="text"
@@ -76,14 +159,12 @@
                 placeholder="Người phụ trách"
               />
               <input type="file" id="inputTaskImage" accept="image/*" />
-
               <button type="submit">
                 <i class="fas fa-plus"></i> Thêm Task
               </button>
             </form>
           </section>
 
-          <!-- Đăng xuất (dưới cùng) -->
           <button id="logoutBtn" class="logout-bottom">
             <i class="fas fa-sign-out-alt"></i> Đăng xuất
           </button>
@@ -91,51 +172,52 @@
 
         <!-- ============ MAIN CONTENT ============ -->
         <main class="main-content">
-          <!-- Hàng 1: Lịch + Biểu đồ -->
           <div class="top-row">
-            <!-- Lịch -->
-            <section class="calendar-box card-box">
+            <section class="calendar-box card-box" id="sec-calendar">
               <div class="calendar-header-row">
                 <h3 id="calendarMonthLabel">Lịch công việc</h3>
                 <button id="btnToday">Hôm nay</button>
               </div>
-
               <div id="unifiedCalendar" class="custom-calendar-grid"></div>
-
               <h4 id="selectedDateLabel">
                 Công việc ngày <span>--/--/----</span>
               </h4>
               <ul id="taskOfDayList" class="task-of-day-list"></ul>
             </section>
 
-            <div id="statusInsight" class="insight-card">
-  <div class="pill-row">
-    <span class="pill pill-new">Chưa bắt đầu: <b id="cNew">0</b></span>
-    <span class="pill pill-doing">Đang thực hiện: <b id="cDoing">0</b></span>
-    <span class="pill pill-done">Hoàn thành: <b id="cDone">0</b></span>
-  </div>
+            <div
+              id="statusInsight"
+              class="insight-card"
+              data-anchor="sec-insight"
+            >
+              <div class="pill-row">
+                <span class="pill pill-new"
+                  >Chưa bắt đầu: <b id="cNew">0</b></span
+                >
+                <span class="pill pill-doing"
+                  >Đang thực hiện: <b id="cDoing">0</b></span
+                >
+                <span class="pill pill-done"
+                  >Hoàn thành: <b id="cDone">0</b></span
+                >
+              </div>
+              <div class="ring-wrap">
+                <div class="ring"></div>
+                <div class="ring-center">
+                  <div class="total" id="cTotal">0</div>
+                  <div class="sub">TỔNG</div>
+                </div>
+              </div>
+              <div class="bars">
+                <div class="bar bar-new"><span></span></div>
+                <div class="bar bar-doing"><span></span></div>
+                <div class="bar bar-done"><span></span></div>
+              </div>
+            </div>
+          </div>
 
-  <div class="ring-wrap">
-    <div class="ring"></div>
-    <div class="ring-center">
-      <div class="total" id="cTotal">0</div>
-      <div class="sub">TỔNG</div>
-    </div>
-  </div>
-
-  <div class="bars">
-    <div class="bar bar-new"><span></span></div>
-    <div class="bar bar-doing"><span></span></div>
-    <div class="bar bar-done"><span></span></div>
-  </div>
-</div>
-
-
-
-          <!-- Hàng 2: Bộ lọc + Danh sách -->
           <div class="bottom-row">
-            <!-- Bộ lọc -->
-            <section class="filter-box">
+            <section class="filter-box" id="sec-filter">
               <h3>Bộ lọc công việc</h3>
               <input
                 type="text"
@@ -158,8 +240,7 @@
               <button id="clearFilterBtn">Xóa lọc</button>
             </section>
 
-            <!-- Danh sách task -->
-            <section class="task-list-box">
+            <section class="task-list-box" id="sec-tasks">
               <ul id="taskList"></ul>
             </section>
           </div>
@@ -167,6 +248,57 @@
       </div>
     </div>
 
+    <!-- Logic chính -->
     <script src="task.js"></script>
+
+    <!-- JS nhỏ cho menu -->
+    <script>
+      document.getElementById("homeBtn")?.addEventListener("click", () => {
+        location.href = "../../../index.html";
+      });
+
+      const tm = document.querySelector(".top-menu");
+      tm?.querySelector(".menu-toggle")?.addEventListener("click", () => {
+        tm.classList.toggle("open");
+      });
+
+      const links = [
+        ...document.querySelectorAll('.top-menu .menu-link[href^="#"]'),
+      ];
+      const map = new Map(
+        links.map((a) => [a.getAttribute("href").slice(1), a])
+      );
+      const ids = [
+        "sec-calendar",
+        "sec-filter",
+        "sec-tasks",
+        "sec-projects",
+        "sec-insight",
+      ];
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              links.forEach((l) => l.classList.remove("active"));
+              const id = en.target.id || en.target.dataset.anchor;
+              map.get(id)?.classList.add("active");
+            }
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+      );
+
+      ids.forEach((id) => {
+        const el =
+          document.getElementById(id) ||
+          document.querySelector(`[data-anchor="${id}"]`);
+        if (el) obs.observe(el);
+      });
+
+      links.forEach((a) =>
+        a.addEventListener("click", () => tm?.classList.remove("open"))
+      );
+    </script>
   </body>
 </html>

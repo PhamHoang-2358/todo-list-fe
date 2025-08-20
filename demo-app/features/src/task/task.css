@@ -1,15 +1,19 @@
 /* ========== BASE THEME ========== */
 :root {
-  --bg: #f0f9ff;
-  --card: #c5f8f8;
-  --shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --bg: #f1f5f9; /* nền trang dịu */
+  --card: #ffffff; /* card trắng */
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   --text: #0f172a;
   --muted: #64748b;
 
-  /* Status colors (nhất quán toàn site) */
+  /* Status mapping nhất quán */
   --c-new: #10b981; /* Chưa bắt đầu */
   --c-doing: #f59e0b; /* Đang thực hiện */
   --c-done: #3b82f6; /* Hoàn thành */
+
+  --primary: #6366f1; /* tím nhạt cho menu active */
+  --primary-weak: #eef2ff;
+  --border: #e2e8f0;
 }
 * {
   box-sizing: border-box;
@@ -27,27 +31,28 @@ body {
 .dashboard-wrapper {
   background: #fff;
   border-radius: 20px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
-  padding: 40px;
-  width: 100%;
+  box-shadow: var(--shadow);
+  padding: 28px;
   max-width: 1320px;
+  width: 100%;
 }
+
 /* ========== LAYOUT ========== */
 .task-dashboard {
   display: flex;
-  gap: 32px;
+  gap: 28px;
   width: 100%;
 }
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 }
 .top-row,
 .bottom-row {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
   align-items: stretch;
 }
@@ -58,10 +63,11 @@ body {
 .task-list-box,
 .calendar-box {
   background: var(--card);
-  border-radius: 20px;
-  padding: 24px;
+  border-radius: 18px;
+  padding: 20px;
   box-shadow: var(--shadow);
   flex: 1;
+  border: 1px solid var(--border);
 }
 .card-box h3 {
   white-space: nowrap;
@@ -69,47 +75,48 @@ body {
   font-size: 18px;
   margin: 0;
 }
+
 /* ========== SIDEBAR ========== */
 .sidebar {
   width: 260px;
-  background: #ccfbf1;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+  background: var(--card);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 22px;
   overflow-x: hidden;
 }
 .sidebar h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  color: #0277bd;
-  margin: 0 0 12px;
+  color: #0ea5e9;
+  margin: 0 0 10px;
 }
 
 /* Current project */
 .current-project-label {
-  background: #e0f7fa;
-  padding: 10px 14px;
-  margin: 10px 0 15px;
-  border-radius: 8px;
+  background: #f0f9ff;
+  padding: 10px 12px;
+  margin: 8px 0 12px;
+  border-radius: 10px;
   font-weight: 700;
-  color: #00796b;
-  font-size: 15px;
-  border-left: 4px solid #00acc1;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  color: #0369a1;
+  font-size: 14px;
+  border-left: 4px solid #38bdf8;
 }
 .current-project-label span {
-  color: #ff5722;
+  color: #ef4444;
 }
 
 /* Projects list */
 #projectList {
   list-style: none;
-  margin: 0 0 12px;
-  padding: 0 14px 0 0;
-  max-height: 140px;
+  margin: 0 0 10px;
+  padding: 0 12px 0 0;
+  max-height: 160px;
   overflow-y: auto;
   scrollbar-gutter: stable both-edges;
 }
@@ -119,19 +126,19 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 4px;
-  font-size: 15px;
-  border-bottom: 1px solid #b2ebf2;
+  font-size: 14px;
+  border-bottom: 1px dashed var(--border);
 }
 .pj-name {
-  color: #0288d1;
-  font-weight: 500;
+  color: #0284c7;
+  font-weight: 600;
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .pj-name:hover {
-  color: #01579b;
+  color: #0369a1;
 }
 #projectList li button {
   width: 32px;
@@ -140,6 +147,9 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
 }
 
 /* Scrollbar */
@@ -147,60 +157,65 @@ body {
   width: 6px;
 }
 #projectList::-webkit-scrollbar-thumb {
-  background: #95c5ff;
+  background: #cbd5e1;
   border-radius: 6px;
 }
 #projectList {
   scrollbar-width: thin;
-  scrollbar-color: #95c5ff transparent;
+  scrollbar-color: #cbd5e1 transparent;
 }
 @supports selector(::-webkit-scrollbar) {
   #projectList {
-    padding-right: 18px;
+    padding-right: 16px;
   }
 }
 
 /* Add project form */
 #formAddProject {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 #formAddProject input {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #b2ebf2;
-  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
   background: #fff;
 }
 #formAddProject button {
-  background: #0288d1;
-  border: none;
+  background: #0284c7;
+  border: 1px solid #0284c7;
   color: #fff;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
   cursor: pointer;
 }
 #formAddProject button:hover {
-  background: #01579b;
+  background: #0369a1;
+  border-color: #0369a1;
 }
 
 /* Logout */
 #logoutBtn {
-  background: #ef5350;
+  background: #ef4444;
+  border: 1px solid #ef4444;
   color: #fff;
-  padding: 10px 0;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 700;
   cursor: pointer;
   width: 100%;
 }
+#logoutBtn:hover {
+  filter: brightness(0.95);
+}
+
 /* ========== ADD TASK FORM ========== */
 .task-form h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #00695c;
-  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f766e;
+  margin: 0 0 8px;
 }
 #formTask {
   display: flex;
@@ -210,20 +225,109 @@ body {
 #formTask input,
 #formTask select {
   padding: 10px 12px;
-  border: 1px solid #b2dfdb;
-  border-radius: 8px;
-  background: #f0fdfa;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
 }
 #formTask button {
-  background: #00897b;
+  background: #0ea5e9;
   color: #fff;
   padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  font-weight: 700;
 }
 #formTask button:hover {
-  background: #00695c;
+  background: #0284c7;
+}
+
+/* ============ TOP MENU ============ */
+.top-menu {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  gap: 12px;
+}
+.top-menu .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  color: var(--text);
+}
+.top-menu .brand i {
+  color: var(--primary);
+}
+.top-menu .menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.top-menu .menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.top-menu .menu-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+.top-menu .menu-link:hover {
+  background: var(--primary-weak);
+  border-color: #c7d2fe;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12);
+  transform: translateY(-1px);
+}
+.top-menu .menu-link.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+}
+.home-btn {
+  cursor: pointer;
+  background: #e0f2fe;
+  color: #0f172a;
+  border: 1px solid #bae6fd;
+}
+.home-btn:hover {
+  background: #38bdf8;
+  color: #fff;
+  border-color: #38bdf8;
+}
+
+/* Neo mượt */
+html {
+  scroll-behavior: smooth;
 }
 /* ========== CALENDAR ========== */
 .calendar-header-row {
@@ -231,91 +335,118 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 #calendarMonthLabel {
   font-size: 18px;
-  font-weight: 600;
-  color: #00695c;
+  font-weight: 700;
+  color: #0f766e;
 }
 #btnToday {
-  background: #00897b;
+  background: #0ea5e9;
   color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
+  border: 1px solid #0ea5e9;
+  padding: 8px 12px;
+  border-radius: 10px;
   cursor: pointer;
+}
+#btnToday:hover {
+  background: #0284c7;
+  border-color: #0284c7;
 }
 
 .custom-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  margin-top: 12px;
+  gap: 8px;
+  margin-top: 10px;
 }
 .calendar-day {
-  padding: 14px 10px;
+  padding: 12px 8px;
   text-align: center;
   border-radius: 10px;
-  font-weight: 500;
-  background: #f0fdfa;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid var(--border);
   cursor: pointer;
-  border: 1px solid transparent;
+  min-height: 62px;
 }
 .calendar-day:hover {
-  background: #e0f2f1;
+  background: #f1f5f9;
 }
 .calendar-day.today {
-  background: #ffb74d;
-  color: #fff;
+  background: #ffedd5;
+  color: #7c2d12;
+  border-color: #fdba74;
 }
 .calendar-day.selected {
-  border: 2px solid #26a69a;
+  outline: 2px solid #06b6d4;
+  outline-offset: 1px;
 }
+
 #selectedDateLabel {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 16px 0 6px;
-  color: #00897b;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: #0ea5e9;
 }
+
+/* Preview task trong ô ngày (tối giản) */
+.calendar-task-preview {
+  margin-top: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: #f1f5f9;
+  color: #0f172a;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 /* ========== FILTER ========== */
 .filter-box {
-  flex: 0 0 400px;
+  flex: 0 0 380px;
 }
 .filter-box h3 {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: #0f766e;
   text-align: center;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
 }
 .filter-box input,
 .filter-box select {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #cfd8dc;
-  background: #f0fdfa;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
   margin-bottom: 10px;
 }
 #clearFilterBtn {
-  background: #b2dfdb;
+  background: #e2e8f0;
   color: #0f172a;
   padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   width: 100%;
+  font-weight: 700;
 }
 #clearFilterBtn:hover {
-  background: #80cbc4;
+  background: #cbd5e1;
 }
+
 /* ========== TASK LIST ========== */
 .task-list-box {
   flex: 1;
-  padding: 20px;
-  max-height: 400px;
+  padding: 16px;
+  max-height: 420px;
   overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #fff;
 }
 #taskList {
   list-style: none;
@@ -323,82 +454,96 @@ body {
   padding: 0;
 }
 #taskList li {
-  background: #fefefe;
-  border: 1px solid #e0e0e0;
+  background: #fff;
+  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 .task-main {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 .task-main .title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--text);
 }
 .task-main .status {
   padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--border);
 }
 
-/* Labels theo mapping NEW/DOING/DONE */
+/* Labels mapping */
 .status-notstarted {
   background: #ecfdf5;
   color: #047857;
-} /* new green */
+}
 .status-inprogress {
   background: #fff7ed;
   color: #b45309;
-} /* doing amber */
+}
 .status-done {
-  background: #e0f2fe;
+  background: #eff6ff;
   color: #1d4ed8;
-} /* done blue */
+}
 
 .task-info {
-  font-size: 14px;
-  color: #555;
+  font-size: 13px;
+  color: #475569;
   display: flex;
-  gap: 18px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 .task-actions {
   display: flex;
   gap: 8px;
 }
 .task-actions button {
-  background: #ffe082;
-  color: #212121;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
+  background: #f8fafc;
+  color: #0f172a;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
 }
 .task-actions button:hover {
-  background: #ffc107;
+  background: #e2e8f0;
 }
 
-/* Task of day list (mini-cards) */
+.task-img-view img {
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.desc {
+  color: #334155;
+  font-size: 14px;
+}
+
+/* Task of day mini-cards */
 .task-of-day-list {
   list-style: none;
   padding: 0;
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 .task-card {
   background: #fff;
-  border: 1px solid #e6eef5;
+  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -431,63 +576,16 @@ body {
   background: var(--c-done);
 }
 
-.task-title {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-.task-title .name {
-  font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.task-title .meta {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.task-badge {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-.task-badge.notstarted {
-  background: #ecfdf5;
-  color: #047857;
-}
-.task-badge.inprogress {
-  background: #fff7ed;
-  color: #b45309;
-}
-.task-badge.done {
-  background: #e0f2fe;
-  color: #1d4ed8;
-}
-
-.task-empty {
-  padding: 14px;
-  border: 1px dashed #cbd5e1;
-  border-radius: 10px;
-  color: var(--muted);
-  text-align: center;
-  background: #f8fafc;
-}
 /* ========== STATUS INSIGHT RING ========== */
 #statusInsight {
   --a1: 0deg;
-  --a2: 0deg; /* JS set theo số liệu */
+  --a2: 0deg;
   background: var(--card);
   border-radius: 18px;
   padding: 16px 16px 18px;
   box-shadow: var(--shadow);
+  border: 1px solid var(--border);
 }
-
-/* Chips */
 #statusInsight .pill-row {
   display: flex;
   gap: 10px;
@@ -496,12 +594,13 @@ body {
   margin-bottom: 10px;
 }
 #statusInsight .pill {
-  font-size: 13px;
+  font-size: 12px;
   background: #fff;
   border-radius: 999px;
   padding: 8px 12px;
-  box-shadow: 0 2px 8px #00000014;
-  font-weight: 600;
+  box-shadow: 0 2px 8px #0001;
+  font-weight: 800;
+  border: 1px solid var(--border);
 }
 #statusInsight .pill-new {
   color: var(--c-new);
@@ -513,7 +612,6 @@ body {
   color: var(--c-done);
 }
 
-/* Ring */
 #statusInsight .ring-wrap {
   width: 240px;
   height: 240px;
@@ -535,8 +633,7 @@ body {
 }
 #statusInsight .ring-center {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 50% auto auto 50%;
   transform: translate(-50%, -50%);
   width: 120px;
   height: 120px;
@@ -546,22 +643,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 1px #e8eef5 inset, 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 0 1px var(--border) inset, 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 #statusInsight .ring-center .total {
   font-size: 34px;
-  font-weight: 800;
+  font-weight: 900;
   color: var(--text);
   line-height: 1;
 }
 #statusInsight .ring-center .sub {
-  font-size: 12px;
-  letter-spacing: 1.6px;
+  font-size: 11px;
+  letter-spacing: 1.4px;
   color: var(--muted);
   margin-top: 6px;
 }
 
-/* Bars dưới vòng – mapping đúng màu */
 #statusInsight .bars {
   display: grid;
   gap: 8px;
@@ -581,21 +677,21 @@ body {
 }
 #statusInsight .bar-new span {
   background: var(--c-new);
-} /* New */
+}
 #statusInsight .bar-doing span {
   background: var(--c-doing);
-} /* Doing */
+}
 #statusInsight .bar-done span {
   background: var(--c-done);
-} /* Done */
+}
+
 /* ========== RESPONSIVE ========== */
-/* Tablet */
 @media (max-width: 1024px) {
   .dashboard-wrapper {
-    padding: 24px;
+    padding: 22px;
   }
   .task-dashboard {
-    gap: 20px;
+    gap: 18px;
   }
   .card-box,
   .filter-box,
@@ -605,11 +701,17 @@ body {
     padding: 18px;
   }
   .custom-calendar-grid {
-    gap: 8px;
+    gap: 6px;
+  }
+  .top-menu {
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+  .top-menu .menu-link {
+    padding: 9px 10px;
+    font-size: 13px;
   }
 }
-
-/* Phone <= 768px */
 @media (max-width: 768px) {
   .task-dashboard {
     flex-direction: column;
@@ -622,35 +724,12 @@ body {
   }
   .main-content {
     order: 2;
-    gap: 20px;
+    gap: 18px;
   }
   .top-row,
   .bottom-row {
     flex-direction: column;
-    gap: 16px;
-  }
-
-  #projectList li {
-    padding: 10px 6px;
-    font-size: 16px;
-    gap: 10px;
-  }
-  #projectList li button {
-    width: 36px;
-    height: 32px;
-  }
-
-  #formTask {
-    gap: 12px;
-  }
-  #formTask input,
-  #formTask select {
-    padding: 12px;
-    font-size: 16px;
-  }
-  #formTask button {
-    padding: 12px;
-    font-size: 16px;
+    gap: 14px;
   }
 
   .custom-calendar-grid {
@@ -658,7 +737,8 @@ body {
     gap: 6px;
   }
   .calendar-day {
-    padding: 12px 8px;
+    min-height: 56px;
+    padding: 10px 6px;
   }
 
   .task-list-box {
@@ -667,31 +747,30 @@ body {
   #taskList li {
     padding: 14px;
   }
-  .task-actions button {
-    padding: 8px 10px;
-  }
 
-  #statusInsight .ring-wrap {
-    width: 200px;
-    height: 200px;
+  /* Top menu toggle */
+  .top-menu {
+    top: 8px;
   }
-  #statusInsight .ring-center {
-    width: 108px;
-    height: 108px;
+  .top-menu .menu-toggle {
+    display: inline-flex;
   }
-
-  .filter-box {
-    flex: 1;
+  .top-menu .menu-list {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    display: none;
+    margin-top: 10px;
   }
-  .filter-box input,
-  .filter-box select,
-  #clearFilterBtn {
-    font-size: 16px;
+  .top-menu.open .menu-list {
+    display: flex;
+  }
+  .top-menu .menu-link {
+    justify-content: flex-start;
     padding: 12px;
   }
 }
-
-/* Small phones <= 480px */
 @media (max-width: 480px) {
   body {
     padding: 16px;
@@ -708,14 +787,12 @@ body {
   #calendarMonthLabel {
     font-size: 16px;
   }
-
   .calendar-box {
     overflow-x: auto;
   }
   .calendar-day {
     padding: 10px 6px;
   }
-
   #statusInsight .ring-wrap {
     width: 180px;
     height: 180px;
@@ -723,11 +800,265 @@ body {
   #statusInsight .bars {
     max-width: 100%;
   }
-
   button,
   input,
   select {
     touch-action: manipulation;
     min-height: 44px;
+  }
+}
+
+/*====================================MÀU SẮC VS HIỆU ỨNG===================*/
+/* ===== BLUE + ACCENT (RED / ORANGE / YELLOW) ===== */
+:root {
+  --bg: #f0f9ff;
+  --card: #ffffff;
+  --border: #dbeafe;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --muted: #64748b;
+
+  /* trạng thái */
+  --c-new: #3b82f6; /* xanh dương */
+  --c-doing: #f59e0b; /* cam */
+  --c-done: #10b981; /* xanh lá */
+
+  --primary: #2563eb;
+  --primary-light: #60a5fa;
+  --primary-weak: #e0f2fe;
+}
+
+/* ===== MENU ===== */
+.top-menu {
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.top-menu .menu-link {
+  background: var(--primary-weak);
+  color: var(--primary);
+  border: 1px solid transparent;
+}
+.top-menu .menu-link:hover {
+  background: var(--primary-light);
+  color: #fff;
+}
+.top-menu .menu-link.active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+.home-btn {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+.home-btn:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar h3 {
+  color: var(--primary);
+}
+.current-project-label {
+  border-left: 4px solid var(--primary);
+  background: var(--primary-weak);
+  color: var(--primary);
+}
+.current-project-label span {
+  color: #dc2626;
+} /* đỏ cho nhấn mạnh */
+
+/* ===== BUTTONS ===== */
+#formAddProject button {
+  background: #2563eb;
+}
+#formAddProject button:hover {
+  background: #1d4ed8;
+}
+
+#formTask button {
+  background: #f59e0b;
+} /* cam cho nút thêm task */
+#formTask button:hover {
+  background: #d97706;
+}
+
+#logoutBtn {
+  background: #ef4444;
+} /* đỏ cho logout */
+#logoutBtn:hover {
+  background: #b91c1c;
+}
+
+#btnToday {
+  background: #10b981;
+} /* xanh lá cho “Hôm nay” */
+#btnToday:hover {
+  background: #059669;
+}
+
+/* ===== CALENDAR ===== */
+.calendar-day {
+  border: 1px solid var(--border);
+  background: #fff;
+}
+.calendar-day.today {
+  background: #facc15;
+  color: #78350f;
+} /* vàng nổi bật */
+.calendar-day.selected {
+  border: 2px solid var(--primary);
+}
+
+/* ===== TASK STATUS ===== */
+.status-notstarted {
+  background: #dbeafe;
+  color: #1e40af;
+} /* xanh dương nhạt */
+.status-inprogress {
+  background: #fef3c7;
+  color: #92400e;
+} /* vàng cam */
+.status-done {
+  background: #dcfce7;
+  color: #166534;
+} /* xanh lá */
+
+/* ===== INSIGHT PILLS ===== */
+#statusInsight .pill-new {
+  background: #dbeafe;
+  color: #1e40af;
+}
+#statusInsight .pill-doing {
+  background: #fef3c7;
+  color: #92400e;
+}
+#statusInsight .pill-done {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ===== BARS dưới vòng ===== */
+#statusInsight .bar-new span {
+  background: #3b82f6;
+}
+#statusInsight .bar-doing span {
+  background: #f59e0b;
+}
+#statusInsight .bar-done span {
+  background: #10b981;
+}
+/* ===== Mobile tweaks ===== */
+@media (max-width: 768px) {
+  /* Bố cục thành 1 cột */
+  .dashboard-wrapper {
+    display: block; /* nếu đang dùng grid: grid-template-columns: 1fr; */
+  }
+
+  /* Sidebar thành thanh menu ngang */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #fff;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eef2f7;
+    border-right: 0;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.04);
+  }
+  .sidebar h2 {
+    font-size: 16px;
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sidebar .menu {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .sidebar .menu a {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  /* Nội dung chính */
+  .main-content {
+    padding: 14px;
+  }
+
+  /* Card / widget */
+  .widget {
+    padding: 14px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  .widget h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  /* Lưới widget nếu có */
+  .widgets {
+    display: block; /* ép về 1 cột */
+  }
+
+  /* Nút, input to hơn dễ bấm */
+  .btn {
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* tránh zoom iOS */
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  /* Music player gọn hơn */
+  #audioPlayer {
+    width: 100%;
+  }
+
+  /* Quickbar FAB không đè nội dung */
+  .qb-toggle {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  /* Bảng thống kê nhỏ */
+  .stat-list {
+    gap: 10px;
+  }
+  .stat-list li {
+    padding: 10px;
+    border-radius: 12px;
+  }
+}
+
+/* Màn hình rất nhỏ */
+@media (max-width: 360px) {
+  .sidebar .menu a {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .btn {
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+  .widget {
+    padding: 12px;
   }
 }
