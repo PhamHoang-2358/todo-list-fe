@@ -729,6 +729,195 @@
   })();
 
   /* =========================================================
+   FOCUS TOOLS — Pomodoro + Quick Notes (per-user)
+   ========================================================= */
+  (function focusToolsInit() {
+    const uid = localStorage.getItem("currentUserId") || "guest";
+    const K_POMO = `focus_pomo_${uid}`;
+    const K_NOTES = `focus_notes_${uid}`;
+
+    // ---- elems
+    const el = {
+      preset: document.getElementById("pomoPreset"),
+      work: document.getElementById("pomoWork"),
+      brk: document.getElementById("pomoBreak"),
+      time: document.getElementById("pomoTime"),
+      start: document.getElementById("pomoStart"),
+      pause: document.getElementById("pomoPause"),
+      reset: document.getElementById("pomoReset"),
+      status: document.getElementById("pomoStatus"),
+      notes: document.getElementById("quickNotes"),
+      notesClear: document.getElementById("notesClear"),
+    };
+    if (!el.time) return; // không có Focus Tools trên trang này
+
+    // ---- utils
+    const fmt = (s) => {
+      s = Math.max(0, s | 0);
+      const m = String((s / 60) | 0).padStart(2, "0");
+      const ss = String(s % 60).padStart(2, "0");
+      return `${m}:${ss}`;
+    };
+    const save = () => localStorage.setItem(K_POMO, JSON.stringify(state));
+
+    // ---- state
+    let state = {
+      workMin: 25,
+      breakMin: 5,
+      mode: "work", // 'work' | 'break'
+      remaining: 25 * 60, // giây
+      running: false,
+      startedAt: 0, // ms
+    };
+    const saved = localStorage.getItem(K_POMO);
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        Object.assign(state, s || {});
+        // nếu đang chạy, bù trễ theo thời gian thực
+        if (state.running && state.startedAt) {
+          const diff = ((Date.now() - state.startedAt) / 1000) | 0;
+          state.remaining = Math.max(0, (state.remaining | 0) - diff);
+          if (state.remaining === 0) nextPhase();
+        }
+      } catch {}
+    }
+
+    // ---- render
+    function updateUI() {
+      if (el.work) el.work.value = state.workMin;
+      if (el.brk) el.brk.value = state.breakMin;
+      if (el.time) el.time.textContent = fmt(state.remaining);
+      if (el.status)
+        el.status.textContent =
+          "Chế độ: " + (state.mode === "work" ? "Làm việc" : "Nghỉ ngơi");
+    }
+    updateUI();
+
+    // ---- timer
+    let tickId = null;
+    let last = 0;
+
+    function start() {
+      if (state.running) return;
+      state.running = true;
+      if (!state.remaining || state.remaining <= 0) {
+        state.remaining =
+          (state.mode === "work" ? state.workMin : state.breakMin) * 60;
+      }
+      state.startedAt = Date.now();
+      save();
+      last = Date.now();
+      tickId = setInterval(tick, 250);
+    }
+    function pause() {
+      if (!state.running) return;
+      state.running = false;
+      save();
+      clearInterval(tickId);
+      tickId = null;
+    }
+    function reset() {
+      pause();
+      state.mode = "work";
+      state.remaining = state.workMin * 60;
+      save();
+      updateUI();
+    }
+    function nextPhase() {
+      state.mode = state.mode === "work" ? "break" : "work";
+      state.remaining =
+        (state.mode === "work" ? state.workMin : state.breakMin) * 60;
+      state.startedAt = Date.now();
+      save();
+      updateUI();
+    }
+    function tick() {
+      const now = Date.now();
+      const d = ((now - last) / 1000) | 0;
+      if (d >= 1) {
+        state.remaining = Math.max(0, state.remaining - d);
+        last += d * 1000;
+        if (state.remaining === 0) nextPhase();
+        else {
+          save();
+          el.time.textContent = fmt(state.remaining);
+        }
+      }
+    }
+    document.addEventListener("visibilitychange", () => {
+      // bù trễ khi chuyển tab
+      if (!state.running || !state.startedAt) return;
+      const diff = ((Date.now() - state.startedAt) / 1000) | 0;
+      state.startedAt = Date.now();
+      state.remaining = Math.max(0, state.remaining - diff);
+      if (state.remaining === 0) nextPhase();
+      else {
+        save();
+        updateUI();
+      }
+    });
+
+    // ---- events: preset + inputs
+    el.preset?.addEventListener("change", () => {
+      const v = el.preset.value;
+      if (v === "custom") return;
+      const [w, b] = v.split(",").map((x) => parseInt(x, 10) || 0);
+      state.workMin = Math.max(1, w);
+      state.breakMin = Math.max(1, b);
+      if (!state.running) {
+        state.mode = "work";
+        state.remaining = state.workMin * 60;
+      }
+      save();
+      updateUI();
+    });
+    el.work?.addEventListener("input", () => {
+      state.workMin = Math.max(1, parseInt(el.work.value || "1", 10));
+      if (!state.running && state.mode === "work") {
+        state.remaining = state.workMin * 60;
+      }
+      save();
+      updateUI();
+    });
+    el.brk?.addEventListener("input", () => {
+      state.breakMin = Math.max(1, parseInt(el.brk.value || "1", 10));
+      if (!state.running && state.mode === "break") {
+        state.remaining = state.breakMin * 60;
+      }
+      save();
+      updateUI();
+    });
+
+    // ---- buttons
+    el.start?.addEventListener("click", start);
+    el.pause?.addEventListener("click", pause);
+    el.reset?.addEventListener("click", reset);
+
+    // ---- notes (autosave)
+    const savedNotes = localStorage.getItem(K_NOTES) || "";
+    if (el.notes) el.notes.value = savedNotes;
+
+    let notesTimer = null;
+    el.notes?.addEventListener("input", () => {
+      clearTimeout(notesTimer);
+      notesTimer = setTimeout(
+        () => localStorage.setItem(K_NOTES, el.notes.value || ""),
+        250
+      );
+    });
+    el.notesClear?.addEventListener("click", () => {
+      if (!confirm("Xóa toàn bộ ghi chú?")) return;
+      localStorage.removeItem(K_NOTES);
+      if (el.notes) el.notes.value = "";
+    });
+
+    // nếu lần đầu vào trang mà state.running == true thì chạy tiếp
+    if (state.running) start();
+    else updateUI();
+  })();
+
+  /* =========================================================
      INIT
      ========================================================= */
   (function init() {
