@@ -1,6 +1,7 @@
 /* ===================== USER & STORAGE ===================== */
+/* ===================== USER & STORAGE ===================== */
 const USER_ID = localStorage.getItem("currentUserId") || "";
-if (!USER_ID) location.href = "../user/login.html";
+if (!USER_ID) location.href = "../../../index.html?needLogin=1"; // ← đổi về Welcome
 
 const LS_KEY = (k) => `user_data_${USER_ID}`;
 const $ = (id) => document.getElementById(id);

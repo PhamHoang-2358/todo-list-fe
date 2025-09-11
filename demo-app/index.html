@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <title>Task App | Trang chủ</title>
-    <link rel="icon" href="data:," />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
 
-    <!-- Icons + Chart -->
+    <!-- Vendor -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- CSS của bạn -->
+    <!-- App CSS -->
     <link rel="stylesheet" href="styles/dashboard-home.css" />
   </head>
 
   <body>
-    <!-- ========== HEADER ========== -->
+    <!-- HEADER -->
     <header class="site-header">
       <div class="brand"><i class="fa-solid fa-list-check"></i> Task App</div>
       <nav class="actions">
@@ -28,23 +28,24 @@
         <button id="btnRegister" class="btn ghost">
           <i class="fa-solid fa-user-plus"></i> Đăng ký
         </button>
+        <button id="themeToggle" class="btn ghost" title="Đổi giao diện">
+          🎨 Theme
+        </button>
       </nav>
     </header>
 
-    <!-- ========== QUICKBAR (nút nổi) ========== -->
-    <button
-      id="qbToggle"
-      class="qb-toggle"
-      aria-controls="headerQuickbar"
-      aria-expanded="false"
-    >
-      <i class="fa-solid fa-compass"></i> Mục nhanh
-    </button>
+    <!-- WELCOME -->
+    <div class="welcome-banner">
+      <div class="container">
+        <h2>👋 Chào mừng đến với Task App!</h2>
+        <p>
+          Quản lý dự án, công việc, tiến độ và tài chính với dashboard hiện đại.
+        </p>
+      </div>
+    </div>
 
-    <nav id="headerQuickbar" class="header-quickbar" aria-hidden="true" inert>
-      <button class="closeqb" id="qbClose" type="button" aria-label="Đóng">
-        Ẩn
-      </button>
+    <!-- QUICKBAR -->
+    <nav id="headerQuickbar">
       <a href="#weather" class="qitem"
         ><i class="fa-solid fa-cloud-sun"></i> Thời tiết</a
       >
@@ -80,358 +81,422 @@
       >
     </nav>
 
-    <!-- ========== BREADCRUMB ========== -->
+    <!-- BREADCRUMB -->
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html">Trang chủ</a> <span>/</span>
+      <a href="#top">Trang chủ</a> <span>/</span>
       <span id="crumb">Tổng quan</span>
     </nav>
 
-    <!-- ========== LAYOUT CHÍNH ========== -->
-    <div class="dashboard-home">
-      <!-- ===== AUTH OVERLAY ===== -->
-      <div class="auth-overlay" id="authOverlay" aria-hidden="true" inert>
-        <div
-          class="auth-card"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="authTitle"
-        >
-          <button class="auth-close" id="authClose" aria-label="Đóng">
-            &times;
-          </button>
-
-          <div class="auth-tabs">
-            <button id="tabLogin" class="auth-tab is-active" data-mode="login">
-              Đăng nhập
-            </button>
-            <button id="tabRegister" class="auth-tab" data-mode="register">
-              Đăng ký
-            </button>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <h1 class="hero__title">Quản lý công việc đơn giản, gọn gàng</h1>
+          <p class="hero__desc">
+            Theo dõi dự án, lịch, biểu đồ và tiến độ — tất cả trong một.
+          </p>
+          <div class="hero__cta">
+            <a href="#quick-start" class="btn primary">Bắt đầu miễn phí</a>
+            <a href="#finance-chart" class="btn btn-ghost">Xem demo</a>
           </div>
+          <ul class="hero__bullets">
+            <li><i class="fas fa-check"></i> Không cần cài đặt</li>
+            <li><i class="fas fa-check"></i> Lưu cục bộ & riêng tư</li>
+            <li><i class="fas fa-check"></i> Hỗ trợ mobile</li>
+          </ul>
+        </div>
+        <div class="hero__media">
+          <img
+            src="assets/images/hinh-nen-anime-cho-may-tinh-121-1.jpg"
+            alt="Giao diện TaskApp"
+          />
+        </div>
+      </div>
+    </section>
 
-          <form id="formLogin" class="auth-form" novalidate autocomplete="off">
-            <h3 id="authTitle">Đăng nhập</h3>
-            <label
-              ><input
-                type="text"
-                id="loginEmail"
-                placeholder="Email hoặc ID"
-                required
-            /></label>
-            <label
-              ><input
-                type="password"
-                id="loginPassword"
-                placeholder="Mật khẩu"
-                minlength="6"
-                required
-            /></label>
-            <label class="remember-me"
-              ><input type="checkbox" id="rememberMe" /> Nhớ tài khoản</label
-            >
-            <button type="submit" class="btn primary full">Đăng nhập</button>
-            <p class="auth-switch">
-              Chưa có tài khoản?
-              <a href="#" data-switch="register">Tạo tài khoản</a>
-            </p>
-          </form>
+    <!-- FEATURES -->
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section__title">Tính năng chính</h2>
+        <div class="card-grid">
+          <article class="card">
+            <i class="fas fa-clipboard-list card__icon"></i>
+            <h3><a href="#tasks-mini">Task & Dự án</a></h3>
+            <p>Tạo, lọc, sắp xếp, thống kê theo trạng thái/độ ưu tiên.</p>
+          </article>
+          <article class="card">
+            <i class="fas fa-chart-pie card__icon"></i>
+            <h3><a href="#finance-chart">Biểu đồ</a></h3>
+            <p>Chart.js hiển thị tiến độ, tỉ lệ hoàn thành trực quan.</p>
+          </article>
+          <article class="card">
+            <i class="fas fa-calendar-alt card__icon"></i>
+            <h3><a href="#upcoming">Lịch</a></h3>
+            <p>Chọn ngày, xem việc trong ngày, nhắc hạn.</p>
+          </article>
+          <article class="card">
+            <i class="fas fa-cloud-sun card__icon"></i>
+            <h3><a href="#weather">Widget</a></h3>
+            <p>Weather, quote, nhạc — tuỳ biến dashboard cá nhân.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-          <form
-            id="formRegister"
-            class="auth-form is-hidden"
-            novalidate
-            autocomplete="off"
+    <!-- NEWS -->
+    <section id="news" class="section section--alt">
+      <div class="container">
+        <h2 class="section__title">Cập nhật gần đây</h2>
+        <div class="list">
+          <a class="list__item" href="#"
+            ><span class="tag">v1.4</span
+            ><strong>Thêm lịch hiện đại + gộp view</strong
+            ><time>Aug 2025</time></a
           >
-            <h3><i class="fa-solid fa-user-plus"></i> Đăng ký</h3>
-            <label
-              ><input
-                type="text"
-                id="regId"
-                placeholder="Nhập ID"
-                required
-                minlength="3"
-                autocomplete="username"
-            /></label>
-            <label
-              ><input
-                type="password"
-                id="regPassword"
-                placeholder="Ít nhất 6 ký tự"
-                required
-                minlength="6"
-                autocomplete="new-password"
-            /></label>
-            <label
-              ><input
-                type="password"
-                id="regPassword2"
-                placeholder="Nhập lại mật khẩu"
-                required
-                minlength="6"
-                autocomplete="new-password"
-            /></label>
-            <label
-              ><input
-                type="text"
-                id="regName"
-                placeholder="Nguyễn Văn A"
-                required
-            /></label>
-            <label
-              ><input
-                type="email"
-                id="regEmail"
-                placeholder="you@example.com"
-                required
-                autocomplete="email"
-            /></label>
-            <label
-              ><input
-                type="tel"
-                id="regPhone"
-                placeholder="09xxxxxxxx"
-                pattern="^[0-9\\s+\\-()]{8,15}$"
-                autocomplete="tel"
-            /></label>
-            <button type="submit" class="btn primary full">
-              <i class="fa-solid fa-user-plus"></i> Đăng ký
-            </button>
-            <p class="auth-switch">
-              Đã có tài khoản? <a href="#" data-switch="login">Đăng nhập</a>
-            </p>
-          </form>
+          <a class="list__item" href="#"
+            ><span class="tag">Tips</span
+            ><strong>3 cách tổ chức dự án gọn hơn</strong
+            ><time>Aug 2025</time></a
+          >
+          <a class="list__item" href="#"
+            ><span class="tag">How-to</span
+            ><strong>Đồng bộ dữ liệu đa thiết bị (hướng dẫn)</strong
+            ><time>Jul 2025</time></a
+          >
         </div>
       </div>
+    </section>
 
-      <!-- ===== CREATE OVERLAY ===== -->
-      <div class="auth-overlay" id="createOverlay" aria-hidden="true" inert>
-        <div
-          class="auth-card"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="createTitle"
-        >
-          <button class="auth-close" id="createClose" aria-label="Đóng">
-            &times;
-          </button>
-
-          <div class="auth-tabs" id="createTabs">
-            <button class="auth-tab is-active" data-kind="project">
-              Dự án
-            </button>
-            <button class="auth-tab" data-kind="task">Task</button>
-          </div>
-
-          <form id="formProject" class="auth-form" novalidate>
-            <h3 id="createTitle">Tạo dự án</h3>
-            <label
-              ><input id="pjName" placeholder="Tên dự án *" required
-            /></label>
-            <label
-              ><input
-                id="pjBudget"
-                type="number"
-                min="0"
-                placeholder="Ngân sách (VND)"
-            /></label>
-            <label><input id="pjOwner" placeholder="Chủ dự án" /></label>
-            <button class="btn primary full">Tạo dự án</button>
-          </form>
-
-          <form id="formTask" class="auth-form is-hidden" novalidate>
-            <h3>Thêm task</h3>
-            <label
-              ><input id="tkTitle" placeholder="Tiêu đề *" required
-            /></label>
-            <label
-              ><input id="tkProject" placeholder="Thuộc dự án *" required
-            /></label>
-            <label
-              ><input id="tkDue" type="date" placeholder="Hạn chót *" required
-            /></label>
-            <label>
-              <select id="tkPriority">
-                <option value="Medium">Độ ưu tiên: Trung bình</option>
-                <option value="High">Cao</option>
-                <option value="Low">Thấp</option>
-              </select>
-            </label>
-            <label>
-              <textarea id="tkDesc" rows="3" placeholder="Mô tả"></textarea>
-            </label>
-            <button class="btn primary full">Lưu task</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- ===== NỘI DUNG TRANG CHỦ ===== -->
-      <main class="main-home-content" id="home">
-        <div class="greet-title">👋 Chào mừng đến với Task App!</div>
-        <div class="desc">
-          Quản lý dự án, công việc, tiến độ và tài chính với dashboard hiện đại.
-        </div>
-
-        <div class="widgets">
-          <!-- Widget Thời tiết -->
-          <div class="widget card-box">
-            <h3 class="widget-title">Thời tiết hôm nay</h3>
-
-            <!-- Ô nhập + nút refresh -->
-            <div style="display: flex; gap: 6px; margin-bottom: 10px">
-              <input
-                type="text"
-                id="weatherCity"
-                placeholder="Nhập thành phố (vd: Hanoi)"
-                style="
-                  flex: 1;
-                  padding: 8px 10px;
-                  border: 1px solid #ddd;
-                  border-radius: 6px;
-                "
-              />
-              <button
-                id="weatherRefresh"
-                style="
-                  background: #2563eb;
-                  border: none;
-                  padding: 0 14px;
-                  border-radius: 6px;
-                  cursor: pointer;
-                  color: #fff;
-                "
-                title="Làm mới"
-              >
-                <i class="fas fa-sync-alt"></i>
-              </button>
-            </div>
-
-            <!-- Nội dung kết quả -->
-            <div id="weather-info" style="font-size: 14px; line-height: 1.6">
-              Đang tải...
-            </div>
-          </div>
-
-          <!-- Quote -->
-          <section class="widget quote-card" id="quote">
-            <h3><i class="fa-solid fa-quote-left"></i> Quote hôm nay</h3>
-            <div id="quote-text"><div class="q-text">Đang tải...</div></div>
-          </section>
-
-          <!-- Music -->
-          <section class="widget" id="music">
-            <h3>Nhạc hôm nay</h3>
-            <div class="music-controls">
-              <select id="musicSelect">
-                <option value="">— Chọn bài có sẵn —</option>
-              </select>
-              <label for="musicUpload" class="btn file"
-                ><i class="fa-regular fa-file-audio"></i> Tải tệp</label
-              >
-              <input type="file" id="musicUpload" accept="audio/*" hidden />
-            </div>
-            <audio
-              controls
-              id="audioPlayer"
-              preload="metadata"
-              controlslist="nodownload"
+    <!-- DASHBOARD -->
+    <main class="main-home-content" id="home">
+      <div class="widgets">
+        <div class="widget card-box" id="weather">
+          <h3 class="widget-title">Thời tiết hôm nay</h3>
+          <div style="display: flex; gap: 6px; margin-bottom: 10px">
+            <input
+              id="weatherCity"
+              placeholder="Nhập thành phố (vd: Hanoi)"
+              style="
+                flex: 1;
+                padding: 8px 10px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+              "
+            />
+            <button
+              id="weatherRefresh"
+              style="
+                background: #2563eb;
+                border: none;
+                padding: 0 14px;
+                border-radius: 6px;
+                cursor: pointer;
+                color: #fff;
+              "
+              title="Làm mới"
             >
-              <source src="" type="audio/mp3" />
-              Trình duyệt không hỗ trợ audio.
-            </audio>
-            <div class="music-info">
-              <div class="music-meta">
-                <span id="mName">Chưa chọn tệp</span> •
-                <span id="mSize">0 KB</span>
-              </div>
-              <div class="music-progress"><div id="mBar"></div></div>
-              <div class="music-time">
-                <span id="mCur">0:00</span><span id="mDur">0:00</span>
-              </div>
-              <div class="music-history">
-                <b>Gần đây:</b>
-                <ul id="mHist">
-                  <li>Trống</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <!-- Finance -->
-          <section class="widget" id="finance-chart">
-            <h3>Biểu đồ tài chính</h3>
-            <canvas id="financeChart"></canvas>
-          </section>
-
-          <!-- Quick start -->
-          <section class="widget" id="quick-start">
-            <h3>Bắt đầu nhanh</h3>
-            <div class="qs-grid">
-              <button class="qs-btn" data-act="new-project">
-                <i class="fa-solid fa-diagram-project"></i> Tạo dự án
-              </button>
-              <button class="qs-btn" data-act="new-task">
-                <i class="fa-solid fa-plus"></i> Thêm task
-              </button>
-              <button class="qs-btn" data-act="import">
-                <i class="fa-solid fa-file-arrow-up"></i> Import CSV
-              </button>
-              <button class="qs-btn" data-act="invite">
-                <i class="fa-solid fa-user-plus"></i> Mời thành viên
-              </button>
-            </div>
-          </section>
-
-          <!-- Mini stats -->
-          <section class="widget" id="mini-stats">
-            <h3>Tổng quan</h3>
-            <ul class="stat-list">
-              <li><b id="stProjects">3</b><span>Dự án</span></li>
-              <li><b id="stTasksOpen">12</b><span>Task mở</span></li>
-              <li><b id="stTasksDone">7</b><span>Hoàn thành</span></li>
-              <li><b id="stOverdue">2</b><span>Quá hạn</span></li>
-            </ul>
-          </section>
-
-          <!-- Recent -->
-          <section class="widget" id="recent-items">
-            <h3>Gần đây</h3>
-            <ul class="ri-list" id="riList"></ul>
-            <a href="#" class="more-link">Xem tất cả</a>
-          </section>
-
-          <!-- Upcoming -->
-          <section class="widget" id="upcoming">
-            <h3>Sắp đến hạn</h3>
-            <ul class="due-list" id="dueList"></ul>
-          </section>
-
-          <!-- Activity -->
-          <section class="widget" id="activity">
-            <h3>Hoạt động</h3>
-            <ul class="act-list" id="actList"></ul>
-          </section>
-
-          <!-- Announcements -->
-          <section class="widget" id="ann">
-            <h3>Thông báo</h3>
-            <div class="ann-board" id="annBoard">
-              <p>🔥 Ra mắt giao diện đăng nhập mới.</p>
-              <p>📈 Cập nhật biểu đồ tài chính.</p>
-            </div>
-          </section>
-
-          <!-- Tasks mini -->
-          <section class="widget" id="tasks-mini">
-            <h3>Task của bạn</h3>
-            <ul id="taskList" class="ri-list"></ul>
-          </section>
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div id="weather-info" style="font-size: 14px; line-height: 1.6">
+            Đang tải...
+          </div>
         </div>
 
-        <footer class="footer">&copy; 2025 Task App</footer>
-      </main>
+        <section class="widget quote-card" id="quote">
+          <h3><i class="fa-solid fa-quote-left"></i> Quote hôm nay</h3>
+          <div id="quote-text"><div class="q-text">Đang tải...</div></div>
+        </section>
+
+        <section class="widget" id="music">
+          <h3>Nhạc hôm nay</h3>
+          <div class="music-controls">
+            <select id="musicSelect">
+              <option value="">— Chọn bài có sẵn —</option>
+            </select>
+            <label for="musicUpload" class="btn file"
+              ><i class="fa-regular fa-file-audio"></i> Tải tệp</label
+            >
+            <input type="file" id="musicUpload" accept="audio/*" hidden />
+          </div>
+          <audio
+            controls
+            id="audioPlayer"
+            preload="metadata"
+            controlslist="nodownload"
+          >
+            <source src="" type="audio/mp3" />
+            Trình duyệt không hỗ trợ audio.
+          </audio>
+        </section>
+
+        <section class="widget" id="finance-chart">
+          <h3>Biểu đồ tài chính</h3>
+          <canvas id="financeChart"></canvas>
+        </section>
+
+        <section class="widget" id="mini-stats">
+          <h3>Tổng quan</h3>
+          <ul class="stat-list">
+            <li><b id="stProjects">3</b><span>Dự án</span></li>
+            <li><b id="stTasksOpen">12</b><span>Task mở</span></li>
+            <li><b id="stTasksDone">7</b><span>Hoàn thành</span></li>
+            <li><b id="stOverdue">2</b><span>Quá hạn</span></li>
+          </ul>
+        </section>
+        <section class="widget" id="quick-panel">
+          <div class="panel-grid">
+            <!-- Bắt đầu nhanh -->
+            <div class="qs-col">
+              <h3>Bắt đầu nhanh</h3>
+              <div class="qs-stack">
+                <button class="qs-btn" data-act="new-project">
+                  <i class="fa-solid fa-diagram-project"></i> Tạo dự án
+                </button>
+                <button class="qs-btn" data-act="new-task">
+                  <i class="fa-solid fa-plus"></i> Thêm task
+                </button>
+                <button class="qs-btn" data-act="import">
+                  <i class="fa-solid fa-file-arrow-up"></i> Import CSV
+                </button>
+                <button class="qs-btn" data-act="invite">
+                  <i class="fa-solid fa-user-plus"></i> Mời thành viên
+                </button>
+              </div>
+            </div>
+            <!-- Thanh dọc ngăn cách -->
+            <div class="v-sep" aria-hidden="true"></div>
+            <!-- Task của bạn -->
+            <div class="task-col">
+              <h3>Task của bạn</h3>
+              <ul id="taskList" class="ri-list">
+                <!-- JS render task vào đây -->
+              </ul>
+              <div class="qp-footer">
+                <div class="qp-stats">
+                  <div class="chip">Open <b id="qpOpen">0</b></div>
+                  <div class="chip">Done <b id="qpDone">0</b></div>
+                  <div class="chip">Total <b id="qpTotal">0</b></div>
+                </div>
+
+                <div class="qp-progress" aria-label="Tiến độ hoàn thành">
+                  <div class="bar" id="qpBar" style="width: 0%"></div>
+                </div>
+
+                <div class="qp-hints">
+                  <span class="hint"
+                    >💡 Mẹo: nhấn Enter để thêm task nhanh.</span
+                  >
+                  <span class="hint"
+                    >⏰ Dùng Focus Tools bên phải để tập trung.</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="widget" id="focus-tools">
+          <h3>Focus Tools</h3>
+
+          <!-- Pomodoro -->
+          <div class="pomo">
+            <div class="pomo-row">
+              <select id="pomoPreset">
+                <option value="25,5">25/5</option>
+                <option value="50,10">50/10</option>
+                <option value="15,3">15/3</option>
+                <option value="custom">Tùy chỉnh…</option>
+              </select>
+              <input
+                id="pomoWork"
+                type="number"
+                min="1"
+                value="25"
+                aria-label="phút làm"
+              />
+              <span class="sep">/</span>
+              <input
+                id="pomoBreak"
+                type="number"
+                min="1"
+                value="5"
+                aria-label="phút nghỉ"
+              />
+              <span class="unit">phút</span>
+            </div>
+
+            <div class="pomo-time" id="pomoTime">25:00</div>
+
+            <div class="pomo-actions">
+              <button id="pomoStart" class="btn primary">Bắt đầu</button>
+              <button id="pomoPause" class="btn ghost">Tạm dừng</button>
+              <button id="pomoReset" class="btn">Reset</button>
+            </div>
+            <div class="pomo-status" id="pomoStatus">Chế độ: Làm việc</div>
+          </div>
+
+          <hr class="ft-divider" />
+
+          <!-- Notes -->
+          <div class="notes">
+            <div class="notes-head">
+              <span>Ghi chú nhanh</span>
+              <button id="notesClear" class="btn ghost" title="Xóa ghi chú">
+                🧹
+              </button>
+            </div>
+            <textarea
+              id="quickNotes"
+              rows="10"
+              placeholder="Gõ ghi chú..."
+            ></textarea>
+            <div class="notes-hint">Tự lưu • <code>localStorage</code></div>
+          </div>
+        </section>
+
+        <section class="widget" id="recent-items">
+          <h3>Gần đây</h3>
+          <ul class="ri-list" id="riList"></ul>
+          <a href="#" class="more-link">Xem tất cả</a>
+        </section>
+
+        <section class="widget" id="upcoming">
+          <h3>Sắp đến hạn</h3>
+          <ul class="due-list" id="dueList"></ul>
+        </section>
+
+        <section class="widget" id="activity">
+          <h3>Hoạt động</h3>
+          <ul class="act-list" id="actList"></ul>
+        </section>
+
+        <section class="widget" id="ann">
+          <h3>Thông báo</h3>
+          <div class="ann-board" id="annBoard">
+            <p>🔥 Ra mắt giao diện đăng nhập mới.</p>
+            <p>📈 Cập nhật biểu đồ tài chính.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- AUTH MODAL -->
+    <div class="auth-overlay" id="authOverlay" aria-hidden="true" inert>
+      <div
+        class="auth-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="authTitle"
+      >
+        <button class="auth-close" id="authClose" aria-label="Đóng">
+          &times;
+        </button>
+
+        <div class="auth-tabs">
+          <button id="tabLogin" class="auth-tab is-active" data-mode="login">
+            Đăng nhập
+          </button>
+          <button id="tabRegister" class="auth-tab" data-mode="register">
+            Đăng ký
+          </button>
+        </div>
+
+        <form id="formLogin" class="auth-form" novalidate autocomplete="off">
+          <h3 id="authTitle">Đăng nhập</h3>
+          <label
+            ><input
+              type="text"
+              id="loginEmail"
+              placeholder="Email hoặc ID"
+              required
+          /></label>
+          <label
+            ><input
+              type="password"
+              id="loginPassword"
+              placeholder="Mật khẩu"
+              minlength="6"
+              required
+          /></label>
+          <label class="remember-me"
+            ><input type="checkbox" id="rememberMe" /> Nhớ tài khoản</label
+          >
+          <button type="submit" class="btn full">Đăng nhập</button>
+          <p class="auth-switch">
+            Chưa có tài khoản?
+            <a href="#" data-switch="register">Tạo tài khoản</a>
+          </p>
+        </form>
+
+        <form
+          id="formRegister"
+          class="auth-form is-hidden"
+          novalidate
+          autocomplete="off"
+        >
+          <h3><i class="fa-solid fa-user-plus"></i> Đăng ký</h3>
+          <label
+            ><input
+              type="text"
+              id="regId"
+              placeholder="Nhập ID"
+              required
+              minlength="3"
+              autocomplete="username"
+          /></label>
+          <label
+            ><input
+              type="password"
+              id="regPassword"
+              placeholder="Ít nhất 6 ký tự"
+              required
+              minlength="6"
+              autocomplete="new-password"
+          /></label>
+          <label
+            ><input
+              type="password"
+              id="regPassword2"
+              placeholder="Nhập lại mật khẩu"
+              required
+              minlength="6"
+              autocomplete="new-password"
+          /></label>
+          <label
+            ><input
+              type="text"
+              id="regName"
+              placeholder="Nguyễn Văn A"
+              required
+          /></label>
+          <label
+            ><input
+              type="email"
+              id="regEmail"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+          /></label>
+          <label
+            ><input
+              type="tel"
+              id="regPhone"
+              placeholder="09xxxxxxxx"
+              pattern="^[0-9\\s+\\-()]{8,15}$"
+              autocomplete="tel"
+          /></label>
+          <button type="submit" class="btn full">
+            <i class="fa-solid fa-user-plus"></i> Đăng ký
+          </button>
+          <p class="auth-switch">
+            Đã có tài khoản? <a href="#" data-switch="login">Đăng nhập</a>
+          </p>
+        </form>
+      </div>
     </div>
 
-    <!-- JS chính -->
+    <!-- App JS -->
     <script src="scripts/dashboard-home.js"></script>
   </body>
 </html>
