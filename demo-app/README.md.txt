@@ -1,3 +1,167 @@
+# 📋 Task Manager Dashboard
+
+Ứng dụng quản lý công việc dạng **Dashboard hiện đại**, phát triển bằng **HTML, CSS, JavaScript thuần**.  
+Dự án thuộc *Sản phẩm thực tập 1*, gồm: đăng nhập/đăng ký, dashboard, quản lý task/project, biểu đồ, lịch, và các widget tiện ích.
+
+---
+
+## 🚀 Tính năng đã hoàn thành
+
+### 🔐 Xác thực (Auth)
+- Đăng ký tài khoản (ID, Email, Mật khẩu, Tên, SĐT).  
+  - Kiểm tra hợp lệ: mật khẩu tối thiểu 6 ký tự, nhập lại khớp, email hợp lệ, số điện thoại hợp lệ.  
+  - Chặn trùng ID hoặc Email.  
+- Đăng nhập bằng ID/Email + Mật khẩu.  
+- **Remember me** (ghi nhớ đăng nhập).  
+- Chuyển đổi **Đăng nhập ⇄ Đăng ký** trong overlay (link `data-switch`).  
+- Dữ liệu tài khoản lưu trong **localStorage** (`users`).  
+
+### 🏠 Dashboard (index.html + dashboard-home.js)
+- **Quickbar** (toggle hoặc nhấn `Q`).  
+- **Top Nav + Breadcrumb** (chuyển nhanh tới section).  
+- **Widget Thời tiết** (API wttr.in, hiển thị nhiệt độ, ẩm, gió, UV, mưa, tầm nhìn, bình minh/hoàng hôn).  
+- **Widget Quote** (trích dẫn).  
+- **Music Player** (upload nhạc, hiển thị thông tin, tiến trình, lịch sử 5 bài).  
+- **Biểu đồ tài chính (Chart.js)** (biểu đồ đường VNIndex).  
+
+### 📂 Quản lý Dự án & Công việc (features/src/task)
+- **Dự án**: thêm mới (Tên, Ngân sách, Chủ sở hữu), lưu trong `tp_projects`.  
+- **Task**: thêm mới, sửa, xoá, đánh dấu hoàn thành.  
+  - Trường thông tin: Tiêu đề, Dự án, Hạn chót, Mức ưu tiên, Mô tả.  
+  - Lưu dữ liệu vào `tp_tasks`.  
+- **Mini Task List**: hiển thị nhanh, có nút **Sửa** / **Xoá**.  
+
+### 📊 Thống kê & Hoạt động
+- **Recent**: công việc/dự án vừa tạo.  
+- **Due**: công việc gần đến hạn.  
+- **Activity**: log hành động gần đây.  
+
+### 📱 Responsive & Giao diện
+- Bố cục **dashboard** (sidebar + main).  
+- **Card bo tròn, bóng nhẹ, màu sáng**.  
+- Responsive trên **desktop và mobile (Android)**.  
+- Icon từ **Font Awesome**.  
+
+---
+
+## 🛠 Công nghệ sử dụng
+
+- HTML5 / CSS3 (Flexbox, Grid, Responsive).  
+- JavaScript (ES6).  
+- Chart.js (biểu đồ).  
+- Font Awesome (icon).  
+- LocalStorage / SessionStorage.  
+- API wttr.in (dữ liệu thời tiết).  
+
+---
+
+# 📂 Cấu trúc dự án — Task Manager App
+
+```
+demo-app/
+│
+├── index.html                  # Trang chủ (Dashboard Home)
+├── README.md.txt               # Hướng dẫn sử dụng
+│
+├── assets/                     # Tài nguyên tĩnh (ảnh, nhạc, icon)
+│   └── images/...
+│
+├── components/                 # Thành phần JS tái sử dụng
+│   └── modal.js
+│
+├── features/
+│   └── src/
+│       ├── task/               # Module quản lý công việc
+│       │   ├── task.html       # Giao diện quản lý Task
+│       │   ├── task.css        # CSS cho Task Manager
+│       │   └── task.js         # Logic CRUD Task, Project, Calendar, Filter
+│       │
+│       ├── user/               # Module người dùng (login/register - overlay)
+│       │   └── ... (tích hợp sẵn trong index.html)
+│       │
+│       └── welcome/            # Giao diện welcome (nếu cần tách riêng)
+│           └── welcome.css
+│
+├── scripts/
+│   └── dashboard-home.js       # Logic trang chủ: theme, quickbar, weather, quote,
+│                               # music, finance chart, mini tasks, auth overlay
+│
+└── styles/
+    ├── dashboard-home.css      # CSS cho Dashboard Home
+    ├── task.css                # CSS cho Task Manager (dùng riêng trong task/)
+    ├── main.css                # CSS chung (reset, button, layout)
+    └── variables.css           # Biến màu sắc, theme (global)
+```
+
+---
+
+# 🚀 Hướng dẫn sử dụng
+
+## 1. Khởi chạy ứng dụng
+
+* Mở file `index.html` trong trình duyệt (Chrome/Edge/Firefox).
+* Đây là **trang chủ (Dashboard)** với các widget: thời tiết, quote, nhạc, biểu đồ tài chính, mini tasks.
+
+## 2. Đăng nhập / Đăng ký
+
+* Nhấn nút **Đăng nhập / Đăng ký** ở header.
+* Đăng ký tài khoản mới (ID, Email, Mật khẩu, Tên, SĐT).
+* Hệ thống lưu thông tin vào **LocalStorage** (`taskapp_users`).
+* Sau khi đăng nhập, dữ liệu cá nhân (projects, tasks) được lưu vào `user_data_{USERID}`.
+
+## 3. Dashboard Home (`index.html`)
+
+* **Quickbar**: nhảy nhanh tới widget.
+* **Breadcrumb**: hiển thị vị trí hiện tại khi cuộn.
+* **Weather**: nhập tên thành phố → xem thời tiết (API wttr.in).
+* **Quote**: hiển thị trích dẫn ngẫu nhiên.
+* **Music**: chọn file nhạc từ máy hoặc chọn có sẵn.
+* **Finance Chart**: hiển thị VNIndex demo bằng Chart.js.
+* **Mini Tasks**: danh sách công việc gần đây (demo hoặc user).
+
+## 4. Task Manager (`features/src/task/task.html`)
+
+* Sidebar:
+
+  * **Projects**: thêm, chọn, xoá dự án.
+  * **Form thêm Task**: nhập tên, chi tiết, trạng thái, ưu tiên, deadline, assignee, ảnh.
+  * Nút **Đăng xuất** để quay lại trang chủ.
+
+* Main content:
+
+  * **Calendar**: hiển thị công việc theo ngày, chọn ngày để xem task.
+  * **Status Insight**: thống kê tiến độ (chưa bắt đầu, đang làm, hoàn thành) bằng vòng tròn & thanh bar.
+  * **Filter & Search**: lọc theo trạng thái, ưu tiên, deadline, từ khóa.
+  * **Task List**: hiển thị, chỉnh sửa, xoá task, xem ảnh đính kèm.
+
+## 5. Lưu trữ dữ liệu
+
+* Tất cả dữ liệu được lưu cục bộ bằng **LocalStorage** theo từng user.
+* Key chính:
+
+  * `taskapp_users`: danh sách user.
+  * `currentUserId`: user đang đăng nhập.
+  * `user_data_{id}`: chứa `{ projects: [], tasks: [] }` cho mỗi user.
+
+## 6. Reset dữ liệu
+
+* Mở DevTools → Application → Local Storage.
+* Xoá các key: `taskapp_users`, `user_data_{id}`, `currentUserId`.
+
+
+---
+
+## 💡 Ghi chú
+
+- Dữ liệu chỉ lưu trong **trình duyệt**. Để reset: DevTools → Application → Local Storage → xoá `users`, `tp_projects`, `tp_tasks`.  
+- Đây là sản phẩm thực tập, **chưa có backend/server**.  
+
+---
+
+## 👨‍💻 Tác giả
+
+- **Phạm Hoàng Anh**  
+- Dự án: *Sản phẩm thực tập 1 — Task Manager Dashboard*
 // ===================== DATA STRUCTURE ======================
 const USER_ID = localStorage.getItem("currentUserId") || "";
 if (!USER_ID) location.href = "../user/login.html";
