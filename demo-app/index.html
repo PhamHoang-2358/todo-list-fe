@@ -11,7 +11,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
     <!-- App CSS -->
     <link rel="stylesheet" href="styles/dashboard-home.css" />
@@ -401,7 +401,12 @@
             Đăng ký
           </button>
         </div>
-
+        <div
+          id="authMsg"
+          class="auth-msg"
+          role="status"
+          aria-live="polite"
+        ></div>
         <form id="formLogin" class="auth-form" novalidate autocomplete="off">
           <h3 id="authTitle">Đăng nhập</h3>
           <label
