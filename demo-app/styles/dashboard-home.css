@@ -1038,3 +1038,86 @@ h3 {
 .auth-overlay:not(.show) .auth-close {
   display: none;
 }
+/* ===== MINI STATS ===== */
+#mini-stats {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+#mini-stats h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.stat-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.stat-list li {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 16px 10px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-list li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stat-list li b {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2563eb; /* xanh brand */
+  margin-bottom: 6px;
+}
+
+.stat-list li span {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Responsive mobile */
+@media (max-width: 600px) {
+  .stat-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.auth-msg {
+  display: none;
+  margin: 12px 0 4px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  border: 1px solid transparent;
+}
+.auth-msg.show {
+  display: block;
+}
+.auth-msg.info {
+  background: #eff6ff;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+.auth-msg.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+.auth-msg.success {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
