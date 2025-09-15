@@ -177,8 +177,6 @@
     const audio = $("#audioPlayer");
     const src = audio?.querySelector("source");
 
-    // (Optional) nếu bạn có danh sách nhạc sẵn thì append vào #musicSelect
-
     select?.addEventListener("change", () => {
       const v = select.value;
       if (!v || !audio || !src) return;
@@ -453,8 +451,8 @@
   }
 
   /* =========================================================
- AUTH OVERLAY + REGISTER/LOGIN (ở lại Welcome) — FIX A11Y
-========================================================= */
+   AUTH OVERLAY + REGISTER/LOGIN (ở lại Welcome) — FIX A11Y
+  ========================================================= */
   (function authInit() {
     const overlay = $("#authOverlay");
     const btnLogin = $("#btnLogin");
@@ -477,6 +475,34 @@
         return null;
       }
     };
+
+    function showAuthMsg(text, type = "info") {
+      const box = document.getElementById("authMsg");
+      if (!box) return;
+      box.className = "auth-msg show " + type; // info | error | success
+      box.textContent = text;
+    }
+
+    function clearAuthMsg() {
+      const box = document.getElementById("authMsg");
+      if (!box) return;
+      box.className = "auth-msg";
+      box.textContent = "";
+    }
+
+    // === Helpers validate (dùng chung cho login/register) ===
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const phoneRe = /^\d{8,15}$/;
+    function invalid(el, msg) {
+      showAuthMsg(msg, "error");
+      el?.focus();
+      el?.setAttribute("aria-invalid", "true");
+      return false;
+    }
+    function validClear(...els) {
+      clearAuthMsg();
+      els.forEach((e) => e?.removeAttribute("aria-invalid"));
+    }
 
     // ----- Users (giữ nguyên logic) -----
     function readUsersMerged() {
@@ -618,7 +644,6 @@
     }
 
     function closeAuth() {
-      // tránh aria-hidden khi còn focus bên trong
       if (overlay?.contains(document.activeElement)) {
         document.activeElement instanceof HTMLElement &&
           document.activeElement.blur();
@@ -660,53 +685,87 @@
     const remembered = localStorage.getItem(REM);
     if (remembered && $("#loginEmail")) $("#loginEmail").value = remembered;
 
-    // Submit
+    // ===== Submit ĐĂNG KÝ — thông báo rõ ràng =====
     formRegister?.addEventListener("submit", (e) => {
       e.preventDefault();
-      const id = $("#regId")?.value.trim();
-      const pw = $("#regPassword")?.value;
-      const pw2 = $("#regPassword2")?.value;
-      const name = $("#regName")?.value.trim();
-      const email = $("#regEmail")?.value.trim();
-      const phone = $("#regPhone")?.value.trim();
+      const id = $("#regId");
+      const pw = $("#regPassword");
+      const pw2 = $("#regPassword2");
+      const name = $("#regName");
+      const email = $("#regEmail");
+      const phone = $("#regPhone");
+
+      validClear(id, pw, pw2, email, phone);
 
       const users = readUsersMerged();
-      if (!id || (pw || "").length < 6 || pw !== pw2)
-        return alert("Kiểm tra ID/Mật khẩu");
-      if (users.some((u) => u.id === id || (email && u.email === email)))
-        return alert("ID/Email đã tồn tại");
 
-      users.push({ id, pw, name, email, phone, createdAt: Date.now() });
+      if (!id?.value.trim()) return invalid(id, "Vui lòng nhập ID đăng nhập.");
+      if (id.value.includes(" ") || id.value.trim().length < 3)
+        return invalid(id, "ID tối thiểu 3 ký tự và không chứa khoảng trắng.");
+      if (!pw?.value) return invalid(pw, "Vui lòng nhập mật khẩu.");
+      if (pw.value.length < 6)
+        return invalid(pw, "Mật khẩu phải có ít nhất 6 ký tự.");
+      if (pw.value !== pw2?.value)
+        return invalid(pw2, "Mật khẩu nhập lại không khớp.");
+      if (email?.value && !emailRe.test(email.value.trim()))
+        return invalid(email, "Email không hợp lệ.");
+      if (phone?.value && !phoneRe.test(phone.value.trim()))
+        return invalid(phone, "Số điện thoại chỉ gồm 8–15 chữ số.");
+
+      if (users.some((u) => u.id === id.value.trim()))
+        return invalid(id, "ID đã tồn tại. Vui lòng chọn ID khác.");
+      if (email?.value && users.some((u) => u.email === email.value.trim()))
+        return invalid(email, "Email này đã được sử dụng.");
+
+      users.push({
+        id: id.value.trim(),
+        pw: pw.value,
+        name: name?.value.trim() || "",
+        email: email?.value.trim() || "",
+        phone: phone?.value.trim() || "",
+        createdAt: Date.now(),
+      });
       saveUsers(users);
 
-      localStorage.setItem(CURR, id);
-      closeAuth();
+      localStorage.setItem(CURR, id.value.trim());
       applyHeaderUI();
       renderTasksMini();
       renderStats();
-      alert("Đăng ký & đăng nhập thành công!");
+      showAuthMsg("Đăng ký thành công! Đang đăng nhập...", "success");
+      setTimeout(() => closeAuth(), 600);
     });
 
+    // ===== Submit ĐĂNG NHẬP — thông báo rõ ràng =====
     formLogin?.addEventListener("submit", (e) => {
       e.preventDefault();
-      const loginId = $("#loginEmail")?.value.trim();
-      const pw = $("#loginPassword")?.value;
+      const loginId = $("#loginEmail");
+      const pw = $("#loginPassword");
 
-      const u = readUsersMerged().find(
-        (x) => x.id === loginId || x.email === loginId
+      validClear(loginId, pw);
+
+      if (!loginId?.value.trim() || !pw?.value)
+        return invalid(loginId, "Vui lòng nhập đầy đủ ID/Email và Mật khẩu.");
+
+      const users = readUsersMerged();
+      const u = users.find(
+        (x) => x.id === loginId.value.trim() || x.email === loginId.value.trim()
       );
-      if (!u || (u.pw || u.pass || "") !== pw)
-        return alert("Sai tài khoản hoặc mật khẩu");
+
+      if (!u)
+        return invalid(loginId, "Không tìm thấy tài khoản với ID/Email này.");
+      if ((u.pw || u.pass || "") !== pw.value)
+        return invalid(pw, "Mật khẩu không đúng. Vui lòng thử lại.");
 
       localStorage.setItem(CURR, u.id);
-      if ($("#rememberMe")?.checked) localStorage.setItem(REM, loginId);
+      if ($("#rememberMe")?.checked)
+        localStorage.setItem(REM, loginId.value.trim());
       else localStorage.removeItem(REM);
 
-      closeAuth();
       applyHeaderUI();
       renderTasksMini();
       renderStats();
-      alert("Đăng nhập thành công!");
+      showAuthMsg("Đăng nhập thành công!", "success");
+      setTimeout(() => closeAuth(), 500);
     });
 
     // Quick Start/CTA
@@ -774,7 +833,6 @@
       try {
         const s = JSON.parse(saved);
         Object.assign(state, s || {});
-        // nếu đang chạy, bù trễ theo thời gian thực
         if (state.running && state.startedAt) {
           const diff = ((Date.now() - state.startedAt) / 1000) | 0;
           state.remaining = Math.max(0, (state.remaining | 0) - diff);
@@ -846,7 +904,6 @@
       }
     }
     document.addEventListener("visibilitychange", () => {
-      // bù trễ khi chuyển tab
       if (!state.running || !state.startedAt) return;
       const diff = ((Date.now() - state.startedAt) / 1000) | 0;
       state.startedAt = Date.now();
@@ -912,7 +969,6 @@
       if (el.notes) el.notes.value = "";
     });
 
-    // nếu lần đầu vào trang mà state.running == true thì chạy tiếp
     if (state.running) start();
     else updateUI();
   })();
