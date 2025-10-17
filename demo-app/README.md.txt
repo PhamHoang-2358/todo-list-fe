@@ -1,7 +1,4 @@
-Tốt lắm 👍
-Dưới đây là bản **README / Hướng dẫn sử dụng chính thức mới**, viết lại hoàn chỉnh để **thay thế toàn bộ phần cũ** bạn gửi (đúng nội dung, đúng cấu trúc dự án thực tế của bạn, ngắn gọn – chuyên nghiệp – chuẩn sản phẩm thực tập):
 
----
 
 # 📋 **Task Manager Dashboard**
 
@@ -200,5 +197,6 @@ demo-app/
 **Môn:** *Sản phẩm thực tập 1*
 **Đề tài:** *Ứng dụng quản lý công việc cá nhân (Task Manager Dashboard)*
 **Công nghệ:** *HTML, CSS, JS thuần – LocalStorage*
+
 
 
