@@ -176,7 +176,7 @@ demo-app/
     ├── main.css                # CSS chung
     ├── variables.css           # Biến màu sắc
     ├── dashboard-home.css      # CSS trang chủ
-    └── task.css                # CSS cho trang Task Manager
+    
 ```
 
 ---
@@ -200,4 +200,5 @@ demo-app/
 **Môn:** *Sản phẩm thực tập 1*
 **Đề tài:** *Ứng dụng quản lý công việc cá nhân (Task Manager Dashboard)*
 **Công nghệ:** *HTML, CSS, JS thuần – LocalStorage*
+
 
