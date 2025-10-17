@@ -2,23 +2,22 @@
 <html lang="vi">
   <head>
     <link rel="icon" href="data:," />
-
     <meta charset="UTF-8" />
     <title>Task Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- ==== MUTE CONSOLE NOISE (đặt thật sớm) ==== -->
+    <!-- ==== MUTE CONSOLE NOISE ==== -->
     <script>
       (function () {
         function isNoise(s) {
           if (!s) return false;
           s = String(s);
           return [
-            "listener indicated an asynchronous response", // extension promise
-            "chrome-extension", // log từ extension
-            "#sec-projects:1", // hash line rác
-            "ResizeObserver loop", // ro loop
-            "favicon.ico", // 404 favicon
+            "listener indicated an asynchronous response",
+            "chrome-extension",
+            "#sec-projects:1",
+            "ResizeObserver loop",
+            "favicon.ico",
           ].some((m) => s.includes(m));
         }
         const _error = console.error,
@@ -31,21 +30,6 @@
           if (isNoise(args.join(" "))) return;
           _warn.apply(console, args);
         };
-        window.addEventListener("unhandledrejection", (e) => {
-          const msg = String(e?.reason?.message || e?.reason || "");
-          if (isNoise(msg)) e.preventDefault();
-        });
-        window.addEventListener(
-          "error",
-          (e) => {
-            const msg = (e?.message || "") + " " + (e?.filename || "");
-            if (isNoise(msg)) {
-              e.preventDefault();
-              return true;
-            }
-          },
-          true
-        );
       })();
     </script>
 
@@ -68,11 +52,9 @@
           <i class="fa-solid fa-layer-group"></i>
           <span>Task Manager</span>
         </div>
-
         <button class="menu-toggle" aria-label="Mở menu">
           <i class="fa-solid fa-bars"></i>
         </button>
-
         <ul class="menu-list">
           <li>
             <button id="homeBtn" class="menu-link home-btn">
@@ -80,29 +62,29 @@
             </button>
           </li>
           <li>
-            <a href="#sec-calendar" class="menu-link active"
-              ><i class="fa-regular fa-calendar"></i> Lịch</a
-            >
+            <a href="#sec-calendar" class="menu-link active">
+              <i class="fa-regular fa-calendar"></i> Lịch
+            </a>
           </li>
           <li>
-            <a href="#sec-insight" class="menu-link"
-              ><i class="fa-solid fa-chart-pie"></i> Trạng thái</a
-            >
+            <a href="#sec-insight" class="menu-link">
+              <i class="fa-solid fa-chart-pie"></i> Trạng thái
+            </a>
           </li>
           <li>
-            <a href="#sec-filter" class="menu-link"
-              ><i class="fa-solid fa-filter"></i> Bộ lọc</a
-            >
+            <a href="#sec-filter" class="menu-link">
+              <i class="fa-solid fa-filter"></i> Bộ lọc
+            </a>
           </li>
           <li>
-            <a href="#sec-tasks" class="menu-link"
-              ><i class="fa-regular fa-square-check"></i> Công việc</a
-            >
+            <a href="#sec-tasks" class="menu-link">
+              <i class="fa-regular fa-square-check"></i> Công việc
+            </a>
           </li>
           <li>
-            <a href="#sec-projects" class="menu-link"
-              ><i class="fa-solid fa-diagram-project"></i> Dự án</a
-            >
+            <a href="#sec-projects" class="menu-link">
+              <i class="fa-solid fa-diagram-project"></i> Dự án
+            </a>
           </li>
         </ul>
       </nav>
@@ -126,7 +108,6 @@
           </section>
 
           <hr class="sidebar-divider" />
-
           <div id="currentProjectDisplay" class="current-project-label">
             <span id="currentProjectName">--</span>
           </div>
@@ -185,33 +166,33 @@
               <ul id="taskOfDayList" class="task-of-day-list"></ul>
             </section>
 
+            <!-- ======= BIỂU ĐỒ TRẠNG THÁI MỚI ======= -->
             <div
               id="statusInsight"
               class="insight-card"
               data-anchor="sec-insight"
             >
-              <div class="pill-row">
-                <span class="pill pill-new"
-                  >Chưa bắt đầu: <b id="cNew">0</b></span
-                >
-                <span class="pill pill-doing"
-                  >Đang thực hiện: <b id="cDoing">0</b></span
-                >
-                <span class="pill pill-done"
-                  >Hoàn thành: <b id="cDone">0</b></span
-                >
+              <div class="status-header">
+                <div class="status-item item-new">
+                  <span class="dot"></span> Chưa bắt đầu: <b id="cNew">0</b>
+                  <div class="bar"><span id="barNew"></span></div>
+                </div>
+                <div class="status-item item-doing">
+                  <span class="dot"></span> Đang thực hiện: <b id="cDoing">0</b>
+                  <div class="bar"><span id="barDoing"></span></div>
+                </div>
+                <div class="status-item item-done">
+                  <span class="dot"></span> Hoàn thành: <b id="cDone">0</b>
+                  <div class="bar"><span id="barDone"></span></div>
+                </div>
               </div>
+
               <div class="ring-wrap">
-                <div class="ring"></div>
+                <div class="ring" id="chartHoverLayer"></div>
                 <div class="ring-center">
                   <div class="total" id="cTotal">0</div>
                   <div class="sub">TỔNG</div>
                 </div>
-              </div>
-              <div class="bars">
-                <div class="bar bar-new"><span></span></div>
-                <div class="bar bar-doing"><span></span></div>
-                <div class="bar bar-done"><span></span></div>
               </div>
             </div>
           </div>
@@ -256,12 +237,10 @@
       document.getElementById("homeBtn")?.addEventListener("click", () => {
         location.href = "../../../index.html";
       });
-
       const tm = document.querySelector(".top-menu");
       tm?.querySelector(".menu-toggle")?.addEventListener("click", () => {
         tm.classList.toggle("open");
       });
-
       const links = [
         ...document.querySelectorAll('.top-menu .menu-link[href^="#"]'),
       ];
@@ -275,7 +254,6 @@
         "sec-projects",
         "sec-insight",
       ];
-
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((en) => {
@@ -288,14 +266,12 @@
         },
         { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
       );
-
       ids.forEach((id) => {
         const el =
           document.getElementById(id) ||
           document.querySelector(`[data-anchor="${id}"]`);
         if (el) obs.observe(el);
       });
-
       links.forEach((a) =>
         a.addEventListener("click", () => tm?.classList.remove("open"))
       );
