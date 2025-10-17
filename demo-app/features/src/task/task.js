@@ -1,7 +1,6 @@
 /* ===================== USER & STORAGE ===================== */
-/* ===================== USER & STORAGE ===================== */
 const USER_ID = localStorage.getItem("currentUserId") || "";
-if (!USER_ID) location.href = "../../../index.html?needLogin=1"; // ← đổi về Welcome
+if (!USER_ID) location.href = "../../../index.html?needLogin=1";
 
 const LS_KEY = (k) => `user_data_${USER_ID}`;
 const $ = (id) => document.getElementById(id);
@@ -19,7 +18,7 @@ function setUserData(data) {
 }
 
 /* ===================== GLOBAL STATE ======================= */
-let editingTaskId = null; // null: thêm mới; khác null: đang sửa
+let editingTaskId = null;
 const formEl = $("formTask");
 
 /* ===================== PROJECTS =========================== */
@@ -104,9 +103,8 @@ formEl.addEventListener("submit", (e) => {
   const assignee = $("inputTaskAssignee").value.trim();
   const imgFile = $("inputTaskImage").files[0];
 
-  function save(imgData /* có thể undefined */) {
+  function save(imgData) {
     if (editingTaskId) {
-      // CẬP NHẬT
       const t = data.tasks.find((x) => x.id === editingTaskId);
       if (t) {
         t.title = title;
@@ -119,14 +117,12 @@ formEl.addEventListener("submit", (e) => {
         if (imgData !== undefined) t.image = imgData || null;
       }
       editingTaskId = null;
-
       const btn = formEl.querySelector("button[type='submit']");
       if (btn && btn.dataset.orig) {
         btn.innerHTML = btn.dataset.orig;
         delete btn.dataset.orig;
       }
     } else {
-      // THÊM MỚI
       data.tasks.push({
         id: "tsk" + Date.now(),
         projectId,
@@ -140,7 +136,6 @@ formEl.addEventListener("submit", (e) => {
         image: imgData || null,
       });
     }
-
     setUserData(data);
     formEl.reset();
     renderAll();
@@ -150,9 +145,7 @@ formEl.addEventListener("submit", (e) => {
     const reader = new FileReader();
     reader.onload = (ev) => save(ev.target.result);
     reader.readAsDataURL(imgFile);
-  } else {
-    save(undefined); // không đè ảnh cũ khi sửa
-  }
+  } else save(undefined);
 });
 
 window.editTask = function (taskId) {
@@ -169,13 +162,11 @@ window.editTask = function (taskId) {
   $("inputTaskImage").value = "";
 
   editingTaskId = taskId;
-
   const btn = formEl.querySelector("button[type='submit']");
   if (btn && !btn.dataset.orig) {
     btn.dataset.orig = btn.innerHTML;
     btn.innerHTML = `<i class="fas fa-save"></i> Lưu thay đổi`;
   }
-
   formEl.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
@@ -261,10 +252,10 @@ function renderTasks() {
         <div class="task-actions">
           <button onclick="editTask('${
             task.id
-          }')" title="Sửa"><i class="fas fa-edit"></i></button>
+          }')"><i class="fas fa-edit"></i></button>
           <button onclick="deleteTask('${
             task.id
-          }')" title="Xóa"><i class="fas fa-trash"></i></button>
+          }')"><i class="fas fa-trash"></i></button>
           ${
             task.image
               ? `<button onclick="toggleImage('${task.id}')"><i class="fas fa-image"></i> Ảnh</button>`
@@ -297,13 +288,12 @@ $("clearFilterBtn").onclick = function () {
   renderTasks();
 };
 
-/* ===================== STATUS INSIGHT RING ================= */
+/* ===================== STATUS INSIGHT ===================== */
 function updateStatusInsight({ notStarted, inProgress, done }) {
   const total = notStarted + inProgress + done || 1;
   const wrap = $("statusInsight");
   if (!wrap) return;
 
-  // conic-gradient angles
   const a1 = (notStarted / total) * 360;
   const a2 = (inProgress / total) * 360;
   wrap.style.setProperty("--a1", a1 + "deg");
@@ -315,9 +305,64 @@ function updateStatusInsight({ notStarted, inProgress, done }) {
   $("cTotal").textContent = total;
 
   const pct = (v) => (v / total) * 100 + "%";
-  wrap.querySelector(".bar-new span").style.width = pct(notStarted);
-  wrap.querySelector(".bar-doing span").style.width = pct(inProgress);
-  wrap.querySelector(".bar-done span").style.width = pct(done);
+  $("barNew").style.width = pct(notStarted);
+  $("barDoing").style.width = pct(inProgress);
+  $("barDone").style.width = pct(done);
+}
+
+/* ==== Tooltip vòng tròn có phần trăm + highlight ==== */
+const tooltip = document.createElement("div");
+tooltip.className = "chart-tooltip";
+document.body.appendChild(tooltip);
+
+function showChartTooltip(e, html) {
+  tooltip.innerHTML = html;
+  tooltip.style.opacity = "1";
+  tooltip.style.left = e.pageX + 12 + "px";
+  tooltip.style.top = e.pageY + 12 + "px";
+}
+function hideChartTooltip() {
+  tooltip.style.opacity = "0";
+}
+
+function setupChartHover(stats) {
+  const ring = document.getElementById("chartHoverLayer");
+  if (!ring) return;
+  ring.innerHTML = "";
+
+  const total = stats.notStarted + stats.inProgress + stats.done || 1;
+  const segments = [
+    { label: "Chưa bắt đầu", color: "var(--c-new)", count: stats.notStarted },
+    {
+      label: "Đang thực hiện",
+      color: "var(--c-doing)",
+      count: stats.inProgress,
+    },
+    { label: "Hoàn thành", color: "var(--c-done)", count: stats.done },
+  ];
+
+  segments.forEach((seg, i) => {
+    const div = document.createElement("div");
+    div.className = "hover-seg";
+    div.style.setProperty("--i", i);
+    div.addEventListener("mousemove", (e) => {
+      const pct = ((seg.count / total) * 100).toFixed(1);
+      const html = `
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:${seg.color};box-shadow:0 0 6px ${seg.color};"></span>
+          <b>${seg.label}</b>
+        </div>
+        <div style="margin-top:3px;">${seg.count} công việc (${pct}%)</div>
+      `;
+      showChartTooltip(e, html);
+      ring.style.filter = `drop-shadow(0 0 10px ${seg.color})`;
+    });
+    div.addEventListener("mouseleave", () => {
+      hideChartTooltip();
+      ring.style.filter = "none";
+    });
+    ring.appendChild(div);
+  });
 }
 
 function renderStats() {
@@ -325,11 +370,14 @@ function renderStats() {
   const projectId = localStorage.getItem("currentProjectId");
   const tasks = data.tasks.filter((t) => t.projectId === projectId);
 
-  updateStatusInsight({
+  const stats = {
     notStarted: tasks.filter((t) => t.status === "notstarted").length,
     inProgress: tasks.filter((t) => t.status === "inprogress").length,
     done: tasks.filter((t) => t.status === "done").length,
-  });
+  };
+
+  updateStatusInsight(stats);
+  setupChartHover(stats);
 }
 
 /* ===================== CALENDAR + TASKS OF DAY ============ */
@@ -408,9 +456,9 @@ function renderTasksOfDay(dateStr) {
     ? tasks
         .map(
           (t) =>
-            `<li class="task-card ${t.status}">
-              <span>${t.title}</span><span>${t.assignee || ""}</span>
-            </li>`
+            `<li class="task-card ${t.status}"><span>${t.title}</span><span>${
+              t.assignee || ""
+            }</span></li>`
         )
         .join("")
     : "<li>Không có công việc.</li>";
