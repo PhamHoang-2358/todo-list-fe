@@ -17,9 +17,60 @@
 
     <!-- CSS chính -->
     <link rel="stylesheet" href="styles/dashboard-home.css" />
+    <link
+      rel="stylesheet"
+      href="styles/dashboard-home-mobile.css"
+      media="only screen and (max-width: 900px)"
+    />
   </head>
 
   <body>
+    <!-- ================= HEADER (Đưa ra ngoài wrapper) ================= -->
+    <header class="site-header">
+      <div class="header-left">
+        <div class="brand">
+          <button id="menuToggle" class="menu-btn" title="Mở menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <span class="brand-text">Task App /</span>
+        </div>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="#home" class="nav-link">Trang chủ</a>
+          <span class="divider">/</span>
+          <a href="#overview" class="nav-link">Tổng quan</a>
+          <span class="divider"></span>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <button id="btnLogin" class="btn primary">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Đăng nhập</span>
+        </button>
+
+        <button id="btnRegister" class="btn ghost">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Đăng ký</span>
+        </button>
+
+        <button id="themeToggle" class="btn ghost" title="Đổi giao diện">
+          🎨
+        </button>
+        <!-- ✅ Nút Vào Task — giống hệt Đăng xuất -->
+        <button
+          id="btnGoTask"
+          class="btn ghost"
+          style="display: none"
+          title="Chuyển đến trang làm việc"
+          onclick="location.href='features/src/task/task.html'"
+        >
+          Vào Task
+        </button>
+      </div>
+    </header>
+    <!-- ================================================================ -->
+
     <!-- ========== MENU TRÁI ========== -->
     <nav id="sideMenu">
       <a href="#weather"><i class="fa-solid fa-cloud-sun"></i> Thời tiết</a>
@@ -43,43 +94,6 @@
     <div class="main-home-content-wrapper">
       <div id="menuOverlay"></div>
 
-      <!-- ================= HEADER ================= -->
-      <header class="site-header">
-        <!-- Bên trái: Breadcrumb + Task App -->
-        <div class="header-left">
-          <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="#home" class="nav-link">Trang chủ</a>
-            <span class="divider">/</span>
-            <a href="#overview" class="nav-link">Tổng quan</a>
-            <span class="divider">/</span>
-          </nav>
-
-          <div class="brand">
-            <button id="menuToggle" class="menu-btn" title="Mở menu">
-              <i class="fa-solid fa-bars"></i>
-            </button>
-            <span class="brand-text">Task App</span>
-          </div>
-        </div>
-
-        <!-- Bên phải: Các nút chức năng -->
-        <nav class="header-right">
-          <button id="btnLogin" class="btn primary">
-            <i class="fa-solid fa-right-to-bracket"></i>
-            <span>Đăng nhập</span>
-          </button>
-
-          <button id="btnRegister" class="btn ghost">
-            <i class="fa-solid fa-user-plus"></i>
-            <span>Đăng ký</span>
-          </button>
-
-          <button id="themeToggle" class="btn ghost" title="Đổi giao diện">
-            🎨 Theme
-          </button>
-        </nav>
-      </header>
-
       <!-- HERO -->
       <section class="hero">
         <div class="container hero__grid">
@@ -93,14 +107,14 @@
             </p>
 
             <div class="hero__cta">
-              <a href="#quick-start" class="btn primary">Bắt đầu miễn phí</a>
+              <a href="#quick-start" class="btn primary">Bắt đầu làm việc</a>
               <a href="#finance-chart" class="btn btn-ghost">Xem demo</a>
             </div>
 
             <ul class="hero__bullets">
-              <li><i class="fas fa-check"></i> Không cần cài đặt</li>
-              <li><i class="fas fa-check"></i> Lưu cục bộ & riêng tư</li>
-              <li><i class="fas fa-check"></i> Hỗ trợ mobile</li>
+              <li>Không cần cài đặt</li>
+              <li>Lưu cục bộ & riêng tư</li>
+              <li>Hỗ trợ mobile</li>
             </ul>
           </div>
 
@@ -145,7 +159,6 @@
       <!-- WIDGETS -->
       <main class="main-home-content" id="home">
         <div class="widgets">
-          <!-- (toàn bộ widgets giữ nguyên như bạn gửi) -->
           <div class="widget card-box" id="weather">
             <h3 class="widget-title">Thời tiết hôm nay</h3>
             <div style="display: flex; gap: 6px; margin-bottom: 10px">
@@ -190,9 +203,9 @@
               <select id="musicSelect">
                 <option value="">— Chọn bài có sẵn —</option>
               </select>
-              <label for="musicUpload" class="btn file"
-                ><i class="fa-regular fa-file-audio"></i> Tải tệp</label
-              >
+              <label for="musicUpload" class="btn file">
+                <i class="fa-regular fa-file-audio"></i> Tải tệp
+              </label>
               <input type="file" id="musicUpload" accept="audio/*" hidden />
             </div>
             <audio
@@ -210,6 +223,7 @@
             <h3>Biểu đồ tài chính</h3>
             <canvas id="financeChart"></canvas>
           </section>
+
           <section class="widget" id="mini-stats">
             <h3>Tổng quan</h3>
             <ul class="stat-list">
@@ -222,6 +236,7 @@
         </div>
       </main>
     </div>
+
     <!-- CẬP NHẬT GẦN ĐÂY -->
     <section id="news">
       <h2 class="section__title">Cập nhật gần đây</h2>
@@ -252,8 +267,8 @@
       </div>
     </section>
 
-    <!-- ========== PHẦN ĐĂNG NHẬP / ĐĂNG KÝ THÊM VÀO ========== -->
-    <div class="auth-overlay" id="authOverlay" aria-hidden="true" inert>
+    <!-- ========== PHẦN ĐĂNG NHẬP / ĐĂNG KÝ ========== -->
+    <div class="auth-overlay" id="authOverlay" aria-hidden="true">
       <div
         class="auth-card"
         role="dialog"
@@ -273,16 +288,14 @@
           </button>
         </div>
 
-        <div
-          id="authMsg"
-          class="auth-msg"
-          role="status"
-          aria-live="polite"
-        ></div>
-
-        <!-- FORM LOGIN -->
         <form id="formLogin" class="auth-form" novalidate autocomplete="off">
           <h3 id="authTitle">Đăng nhập</h3>
+          <div
+            id="authMsgLogin"
+            class="auth-msg"
+            role="status"
+            aria-live="polite"
+          ></div>
           <label
             ><input
               type="text"
@@ -306,9 +319,9 @@
             Chưa có tài khoản?
             <a href="#" data-switch="register">Tạo tài khoản</a>
           </p>
+          <p class="auth-hint-exit">Nhấn khoảng trắng để tắt</p>
         </form>
 
-        <!-- FORM REGISTER -->
         <form
           id="formRegister"
           class="auth-form is-hidden"
@@ -316,6 +329,12 @@
           autocomplete="off"
         >
           <h3><i class="fa-solid fa-user-plus"></i> Đăng ký</h3>
+          <div
+            id="authMsgRegister"
+            class="auth-msg"
+            role="status"
+            aria-live="polite"
+          ></div>
           <label
             ><input
               type="text"
@@ -372,26 +391,10 @@
           <p class="auth-switch">
             Đã có tài khoản? <a href="#" data-switch="login">Đăng nhập</a>
           </p>
+          <p class="auth-hint-exit">Nhấn khoảng trắng để tắt</p>
         </form>
       </div>
     </div>
-
-    <!-- ========== SCRIPT ========== -->
-    <script>
-      const menuToggle = document.getElementById("menuToggle");
-      const sideMenu = document.getElementById("sideMenu");
-      const overlay = document.getElementById("menuOverlay");
-
-      menuToggle.addEventListener("click", () => {
-        sideMenu.classList.toggle("show");
-        overlay.classList.toggle("show");
-      });
-
-      overlay.addEventListener("click", () => {
-        sideMenu.classList.remove("show");
-        overlay.classList.remove("show");
-      });
-    </script>
 
     <script src="scripts/dashboard-home.js"></script>
   </body>

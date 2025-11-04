@@ -35,28 +35,6 @@ body {
   background: var(--bg);
   scroll-behavior: smooth;
 }
-/* =========================================================
-   HEADER — KHÍT MENU TRÁI, KHÔNG CHỪA KHOẢNG TRẮNG
-   ========================================================= */
-.site-header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 32px;
-  padding-left: calc(240px + 32px);
-  background: #fff;
-  border-bottom: 1px solid #e5e9f2;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  z-index: 1000;
-  box-sizing: border-box;
-
-  /* ✅ thêm 2 dòng dưới để tách nhẹ khỏi menu */
-  margin-top: 2px; /* tạo khe 2px giữa header và menu */
-  border-top-left-radius: 12px; /* bo tròn khớp với card menu trái */
-}
 
 .actions .btn {
   padding: 6px 16px;
@@ -128,7 +106,6 @@ body {
   color: var(--brand);
   transform: translateX(3px);
 }
-
 /* trạng thái active */
 #sideMenu a.active {
   background: #2563eb;
@@ -630,147 +607,300 @@ body {
 .card a:hover {
   text-decoration: underline;
 }
-/* ============================đăng nhập đăng ký ========================*/
-/* ========================= AUTH OVERLAY (Đăng nhập / Đăng ký) ========================= */
+/* =========================================================
+   HEADER GỘP — BREADCRUMB + TASK APP TRÊN CÙNG MỘT THANH
+   ========================================================= */
+
+/* Bên trái: breadcrumb + Task App */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 70px; /* ✅ chỉ đẩy nhẹ sang phải */
+}
+
+.header-left a,
+.header-left .brand-text {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.header-left a:hover {
+  text-decoration: underline;
+  color: #1d4ed8;
+}
+
+.header-left span {
+  color: #2563eb;
+  opacity: 0.8;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.menu-btn:hover {
+  background: #eff6ff;
+}
+
+/* Bên phải: các nút */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-right .btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.header-right .btn.primary {
+  background: #2563eb;
+  color: #fff;
+}
+.header-right .btn.primary:hover {
+  background: #1d4ed8;
+}
+.header-right .btn.ghost {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+.header-right .btn.ghost:hover {
+  background: #e2e8f0;
+}
+
+/* --- Hiển thị lại icon menu + căn chỉnh thương hiệu --- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand .menu-btn i {
+  font-size: 18px;
+  color: #2563eb;
+  vertical-align: middle;
+}
+.brand-text {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 15px;
+}
+/* =========================================================
+   AUTH OVERLAY — PHIÊN BẢN CHUẨN CUỐI
+   ========================================================= */
 .auth-overlay {
   position: fixed;
   inset: 0;
   display: none;
   place-items: center;
-  background: rgba(2, 6, 23, 0.35);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(8px) saturate(150%);
+  z-index: 2000;
 }
 .auth-overlay.show {
   display: grid;
 }
 
-/* Hộp chứa form */
+/* Hộp form */
 .auth-card {
-  width: min(720px, 92vw);
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.18);
-  padding: 20px 20px 24px;
   position: relative;
+  width: min(440px, 90vw);
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  padding: 36px 36px 40px;
+  animation: fadeIn 0.3s ease;
+  box-sizing: border-box;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Nút đóng (X) */
+/* --- Dấu X --- */
 .auth-close {
-  position: fixed; /* ✅ đổi từ absolute → fixed */
-  top: 32px; /* đẩy ra ngoài một chút */
-  right: calc(50% - 220px); /* ✅ canh theo giữa form (form ~440px) */
-  transform: translateX(50%);
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: transparent;
   border: none;
-  background: #f1f5f9;
   color: #475569;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  transition: 0.25s;
-  z-index: 2100; /* ✅ cao hơn form */
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
 }
 .auth-close:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  color: #ef4444;
+  transform: scale(1.15);
 }
 
-.auth-close:hover {
-  background: #e0e7ff;
-}
-.auth-close:active {
-  transform: scale(0.97);
-}
-.auth-overlay:not(.show) .auth-close {
-  display: none;
-}
-
-/* Tabs Đăng nhập / Đăng ký */
+/* --- Tabs Đăng nhập / Đăng ký --- */
 .auth-tabs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.auth-tab {
-  flex: 1;
-  padding: 10px 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 26px; /* ✅ tăng nhẹ khoảng cách dưới tab */
   background: #f8fafc;
-  cursor: pointer;
-  font-weight: 600;
-}
-.auth-tab.is-active {
-  background: #1d4ed8;
-  color: #fff;
-  border-color: #1d4ed8;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
-/* Form */
+.auth-tab {
+  flex: 1;
+  padding: 10px 0;
+  background: transparent;
+  color: #475569;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.auth-tab.is-active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px #1e3a8a;
+}
+.auth-tab:not(.is-active):hover {
+  background: #f1f5f9;
+}
+
+/* --- Tiêu đề --- */
+.auth-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 6px 0 18px;
+  text-align: center; /* ✅ căn giữa tiêu đề */
+}
+
+/* --- Input --- */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-.auth-form label input:not([type="checkbox"]) {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #fff;
-}
-.auth-form label input:focus {
-  border-color: #bfdbfe;
-  box-shadow: 0 0 0 3px rgba(191, 219, 254, 0.6);
-  outline: 0;
+  gap: 14px; /* ✅ tạo khoảng cách đều giữa các input */
 }
 
-/* Checkbox “Nhớ tài khoản” */
+.auth-form label input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+.auth-form label input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  outline: none;
+}
+
+/* --- Checkbox Nhớ tài khoản --- */
 .auth-form .remember-me {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
-  color: #64748b;
-  padding: 2px 0;
+  font-size: 14px;
+  color: #475569;
+  margin: 4px 0 10px; /* ✅ tách xa input trên và nút dưới */
+  padding-left: 2px;
 }
+
+/* --- Nút Đăng nhập / Đăng ký --- */
+.auth-form .btn.full {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.auth-form .btn.full:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+/* --- Checkbox “Nhớ tài khoản” — Giống bản gốc ban đầu --- */
+.auth-form .remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* khoảng cách checkbox ↔ chữ */
+  font-size: 14px;
+  color: #475569;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  padding-left: 2px;
+}
+
 .auth-form .remember-me input[type="checkbox"] {
   width: 16px;
   height: 16px;
   accent-color: #2563eb;
   margin: 0;
+  transform: translateY(1px);
 }
 
-/* Nút xác nhận */
+/* --- Nút chính --- */
 .auth-form .btn.full {
-  width: 100%;
-  padding: 12px 16px;
-  border: 0;
-  border-radius: 12px;
   background: #2563eb;
   color: #fff;
-  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 8px;
   cursor: pointer;
+  transition: 0.25s;
+  width: 100%;
 }
 .auth-form .btn.full:hover {
   background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
-/* Chuyển trạng thái Login/Register */
+/* --- Chuyển tab --- */
 .auth-switch {
-  color: #64748b;
+  margin-top: 14px;
+  font-size: 14px;
+  color: #475569;
+  text-align: center;
 }
 .auth-switch a {
   color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-switch a:hover {
   text-decoration: underline;
 }
-.is-hidden {
-  display: none !important;
-}
 
-/* Thông báo nhỏ (báo lỗi / thành công / info) */
+/* --- Thông báo lỗi / thành công --- */
 .auth-msg {
   display: none;
   margin: 12px 0 4px;
@@ -798,275 +928,195 @@ body {
   color: #065f46;
   border-color: #a7f3d0;
 }
-/*===================test============*/
-/* =========================================================
-   HEADER GỘP — BREADCRUMB + TASK APP TRÊN CÙNG MỘT THANH
-   ========================================================= */
-.site-header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 68px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 0 32px;
-  box-sizing: border-box;
-  z-index: 1000;
+
+/* --- Ẩn --- */
+.is-hidden {
+  display: none !important;
 }
 
-/* Bên trái: breadcrumb + Task App */
+.auth-msg {
+  display: none;
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+.auth-msg.show {
+  display: block;
+}
+.auth-msg.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+.auth-msg.success {
+  background: #dcfce7;
+  color: #065f46;
+  border-color: #86efac;
+}
+/* ===== HEADER SÁT LỀ & CÂN 2 KHỐI ===== */
+
+/* Bên trái dính sát lề trái */
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: 40px; /* ✅ chỉ đẩy nhẹ sang phải */
+  gap: 8px;
+  margin-left: 0;
+  padding-left: 0;
 }
 
-.header-left a,
-.header-left .brand-text {
-  color: #2563eb; /* ✅ màu xanh đồng nhất */
-  font-weight: 600;
-  font-size: 15px;
-  text-decoration: none;
-}
-
-.header-left a:hover {
-  text-decoration: underline;
-  color: #1d4ed8;
-}
-
-.header-left span {
-  color: #2563eb; /* ✅ dấu "/" cùng màu */
-  opacity: 0.8;
-}
-
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #2563eb;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.menu-btn:hover {
-  background: #eff6ff;
-}
-
-/* Bên phải: các nút */
+/* Bên phải dính sát lề phải */
 .header-right {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-right: 0;
+  padding-right: 0;
 }
 
-.header-right .btn {
+/* Nút menu (biểu tượng 3 gạch) */
+.menu-btn {
   border: none;
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.header-right .btn.primary {
-  background: #2563eb;
-  color: #fff;
-}
-
-.header-right .btn.primary:hover {
-  background: #1d4ed8;
-}
-
-.header-right .btn.ghost {
-  background: #f1f5f9;
-  color: #0f172a;
-}
-
-.header-right .btn.ghost:hover {
-  background: #e2e8f0;
-}
-/* --- Hiển thị lại icon menu + căn chỉnh thương hiệu --- */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.brand .menu-btn i {
+  background: none;
   font-size: 18px;
   color: #2563eb;
-  vertical-align: middle;
-}
-
-.brand-text {
-  color: #2563eb;
-  font-weight: 600;
-  font-size: 15px;
-}
-/* =========================================================
-   AUTH OVERLAY — PHONG CÁCH HIỆN ĐẠI, MỀM, ĐẸP
-   ========================================================= */
-.auth-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  place-items: center;
-  background: rgba(15, 23, 42, 0.35);
-  backdrop-filter: blur(8px) saturate(150%);
-  z-index: 2000;
-}
-.auth-overlay.show {
-  display: grid;
-}
-
-/* Hộp form chính */
-.auth-card {
-  width: min(440px, 90vw);
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
-  padding: 32px 36px 36px;
-  position: relative;
-  animation: fadeIn 0.3s ease;
-  border: 1px solid #e2e8f0;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Nút đóng (X) */
-.auth-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  border: none;
-  background: #f1f5f9;
-  color: #475569;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 18px;
   cursor: pointer;
-  transition: 0.25s;
-}
-.auth-close:hover {
-  background: #e2e8f0;
-  color: #0f172a;
 }
 
-/* Tabs (Đăng nhập / Đăng ký) */
-.auth-tabs {
-  display: flex;
-  border: 1px solid #e2e8f0;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.auth-tab {
-  flex: 1;
-  padding: 10px 0;
-  background: #fff;
-  color: #475569;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.auth-tab.is-active {
-  background: #2563eb;
-  color: #fff;
-}
-.auth-tab:not(.is-active):hover {
-  background: #f1f5f9;
-}
-
-/* Tiêu đề form */
-.auth-card h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 8px 0 16px;
-}
-
-/* Input */
-.auth-form label input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 15px;
-  transition: 0.2s;
-}
-.auth-form label input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-  outline: none;
-}
-
-/* Checkbox */
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #475569;
-  margin: 6px 0;
-}
-.remember-me input {
-  accent-color: #2563eb;
-}
-
-/* Nút chính */
-.auth-form .btn.full {
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 6px;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.auth-form .btn.full:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-/* Đoạn chuyển tab */
-.auth-switch {
-  margin-top: 14px;
-  font-size: 14px;
-  color: #475569;
-  text-align: center;
-}
-.auth-switch a {
+/* Link breadcrumb */
+.breadcrumb .nav-link {
   color: #2563eb;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
 }
-.auth-switch a:hover {
+.breadcrumb .nav-link:hover {
   text-decoration: underline;
 }
 
-/* Hiệu ứng hiển thị / ẩn form */
-.is-hidden {
+/* Nút bên phải */
+.header-right .btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+#sideMenu {
+  top: 70px;
+}
+.site-header {
+  padding-left: 16px;
+}
+.site-header {
+  width: 100vw;
+}
+.site-header {
+  padding: 0 1cm;
+}
+.site-header {
+  position: fixed; /* ✅ cố định khi cuộn */
+  top: 0;
+  left: 0;
+  width: 100vw; /* ✅ phủ kín chiều ngang */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1cm; /* ✅ cách đều 2 mép */
+  height: 68px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 3000;
+  box-sizing: border-box;
+}
+body {
+  padding-top: 68px;
+}
+/* =========================================================
+   AUTH OVERLAY MOBILE — TÙY CHỈNH NÚT X + HƯỚNG DẪN
+   ========================================================= */
+
+/* ✅ Ẩn hoàn toàn nút X */
+.auth-close {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ✅ Dòng hướng dẫn tắt overlay */
+.auth-hint-exit {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 10px;
+  user-select: none;
+  cursor: default;
+}
+
+.auth-hint-exit:hover {
+  color: #334155;
+}
+/* =========================================================
+   ẨN HOÀN TOÀN NÚT ĐÓNG (X) TRONG FORM ĐĂNG NHẬP / ĐĂNG KÝ
+   ========================================================= */
+#authOverlay .auth-close,
+.auth-overlay .auth-close,
+.auth-card .auth-close,
+#authClose {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* Dòng hướng dẫn tắt overlay */
+.auth-hint-exit {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px; /* giảm từ 10px → 4px cho sát hơn */
+  user-select: none;
+}
+
+.auth-hint-exit:hover {
+  color: #334155;
+}
+/* Gom khoảng cách giữa dòng chuyển đổi và dòng hướng dẫn */
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  color: #475569;
+  margin-top: 8px;
+  margin-bottom: 2px; /* thêm để kéo gần dòng kế tiếp */
+}
+
+.auth-switch a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+  color: #1e40af;
+}
+
+/* Dòng hướng dẫn tắt overlay */
+.auth-hint-exit {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 2px; /* giảm cách phía trên */
+  user-select: none;
+}
+
+.auth-hint-exit:hover {
+  color: #334155;
+}
+/* =========================================================
+   HẠ FORM ĐĂNG KÝ XUỐNG DƯỚI — CHỈ KHI Ở TAB ĐĂNG KÝ
+   ========================================================= */
+.auth-overlay[data-mode="register"] .auth-card {
+  transform: translateY(40px) !important; /* đẩy cả khối form xuống */
 }

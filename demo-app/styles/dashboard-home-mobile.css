@@ -1,0 +1,404 @@
+/* =========================================================
+   DASHBOARD-HOME-MOBILE.CSS — chỉ kích hoạt khi <768px
+   /* ========================================================= */
+
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 15px;
+    background: #f8fafc;
+    overflow-x: hidden;
+  }
+
+  /* Giảm khoảng cách xung quanh */
+  .container,
+  .widgets,
+  .section,
+  .main-home-content-wrapper {
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  /* Hero */
+  .hero__grid {
+    padding: 20px 10px;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .hero__text h1 {
+    font-size: 1.2rem;
+  }
+
+  .hero__text p {
+    font-size: 0.9rem;
+  }
+
+  /* Card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    justify-items: center;
+  }
+
+  .card,
+  .widget,
+  .card-box {
+    padding: 18px 14px;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  .card__icon,
+  .widget i {
+    font-size: 1.4rem;
+  }
+
+  .card h3,
+  .widget h3 {
+    font-size: 1rem;
+  }
+
+  .card p,
+  .widget p {
+    font-size: 0.85rem;
+  }
+
+  /* Widgets */
+  .widgets {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 10px;
+  }
+
+  .hero__media img {
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Header và Footer */
+  .site-header {
+    padding: 10px 14px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .footer {
+    padding: 12px;
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  /* =========================================================
+     SIDE MENU MOBILE — hạ xuống dưới header
+     ========================================================= */
+  #sideMenu {
+    position: fixed;
+    top: 60px; /* nằm dưới header */
+    left: -260px;
+    width: 240px;
+    height: calc(100% - 60px); /* tránh tràn */
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 2000;
+    padding: 20px 0;
+    border-top-left-radius: 12px;
+  }
+
+  #sideMenu.show {
+    left: 0;
+  }
+
+  /* Overlay nền mờ */
+  #menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1500;
+  }
+
+  #menuOverlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Liên kết trong menu */
+  #sideMenu a {
+    display: block;
+    padding: 10px 20px;
+    color: #1e3a8a;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  #sideMenu a:hover {
+    background: #eff6ff;
+    color: #2563eb;
+  }
+
+  #menuToggle {
+    position: relative;
+    z-index: 2100;
+    cursor: pointer;
+  }
+
+  /* =========================================================
+     TỔNG QUAN — FULL WIDTH TRÊN MOBILE
+     ========================================================= */
+  #mini-stats {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    padding: 18px 12px 24px;
+    background: #fff;
+  }
+
+  #mini-stats h3 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+  }
+
+  #mini-stats .stat-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  #mini-stats .stat-list li {
+    background: #f8fafc;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    padding: 14px 8px;
+  }
+
+  #mini-stats .stat-list li b {
+    font-size: 1.3rem;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  #mini-stats .stat-list li span {
+    font-size: 0.85rem;
+    color: #475569;
+  }
+
+  /* =========================================================
+     AUTH OVERLAY FIX
+     ========================================================= */
+  .auth-overlay {
+    display: none;
+    pointer-events: none;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .auth-overlay.show {
+    display: flex;
+    pointer-events: auto;
+    opacity: 1;
+    z-index: 3000;
+  }
+}
+/* Luôn cho nút 3 gạch nằm trên cùng */
+#menuToggle {
+  position: relative;
+  z-index: 3000;
+  cursor: pointer;
+}
+/* =========================================================
+   AUTH OVERLAY MOBILE — full width & dễ thao tác
+   ========================================================= */
+@media only screen and (max-width: 768px) {
+  .auth-overlay {
+    display: flex !important;
+    align-items: flex-end; /* form dính đáy màn */
+    justify-content: center;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: none;
+    border-radius: 18px 18px 0 0;
+    padding: 24px 20px 30px;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.25s ease;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .auth-tabs {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  .auth-form label input {
+    font-size: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .auth-form .btn.full {
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .auth-close {
+    top: 8px;
+    right: 12px;
+    font-size: 24px;
+  }
+
+  .auth-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .auth-switch {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 12px;
+  }
+}
+/* =========================================================
+   AUTH OVERLAY MOBILE — CHUẨN GIAO DIỆN APP
+   ========================================================= */
+@media only screen and (max-width: 768px) {
+  .auth-overlay {
+    display: flex !important;
+    align-items: center; /* ✅ nằm giữa màn hình */
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    padding: 20px;
+  }
+
+  .auth-card {
+    width: 90%;
+    max-width: 380px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    padding: 24px 20px 30px;
+    animation: fadeInMobile 0.3s ease;
+    overflow-y: auto;
+    max-height: 90vh; /* ✅ cuộn được khi dài */
+  }
+
+  @keyframes fadeInMobile {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .auth-tabs {
+    display: flex;
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .auth-tab {
+    flex: 1;
+    padding: 10px 0;
+  }
+
+  .auth-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 16px;
+    color: #0f172a;
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .auth-form label input {
+    font-size: 15px;
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .auth-form .btn.full {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 6px;
+    cursor: pointer;
+  }
+
+  .auth-form .btn.full:hover {
+    background: #1d4ed8;
+  }
+
+  .auth-close {
+    top: 10px;
+    right: 12px;
+    font-size: 22px;
+    color: #475569;
+  }
+
+  .auth-switch {
+    font-size: 14px;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .auth-msg {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
