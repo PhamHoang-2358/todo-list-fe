@@ -402,3 +402,25 @@
     line-height: 1.5;
   }
 }
+/* =========================================================
+   SIDE MENU DESKTOP — CHO PHÉP ẨN/HIỆN BẰNG NÚT ☰
+   ========================================================= */
+#sideMenu {
+  transition: transform 0.3s ease;
+}
+
+#sideMenu.hide {
+  transform: translateX(-100%);
+}
+
+#menuOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: none;
+  z-index: 1000;
+}
+
+#menuOverlay.show {
+  display: block;
+}

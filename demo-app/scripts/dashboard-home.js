@@ -1,9 +1,6 @@
-/* =========================================================
-   DASHBOARD HOME — BẢN ĐẦY ĐỦ & ỔN ĐỊNH (FULL)
-   Bao gồm: xử lý lỗi, theme, quickbar, weather, quote, music,
-   chart, tasks, stats, auth (login/register/logout/remember)
+/* ========================================================= 
+   DASHBOARD HOME — BẢN HOÀN CHỈNH (PHẦN 1/2)
    ========================================================= */
-
 (() => {
   "use strict";
 
@@ -49,7 +46,6 @@
     if (!box) return;
     box.textContent = "Đang tải...";
     const proxy = "https://api.allorigins.win/raw?url=";
-
     try {
       const geoURL = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
         city
@@ -59,7 +55,6 @@
       );
       if (!geo.results?.length) throw new Error("Không tìm thấy thành phố!");
       const loc = geo.results[0];
-
       const weatherURL = `https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,relative_humidity_2m,precipitation,weather_code&timezone=auto&lang=vi`;
       const w = await fetch(proxy + encodeURIComponent(weatherURL)).then((r) =>
         r.json()
@@ -78,7 +73,6 @@
         95: "Dông",
         99: "Dông mạnh",
       };
-
       box.innerHTML = `
         <div class="weather-header">
           <b>${loc.name}, ${loc.country}</b> — ${
@@ -92,11 +86,11 @@
           <li>🌡 Cảm giác: ${cur.apparent_temperature ?? "--"}°C</li>
           <li>💦 Mưa: ${cur.precipitation ?? 0} mm</li>
         </ul>`;
-    } catch (err) {
-      box.innerHTML = `<span style="color:#ef4444">⚠️ Không lấy được dữ liệu thời tiết (lỗi mạng hoặc CORS).</span>`;
+    } catch {
+      box.innerHTML =
+        '<span style="color:#ef4444">⚠️ Không lấy được dữ liệu thời tiết.</span>';
     }
   }
-
   $("#weatherRefresh")?.addEventListener("click", () =>
     loadWeather($("#weatherCity")?.value || "Hanoi")
   );
@@ -132,7 +126,7 @@
   })();
 
   /* =========================================================
-     📈 WIDGET — BIỂU ĐỒ (Chart.js)
+     📈 WIDGET — BIỂU ĐỒ
      ========================================================= */
   function updateChartTheme(chart) {
     const dark = document.body.classList.contains("dark");
@@ -183,6 +177,7 @@
     window.__financeChart = chart;
     updateChartTheme(chart);
   });
+
   /* =========================================================
      📊 TASKS MINI + STATS (DỮ LIỆU DEMO)
      ========================================================= */
@@ -213,13 +208,11 @@
   };
 
   const renderStats = () => {
-    // ✅ đảm bảo luôn trả về mảng, không null
     const tasks = Array.isArray(getLS(LS_TK)) ? getLS(LS_TK) : [];
     const projects = Array.isArray(getLS(LS_PJ)) ? getLS(LS_PJ) : [];
 
     const done = tasks.filter((t) => t.done).length;
     const total = tasks.length;
-
     const overdue = tasks.filter((t) => {
       if (!t.deadline) return false;
       const d = new Date(t.deadline);
@@ -228,7 +221,6 @@
       return !t.done && d < now;
     }).length;
 
-    // ✅ nếu thiếu element trong HTML thì không gây lỗi
     if ($("#stProjects")) $("#stProjects").textContent = projects.length || 0;
     if ($("#stTasksOpen")) $("#stTasksOpen").textContent = total - done;
     if ($("#stTasksDone")) $("#stTasksDone").textContent = done;
@@ -236,7 +228,7 @@
   };
 
   /* =========================================================
-     👤 AUTH — LOGIN / REGISTER / GHI NHỚ / CHÀO USER
+     👤 AUTH — LOGIN / REGISTER / TAB / TẮT OVERLAY
      ========================================================= */
   (() => {
     const overlay = $("#authOverlay"),
@@ -247,6 +239,7 @@
       tabRegister = $("#tabRegister"),
       formLogin = $("#formLogin"),
       formRegister = $("#formRegister"),
+      authTabs = $(".auth-tabs"),
       btnGoTask = $("#btnGoTask");
 
     const USERS = "taskapp_users",
@@ -256,7 +249,7 @@
     const readUsers = () => getLS(USERS, []);
     const saveUsers = (u) => setLS(USERS, u);
 
-    // ---- CHUYỂN GIỮA LOGIN / REGISTER ----
+    // ===== HIỆU ỨNG CHUYỂN TAB LOGIN / REGISTER =====
     const switchTab = (mode) => {
       const isLogin = mode === "login";
       tabLogin.classList.toggle("is-active", isLogin);
@@ -271,6 +264,7 @@
       document.body.style.overflow = "hidden";
       switchTab(mode);
     };
+
     const closeAuth = () => {
       overlay.classList.remove("show");
       document.body.style.overflow = "";
@@ -280,16 +274,22 @@
     btnRegister.onclick = () => openAuth("register");
     btnClose.onclick = closeAuth;
 
+    // ✅ TẮT KHI CLICK VÙNG NGOÀI FORM
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeAuth();
+    });
+
+    // ---- CHUYỂN GIỮA 2 FORM ----
     $$(".auth-switch a").forEach((a) =>
       a.addEventListener("click", (e) => {
         e.preventDefault();
         switchTab(a.dataset.switch);
       })
     );
-    overlay.addEventListener(
-      "click",
-      (e) => e.target === overlay && closeAuth()
-    );
+
+    // ✅ THÊM 2 DÒNG NÀY — KHÔI PHỤC CHUYỂN TAB HOẠT ĐỘNG
+    tabLogin?.addEventListener("click", () => switchTab("login"));
+    tabRegister?.addEventListener("click", () => switchTab("register"));
 
     // ---- LOGIN ----
     formLogin.onsubmit = (e) => {
@@ -306,7 +306,7 @@
       alert("Đăng nhập thành công!");
       closeAuth();
       applyAuthUI();
-      location.href = "features/src/task/task.html"; // ✅ tự động chuyển sang Task sau login
+      location.href = "features/src/task/task.html";
     };
 
     // ---- REGISTER ----
@@ -334,23 +334,19 @@
       applyAuthUI();
     };
 
-    // ---- CẬP NHẬT GIAO DIỆN SAU LOGIN ----
+    // ---- UI SAU LOGIN ----
     const current =
       localStorage.getItem(CURR) || localStorage.getItem(REM) || null;
 
     const applyAuthUI = () => {
       const headerRight = $(".header-right");
       let greet = $("#userGreet");
-
-      // Danh sách menu cần đăng nhập mới xem được
       const needAuthItems = $$(
         "#sideMenu a[href='#tasks-mini'], #sideMenu a[href='#activity'], #sideMenu a[href='#finance-chart']"
       );
 
       if (current) {
         const u = readUsers().find((x) => x.id === current) || {};
-
-        // Nếu chưa có span "Xin chào" thì tạo mới và chèn TRƯỚC nút theme
         if (!greet) {
           greet = document.createElement("span");
           greet.id = "userGreet";
@@ -358,31 +354,21 @@
           const themeBtn = $("#themeToggle");
           headerRight.insertBefore(greet, themeBtn);
         }
-
-        // Cập nhật nội dung chào user
         greet.innerHTML = `Xin chào, <strong>${u.name || u.id}</strong> 👋`;
         greet.style.display = "";
-
-        // Ẩn các nút login/register, hiện nút "Vào Task" và "Đăng xuất"
         btnLogin.style.display = "none";
         btnRegister.style.display = "none";
         btnGoTask.style.display = "";
         $("#btnLogout")?.removeAttribute("hidden");
-
-        // ✅ Hiện các menu liên quan khi đã đăng nhập
         needAuthItems.forEach((a) => (a.style.display = ""));
       } else {
-        // Nếu chưa login
         greet && (greet.style.display = "none");
         btnLogin.style.display = "";
         btnRegister.style.display = "";
         btnGoTask.style.display = "none";
-
-        // ✅ Ẩn các mục menu trái cần login
         needAuthItems.forEach((a) => (a.style.display = "none"));
       }
     };
-
     applyAuthUI();
 
     // ---- LOGOUT ----
@@ -401,15 +387,13 @@
   })();
 
   /* =========================================================
-     📱 MENU TRÁI — MỞ / ĐÓNG (Responsive)
+     📱 MENU TRÁI — MỞ / ĐÓNG
      ========================================================= */
   (() => {
     const menu = $("#sideMenu");
     const overlay = $("#menuOverlay");
     const btn = $("#menuToggle");
-
     if (!menu || !overlay || !btn) return;
-
     const closeMenu = () => {
       menu.classList.remove("show");
       overlay.classList.remove("show");
@@ -418,11 +402,8 @@
       menu.classList.add("show");
       overlay.classList.add("show");
     };
-
     btn.addEventListener("click", openMenu);
     overlay.addEventListener("click", closeMenu);
-
-    // Đóng menu khi click link
     $$("#sideMenu a").forEach((a) => a.addEventListener("click", closeMenu));
   })();
 
@@ -435,6 +416,124 @@
   })();
 
   /* =========================================================
-     ✅ KẾT THÚC TOÀN BỘ SCRIPT
+     ✅ KẾT THÚC FILE
      ========================================================= */
 })();
+/* =========================================================
+   DASHBOARD HOME — PHẦN 2/2
+   ========================================================= */
+
+/* =========================================================
+   🌗 THEME KHỞI TẠO LẠI SAU LOAD
+   ========================================================= */
+(() => {
+  const key = "taskapp_theme";
+  if (localStorage.getItem(key) === "dark") {
+    document.body.classList.add("dark");
+  }
+})();
+
+/* =========================================================
+   🎨 TUỲ CHỈNH BIỂU ĐỒ SAU ĐỔI GIAO DIỆN
+   ========================================================= */
+(() => {
+  const themeBtn = document.querySelector("#themeToggle");
+  if (!themeBtn) return;
+  themeBtn.addEventListener("click", () => {
+    if (window.__financeChart) {
+      const chart = window.__financeChart;
+      const dark = document.body.classList.contains("dark");
+      const axis = dark ? "#cbd5e1" : "#334155";
+      const grid = "rgba(148,163,184,.25)";
+      const line = dark ? "#93c5fd" : "#3b82f6";
+      const fill = dark ? "rgba(147,197,253,.18)" : "rgba(59,130,246,.18)";
+      const ds = chart.data.datasets[0];
+      Object.assign(ds, { borderColor: line, backgroundColor: fill });
+      chart.options.plugins.legend.labels.color = axis;
+      chart.options.scales.x.ticks.color = chart.options.scales.y.ticks.color =
+        axis;
+      chart.options.scales.x.grid.color = chart.options.scales.y.grid.color =
+        grid;
+      chart.update();
+    }
+  });
+})();
+
+/* =========================================================
+   📅 TỰ ĐỘNG LÀM MỚI THỜI TIẾT ĐỊNH KỲ
+   ========================================================= */
+(() => {
+  const REFRESH_INTERVAL = 1000 * 60 * 60; // mỗi 60 phút
+  setInterval(() => {
+    const city = document.querySelector("#weatherCity")?.value || "Hanoi";
+    if (typeof loadWeather === "function") loadWeather(city);
+  }, REFRESH_INTERVAL);
+})();
+
+/* =========================================================
+   🧩 XỬ LÝ GỌN: NẠP DỮ LIỆU DEMO LẦN ĐẦU
+   ========================================================= */
+(() => {
+  const LS_TK = "tp_tasks";
+  if (!localStorage.getItem(LS_TK)) {
+    localStorage.setItem(
+      LS_TK,
+      JSON.stringify([
+        {
+          id: "demo1",
+          title: "Thiết kế trang chủ",
+          project: "Website",
+          deadline: new Date().toISOString().slice(0, 10),
+          priority: "High",
+          done: false,
+        },
+        {
+          id: "demo2",
+          title: "Hoàn thiện báo cáo",
+          project: "Công việc nội bộ",
+          deadline: new Date(Date.now() + 86400000).toISOString().slice(0, 10),
+          priority: "Medium",
+          done: true,
+        },
+      ])
+    );
+  }
+})();
+
+/* =========================================================
+   🧭 CHẶN SCROLL KHI MỞ FORM ĐĂNG NHẬP
+   ========================================================= */
+(() => {
+  const overlay = document.querySelector("#authOverlay");
+  if (!overlay) return;
+
+  const observer = new MutationObserver(() => {
+    if (overlay.classList.contains("show")) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  });
+
+  observer.observe(overlay, { attributes: true, attributeFilter: ["class"] });
+})();
+/* =========================================================
+   📱 MENU TRÁI — ẨN / HIỆN BẰNG DỊCH CHUYỂN
+   ========================================================= */
+(() => {
+  const btn = document.querySelector("#menuToggle");
+  const menu = document.querySelector("#sideMenu");
+  const main = document.querySelector(".main-home-content-wrapper");
+
+  if (!btn || !menu || !main) return;
+
+  btn.addEventListener("click", () => {
+    const isHidden = menu.classList.toggle("hide");
+    main.classList.toggle("full", isHidden);
+  });
+})();
+
+/* =========================================================
+   🚀 HOÀN TẤT
+   ========================================================= */
+console.log("✅ Dashboard Home JS Loaded — Full version running correctly");

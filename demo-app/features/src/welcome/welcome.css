@@ -101,3 +101,9 @@ body {
     font-size: 14px;
   }
 }
+#sideMenu {
+  transition: transform 0.3s ease;
+}
+#sideMenu.hide {
+  transform: translateX(-100%);
+}

@@ -80,6 +80,7 @@ body {
   z-index: 500; /* ✅ thấp hơn header */
   border-top-right-radius: 12px;
   overflow: hidden;
+  transform: translateX(0);
 }
 
 /* item menu */
@@ -1114,9 +1115,51 @@ body {
 .auth-hint-exit:hover {
   color: #334155;
 }
-/* =========================================================
-   HẠ FORM ĐĂNG KÝ XUỐNG DƯỚI — CHỈ KHI Ở TAB ĐĂNG KÝ
-   ========================================================= */
 .auth-overlay[data-mode="register"] .auth-card {
-  transform: translateY(40px) !important; /* đẩy cả khối form xuống */
+  margin-top: 60px !important;
+}
+#sideMenu {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#sideMenu.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#sideMenu.hide {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease, visibility 0.3s ease !important;
+}
+/* Ẩn/hiện menu bằng dịch chuyển */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: #f8fbff;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* Khi có class .hide → trượt ra ngoài màn hình */
+#sideMenu.hide {
+  transform: translateX(-100%);
+}
+
+/* Phần nội dung chính */
+.main-home-content-wrapper {
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Khi menu ẩn thì nội dung chiếm toàn màn */
+.main-home-content-wrapper.full {
+  margin-left: 0;
+}
+#sideMenu {
+  top: 70px !important; /* ✅ đẩy menu xuống dưới header */
 }
